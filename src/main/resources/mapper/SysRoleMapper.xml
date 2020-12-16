@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.add1s.ofm.mapper.SysRoleMapper">
+
+    <select id="findRoleCodesByUsername" resultType="java.lang.String">
+        select
+            r.role_code
+        from t_sys_user u
+        left join t_sys_intermediate_user_role ur on ur.user_tb_id = u.tb_id
+        left join t_sys_role r on r.tb_id = ur.role_tb_id
+        where u.username = #{username}
+    </select>
+
+</mapper>

@@ -1,4 +1,4 @@
-package net.add1s.ofm.ofm;
+package net.add1s.ofm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
