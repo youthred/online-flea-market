@@ -19,7 +19,7 @@ mybatis-plus:
 ---
 # 开发
 server:
-  port: 1000
+  port: 8801
   servlet:
     session:
       timeout: 30m
@@ -34,7 +34,7 @@ spring:
       datasource:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/ofm?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+          url: jdbc:mysql://localhost:3306/online-flea-market?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
           username: root
           password: password
   security:
@@ -54,7 +54,7 @@ spring:
     activate:
       on-profile: test
 server:
-  port: 1001
+  port: 8802
 
 ---
 # 线上
@@ -63,6 +63,6 @@ spring:
     activate:
       on-profile: prod
 server:
-  port: 1002
+  port: 8803
   tomcat:
     basedir: /tmp/tomcat

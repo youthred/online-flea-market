@@ -8,7 +8,6 @@ import net.add1s.ofm.cache.TimedCacheManager;
 import net.add1s.ofm.common.content.SessionContent;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +24,6 @@ public class LoginController {
 
     @GetMapping("/login.html")
     public String loginPage(HttpServletRequest request) {
-        log.info(request.getMethod());
-        log.info(request.getRequestURI());
-        log.info(request.getRequestURL().toString());
-        log.info(request.getRequestedSessionId());
-        log.info("{} {} {} {}", request.getRemoteUser(), request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort());
         return "sys/login";
     }
 
@@ -55,11 +49,5 @@ public class LoginController {
             gifCaptcha.write(out);
             out.flush();
         }
-    }
-
-    @GetMapping("/imageCaptchaCache")
-    @ResponseBody
-    public Object imageCaptchaCache() {
-        return TimedCacheManager.IMAGE_CAPTCHA;
     }
 }
