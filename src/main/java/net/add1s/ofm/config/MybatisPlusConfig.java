@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author pj.w@qq.com
  */
 @Configuration
-@MapperScan("net.add1s.ofm.mapper*")
+@MapperScan(basePackages = "net.add1s.ofm.mapper")
 public class MybatisPlusConfig {
 
     @Bean

@@ -22,14 +22,14 @@ import java.io.IOException;
 @Slf4j
 public class LoginController {
 
-    @GetMapping("/login.html")
-    public String loginPage(HttpServletRequest request) {
-        return "sys/login";
-    }
-
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "index/index";
+    }
+
+    @GetMapping("/login.html")
+    public String loginPage(HttpServletRequest request) {
+        return "sys/auth/login";
     }
 
     /**

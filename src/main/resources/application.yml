@@ -12,7 +12,7 @@ spring:
     initialization-mode: never # 初始化部署时更改为 always
     separator: \\
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*.xml
+  mapper-locations: classpath:/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
 
@@ -37,15 +37,18 @@ spring:
           url: jdbc:mysql://localhost:3306/online-flea-market?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
           username: root
           password: password
-  security:
-    user:
-      name: a
-      password: a
-      roles:
-        - ROLE_ADMIN
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
 sys:
   security:
     salt: 123456
+  app:
+    project-name: @project.name@
+    project-version: @project.version@
+    project-description: @project.description@
 
 ---
 # 测试

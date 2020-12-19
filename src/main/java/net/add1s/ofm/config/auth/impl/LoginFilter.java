@@ -52,8 +52,6 @@ public class LoginFilter extends OncePerRequestFilter {
                 if (Objects.nonNull(authentication)) {
                     MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
                     if (StringUtils.equals(userDetails.getUsername(), ServletRequestUtils.getStringParameter(httpServletRequest, username))) {
-                        // 清除当前登录用户的连接状态
-//                SecurityContextHolder.clearContext();
                         throw new AuthenticationServiceException("您已登录，请勿重复操作。");
                     }
                 }

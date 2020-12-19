@@ -1,11 +1,13 @@
 package net.add1s.ofm.config.auth;
 
+import cn.hutool.core.date.DateUnit;
 import net.add1s.ofm.config.auth.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -14,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author pj.w@qq.com
  */
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MyUserDetailsService myUserDetailsService;
@@ -63,20 +66,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
 //                .rememberMeParameter("remember-me-custom")  // 自定义form name
 //                .rememberMeCookieName("remember-me-cookie-custom")  // 自定义Cookie name
-                .tokenValiditySeconds(2 * 24 * 60 * 60) // 令牌有效期：2天
+                .tokenValiditySeconds(Long.valueOf(DateUnit.DAY.getMillis() * 2 / 1000).intValue()) // 令牌有效期：2天
                 .and()
                 .logout()   // 默认操作：①当前SESSION失效 ②当前用户的"remember-me"功能失效 ③清除当前的SecurityContext ④重定向到"loginPage(xx)"配置的指定页面
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(myLogoutSuccessHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login.html", "/login", "/" ,"/imageCaptcha" ,"/imageCaptchaCache").permitAll()  // 无需认证
+                .antMatchers(
+                        "/login.html",
+                        "/login",
+                        "/",
+                        "/imageCaptcha",
+                        "/common/**"
+                ).permitAll()  // 无需认证
 //                .antMatchers("/", "/index").authenticated() // 登录即可访问
                 .anyRequest().access("@rbacService.hasPermission(request, authentication)") // 参数名称必须是"request"和"authentication"
 //                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionStrategy(myInvalidSessionStrategy)  // SESSION超时后重新登录，使用server.servlet.session.timeout配置，值eg: 10s
+//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionUrl("/login.html")  // SESSION超时后重新登录，使用server.servlet.session.timeout配置，值eg: 10s
                 .sessionFixation().newSession() // session劫持保护，每次登录都重新生成
                 .maximumSessions(1) // 一个账户只允许一个session连接
                 .maxSessionsPreventsLogin(false)    // 允许再次登录，但之前的登录状态将被下线

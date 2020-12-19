@@ -5,17 +5,16 @@ import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * @author pj.w@qq.com
  */
 @Configuration
-@ConfigurationProperties("sys.security")
+@ConfigurationProperties("sys.app")
 @Data
 @Accessors(chain = true)
-public class SecurityProps {
+public class AppProps {
 
-    @NotBlank
-    private String salt;
+    private String projectVersion;
+    private String projectName;
+    private String projectDescription;
 }
