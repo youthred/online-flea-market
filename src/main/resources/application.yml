@@ -49,6 +49,7 @@ sys:
     project-name: @project.name@
     project-version: @project.version@
     project-description: @project.description@
+    github: https://github.com/youthred/online-flea-market
 
 ---
 # 测试

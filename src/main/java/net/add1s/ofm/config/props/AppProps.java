@@ -17,4 +17,5 @@ public class AppProps {
     private String projectVersion;
     private String projectName;
     private String projectDescription;
+    private String github;
 }

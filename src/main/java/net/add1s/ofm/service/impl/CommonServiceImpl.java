@@ -23,6 +23,7 @@ public class CommonServiceImpl implements ICommonService {
                 .setProjectVersion(appProps.getProjectVersion())
                 .setProjectName(appProps.getProjectName())
                 .setProjectDescription(appProps.getProjectDescription())
+                .setGithub(appProps.getGithub())
                 ;
     }
 }

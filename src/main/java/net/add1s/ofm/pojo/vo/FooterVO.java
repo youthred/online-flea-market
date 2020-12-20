@@ -18,4 +18,5 @@ public class FooterVO implements Serializable {
     private String projectVersion;
     private String projectName;
     private String projectDescription;
+    private String github;
 }

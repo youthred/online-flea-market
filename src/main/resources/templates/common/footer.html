@@ -1,8 +1,17 @@
-<nav class="navbar fixed-bottom navbar-light bg-light justify-content-center">
-    <span class="navbar-text">{{}}</span>
-</nav>
+<div id="footerApp" class="container-fluid" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+    <nav class="text-center text-muted">
+        <hr>
+        <div class="row">
+            <div class="col-sm"><a v-bind:href="appInfo.github"><i class="fab fa-github"></i></a></div>
+            <div class="col-sm"><i class="fab fa-java"></i> {{appInfo.javaVersion}}</div>
+            <div class="col-sm">OFM {{appInfo.projectVersion}}</div>
+        </div>
+    </nav>
+</div>
 
-<script src="/static/js/vue/3.0.4/vue.global.js"></script>
+<script src="/static/js/vue/3.0.4/vue.global.prod.js"></script>
+<script src="/static/js/axios/0.21.0/axios.min.js"></script>
+<script src="/static/js/qs/6.9.0/qs.min.js"></script>
 <script src="/static/js/jquery/3.5.1/jquery.min.js"></script>
 <script src="/static/bootstrap/4.5.0/dist/js/bootstrap.min.js"></script>
 
@@ -10,3 +19,22 @@
 <!--<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>-->
 <!--<script src="https://cdn.bootcss.com/popper.js/1.15.0/esm/popper.min.js"></script>-->
 <!--<script src="https://cdn.bootcss.com/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                appInfo: {
+                    github: '--',
+                    javaVersion: '--',
+                    projectVersion: '--'
+                }
+            }
+        },
+        mounted() {
+            axios.get('/common/appInfo').then(res => {
+                this.appInfo = res.data.data
+            })
+        }
+    }).mount('#footerApp')
+</script>
