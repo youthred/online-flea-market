@@ -46,10 +46,12 @@ sys:
   security:
     salt: 123456
   app:
-    project-name: @project.name@
+    project-name: @project.artifactId@
     project-version: @project.version@
     project-description: @project.description@
     github: https://github.com/youthred/online-flea-market
+    java-runtime-version: @java.runtime.version@
+    build-time: @maven.build.timestamp@
 
 ---
 # 测试

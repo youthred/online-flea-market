@@ -19,7 +19,8 @@ public class CommonServiceImpl implements ICommonService {
     @Override
     public FooterVO appInfo() {
         return new FooterVO()
-                .setJavaVersion(System.getProperty("java.version"))
+                .setBuildTime(appProps.getBuildTime())
+                .setJavaRuntimeVersion(appProps.getJavaRuntimeVersion())
                 .setProjectVersion(appProps.getProjectVersion())
                 .setProjectName(appProps.getProjectName())
                 .setProjectDescription(appProps.getProjectDescription())

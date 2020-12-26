@@ -14,7 +14,8 @@ public class FooterVO implements Serializable {
 
     private static final long serialVersionUID = 2377889344091305861L;
 
-    private String javaVersion;
+    private String buildTime;
+    private String javaRuntimeVersion;
     private String projectVersion;
     private String projectName;
     private String projectDescription;

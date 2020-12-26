@@ -14,8 +14,10 @@ import org.springframework.context.annotation.Configuration;
 @Accessors(chain = true)
 public class AppProps {
 
+    private String buildTime;
     private String projectVersion;
     private String projectName;
     private String projectDescription;
     private String github;
+    private String javaRuntimeVersion;
 }

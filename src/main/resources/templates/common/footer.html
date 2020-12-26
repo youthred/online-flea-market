@@ -2,9 +2,13 @@
     <nav class="text-center text-muted">
         <hr>
         <div class="row">
-            <div class="col-sm"><a v-bind:href="appInfo.github"><i class="fab fa-github"></i></a></div>
-            <div class="col-sm"><i class="fab fa-java"></i> {{appInfo.javaVersion}}</div>
-            <div class="col-sm">OFM {{appInfo.projectVersion}}</div>
+            <div class="col-sm-2"><p><a v-bind:href="appInfo.github"><i class="fab fa-github"></i></a></p></div>
+            <div class="col-sm-2"><p><i class="fab fa-java"></i> {{appInfo.javaRuntimeVersion}}</p></div>
+            <div class="col-sm-8">
+                <p>
+                    <strong>{{appInfo.projectName}}</strong> <small>{{appInfo.projectVersion}} build at {{appInfo.buildTime}}</small>
+                </p>
+            </div>
         </div>
     </nav>
 </div>
@@ -15,19 +19,16 @@
 <script src="/static/js/jquery/3.5.1/jquery.min.js"></script>
 <script src="/static/bootstrap/4.5.0/dist/js/bootstrap.min.js"></script>
 
-<!--<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>-->
-<!--<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>-->
-<!--<script src="https://cdn.bootcss.com/popper.js/1.15.0/esm/popper.min.js"></script>-->
-<!--<script src="https://cdn.bootcss.com/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-
 <script>
     Vue.createApp({
         data() {
             return {
                 appInfo: {
                     github: '--',
-                    javaVersion: '--',
-                    projectVersion: '--'
+                    javaRuntimeVersion: '--',
+                    projectName: '--',
+                    projectVersion: '--',
+                    buildTime: '--'
                 }
             }
         },
