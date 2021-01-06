@@ -1,7 +1,7 @@
 package net.add1s.ofm.service.impl;
 
 import net.add1s.ofm.config.props.AppProps;
-import net.add1s.ofm.pojo.vo.FooterVO;
+import net.add1s.ofm.pojo.vo.business.FooterVO;
 import net.add1s.ofm.service.ICommonService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

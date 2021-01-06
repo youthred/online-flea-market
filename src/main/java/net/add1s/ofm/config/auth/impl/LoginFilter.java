@@ -28,6 +28,9 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * @author pj.w@qq.com
+ */
 @Component
 public class LoginFilter extends OncePerRequestFilter {
 

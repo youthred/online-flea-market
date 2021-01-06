@@ -1,4 +1,4 @@
-package net.add1s.ofm.pojo.vo;
+package net.add1s.ofm.pojo.vo.business;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -34,7 +34,7 @@ spring:
       datasource:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/online-flea-market?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+          url: jdbc:mysql://localhost:3306/online_flea_market?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
           username: root
           password: password
   thymeleaf:
