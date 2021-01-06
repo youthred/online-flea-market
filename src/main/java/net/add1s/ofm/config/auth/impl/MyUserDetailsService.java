@@ -57,6 +57,8 @@ public class MyUserDetailsService implements UserDetailsService {
         authorities.addAll(roleCodes.stream().map(roleCode -> StringUtils.join(AuthContent.ROLE_PREFIX, roleCode)).collect(Collectors.toList()));
 
         return new MyUserDetails()
+                .setTbId(sysUser.getTbId())
+                .setNickname(sysUser.getNickname())
                 .setUsername(sysUser.getUsername())
                 .setPassword(sysUser.getPassword())
                 .setAccountNonExpired(true)

@@ -63,7 +63,7 @@
 <!--        </div>-->
 
         <ul class="navbar-nav">
-            <span th:replace=":: nav-dropdown"></span>
+            <span th:replace=":: nav-dropdown-login"></span>
         </ul>
 
 <!--        <ul class="navbar-nav mr-auto">-->
@@ -92,16 +92,16 @@
     </div>
 </nav>
 
-<!--首页导航栏下拉模板-->
-<li th:fragment="nav-dropdown" class="nav-item dropdown">
+<!--首页导航栏下拉登录-->
+<li th:fragment="nav-dropdown-login" class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span sec:authorize="isAnonymous()">游客</span>
         <span sec:authorize="!isAnonymous()">
-            <span sec:authentication="principal.username"></span>
+            <span sec:authentication="principal.nickname"></span>
         </span>
     </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a sec:authorize="!isAnonymous()" class="dropdown-item" href="/admin/articles">后台</a>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+        <a sec:authorize="!isAnonymous()" class="dropdown-item" href="/admin/articles">我的</a>
         <div sec:authorize="!isAnonymous()" class="dropdown-divider"></div>
         <a sec:authorize="isAnonymous()" class="dropdown-item" href="/login.html">登录</a>
         <a sec:authorize="isAnonymous()" class="dropdown-item" href="/signUp">注册</a>

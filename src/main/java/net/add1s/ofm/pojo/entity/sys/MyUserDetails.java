@@ -11,6 +11,9 @@ import java.util.Collection;
 @Accessors(chain = true)
 public class MyUserDetails implements UserDetails {
 
+    private Long tbId;
+    private String nickname;
+
     private String username;
     private String password;
     /**

@@ -20,6 +20,7 @@ public class SysUserVO implements Serializable {
     private Long tbId;
     private String username;
     private String password;
+    private String nickname;
     private String email;
     private Boolean enabled;
     private LocalDateTime createTime;
