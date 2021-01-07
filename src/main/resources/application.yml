@@ -46,21 +46,49 @@ sys:
   security:
     salt: 123456
   app:
-    project-name: @project.artifactId@
-    project-version: @project.version@
-    project-description: @project.description@
+    project-name: '@project.artifactId@'
+    project-version: '@project.version@'
+    project-description: '@project.description@'
     github: https://github.com/youthred/online-flea-market
-    java-runtime-version: @java.runtime.version@
-    build-time: @maven.build.timestamp@
+    java-runtime-version: '@java.runtime.version@'
+    build-time: '@maven.build.timestamp@'
 
 ---
 # 测试
+server:
+  port: 8802
+  servlet:
+    session:
+      timeout: 30m
 spring:
   config:
     activate:
       on-profile: test
-server:
-  port: 8802
+  datasource:
+    dynamic:
+      primary: master # 设置默认的数据源或者数据源组,默认值即为master
+      strict: false # 设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候会抛出异常,不启动则使用默认数据源.
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/online_flea_market?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+          username: jojo
+          password: 'SQL@hangzhou00'
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+sys:
+  security:
+    salt: 123456
+  app:
+    project-name: '@project.artifactId@'
+    project-version: '@project.version@'
+    project-description: '@project.description@'
+    github: https://github.com/youthred/online-flea-market
+    java-runtime-version: '@java.runtime.version@'
+    build-time: '@maven.build.timestamp@'
 
 ---
 # 线上

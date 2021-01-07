@@ -32,6 +32,11 @@ public class LoginController {
         return "sys/auth/login";
     }
 
+    @GetMapping("/register.html")
+    public String registerPage() {
+        return "sys/auth/register";
+    }
+
     /**
      * 获取GIF图片验证码
      *

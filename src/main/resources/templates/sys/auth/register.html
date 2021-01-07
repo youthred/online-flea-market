@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cn"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: header(${'登录'}, ${'login'})"></head>
+<body>
+
+    <div class="container">
+        <div id="loginApp">
+            <br>
+            <div class="jumbotron">
+                <h1 class="display-4">Hello, world!</h1>
+                <p class="lead">这是一个非前后端分离的Springboot项目。</p>
+                <hr class="my-4">
+                <form action="/login" method="post">
+                    <div class="form-group">
+                        <label for="usernameInput">用户名</label>
+                        <input name="username" type="text" class="form-control" id="usernameInput">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">密码</label>
+                        <input name="password" type="password" class="form-control" id="passwordInput" aria-describedby="passwordHelp">
+                        <small id="passwordHelp" class="form-text text-muted">您的密码将使用MD5摘要算法加密，不可逆</small>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="imageCaptchaInput">验证码</label>
+                            <input name="image-captcha" type="text" class="form-control" id="imageCaptchaInput">
+                        </div>
+                        <div class="form-group col">
+                            <figure class="figure">
+                                <img id="imageCaptcha" v-bind:src="imageCaptchaUrl" v-on:click="refreshImageCaptcha" title="点击刷新验证码" class="rounded">
+                                <figcaption class="figure-caption text-right">{{imageCaptchaRemainingTime}}s</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="form-group custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="rememberMeSwitch" name="remember-me" aria-describedby="rememberMeHelp">
+                        <label class="custom-control-label" for="rememberMeSwitch">记住登录状态</label>
+                        <small id="rememberMeHelp" class="form-text text-muted">两天内免登录</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">登录</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<span th:replace="common/footer"></span>
+<script src="/static/js/my/login.js"></script>
+</body>
+</html>

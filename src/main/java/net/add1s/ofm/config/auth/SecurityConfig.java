@@ -76,9 +76,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/login.html",
                         "/login",
+                        "/register.html",
+                        "/register",
                         "/",
                         "/imageCaptcha",
-                        "/common/**"
+                        "/common/**",
+                        "/goods/search"
                 ).permitAll()  // 无需认证
 //                .antMatchers("/", "/index").authenticated() // 登录即可访问
                 .anyRequest().access("@rbacService.hasPermission(request, authentication)") // 参数名称必须是"request"和"authentication"

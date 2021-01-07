@@ -15,6 +15,6 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         // 登录时间统计 ect
-        httpServletResponse.sendRedirect("/login.html");
+        httpServletResponse.sendRedirect("/");
     }
 }
