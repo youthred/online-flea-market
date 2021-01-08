@@ -82,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/imageCaptcha",
                         "/common/**",
                         "/goods/search",
+                        "/goods/chinaCityTree",
                         "/chat/groupSex.html"
                 ).permitAll()  // 无需认证
 //                .antMatchers("/", "/index").authenticated() // 登录即可访问
