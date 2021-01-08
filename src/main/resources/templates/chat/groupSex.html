@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-cn"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: header(${'GROUP SEX'}, ${'groupSex'})"></head>
+<body>
+
+<div class="container">
+    <br>
+    <h1>击剑大厅</h1>
+    <form onSubmit="return false;">
+        <div class="form-group">
+<!--            <label for="exampleFormControlTextarea1">Example textarea</label>-->
+            <textarea class="form-control" id="resText" rows="20"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="text" id="msgInput" name="msg" class="form-control" placeholder="祖安问候...">
+        </div>
+        <div class="form-group">
+            <input type="button" class="form-control" value="出招" onclick="send(this.form.msg.value)">
+        </div>
+    </form>
+</div>
+
+<span th:replace="common/footer"></span>
+<script src="/static/js/my/groupSex.js"></script>
+</body>
+</html>
