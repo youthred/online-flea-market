@@ -18,4 +18,7 @@ public class ChatProps {
 
     @NotBlank
     private Integer port;
+
+    @NotBlank
+    private String serverHost;
 }
