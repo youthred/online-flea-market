@@ -94,7 +94,7 @@ sys:
     build-time: '@maven.build.timestamp@'
   chat:
     port: 8888
-    server-host: 'ws://localhost:${sys.chat.port}/ws'
+    server-host: 'ws://youthred.cn:${sys.chat.port}/ws'
 
 ---
 # 线上

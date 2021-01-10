@@ -1,7 +1,5 @@
 package net.add1s.ofm.config.chat.handler;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,8 +10,6 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 @Slf4j
@@ -36,12 +32,19 @@ public class GroupSexChatChannelHandler extends SimpleChannelInboundHandler<Text
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) throws Exception {
+//        channels.writeAndFlush(new TextWebSocketFrame(
+//                StrUtil.format(
+//                        "{} - {}: {}",
+//                        LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.NORM_DATETIME_FORMATTER),
+//                        channelHandlerContext.channel().remoteAddress().toString(),
+//                        textWebSocketFrame.text()
+//                )
+//        ));
         channels.writeAndFlush(new TextWebSocketFrame(
                 StrUtil.format(
-                        "{} - {}\r\n{}",
-                        LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.NORM_DATETIME_FORMATTER),
+                        "{}: {}",
                         channelHandlerContext.channel().remoteAddress().toString(),
-                        textWebSocketFrame.text()
+                        textWebSocketFrame.text().trim()
                 )
         ));
     }

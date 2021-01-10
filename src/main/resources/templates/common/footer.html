@@ -1,13 +1,13 @@
-<div id="footerApp" class="container-fluid" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<div class="pb-5"></div>
+<div id="footerApp" class="container-fluid fixed-bottom bg-light" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <nav class="text-center text-muted">
-        <hr>
         <div class="row">
-            <div class="col-sm-2"><p><a v-bind:href="appInfo.github"><i class="fab fa-github"></i></a></p></div>
-            <div class="col-sm-2"><p><i class="fab fa-java"></i> {{appInfo.javaRuntimeVersion}}</p></div>
-            <div class="col-sm-8">
-                <p>
+            <div class="col-sm-2 p-2"><span><a v-bind:href="appInfo.github"><i class="fab fa-github"></i></a></span></div>
+            <div class="col-sm-2 p-2"><span><i class="fab fa-java"></i> {{appInfo.javaRuntimeVersion}}</span></div>
+            <div class="col-sm-8 p-2">
+                <span>
                     <strong>{{appInfo.projectName}}</strong> <small>{{appInfo.projectVersion}} build at {{appInfo.buildTime}}</small>
-                </p>
+                </span>
             </div>
         </div>
     </nav>
@@ -18,6 +18,8 @@
 <script src="/static/js/qs/6.9.0/qs.min.js"></script>
 <script src="/static/js/jquery/3.5.1/jquery.min.js"></script>
 <script src="/static/bootstrap/4.5.0/dist/js/bootstrap.min.js"></script>
+<script src="/static/js/my/prototypes.js"></script>
+<script src="/static/js/my/util.js"></script>
 
 <script>
     Vue.createApp({

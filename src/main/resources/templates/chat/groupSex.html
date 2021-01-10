@@ -10,16 +10,13 @@
 <div class="container">
     <br>
     <h1>击剑大厅</h1>
-    <form onSubmit="return false;">
+    <form onsubmit="return false">
+        <div class="form-group overflow-auto" style="height: 500px" id="resText"></div>
         <div class="form-group">
-<!--            <label for="exampleFormControlTextarea1">Example textarea</label>-->
-            <textarea class="form-control" id="resText" rows="20"></textarea>
+            <label for="msgInput"></label><input type="text" id="msgInput" name="msg" class="form-control" placeholder="祖安问候...">
         </div>
         <div class="form-group">
-            <input type="text" id="msgInput" name="msg" class="form-control" placeholder="祖安问候...">
-        </div>
-        <div class="form-group">
-            <input type="button" class="form-control" value="出招" onclick="send(this.form.msg.value)">
+            <button id="sendMsgBtn" disabled="disabled" class="form-control btn btn-primary" onclick="send(this.form.msg.value)"><i class="fas fa-paper-plane"></i></button>
         </div>
     </form>
 </div>
