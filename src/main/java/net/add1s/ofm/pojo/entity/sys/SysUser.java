@@ -20,36 +20,36 @@ public class SysUser implements Serializable {
 
     private static final long serialVersionUID = -1247444683051940790L;
 
-    @TableId(value = "tb_id", type = IdType.AUTO)
+    @TableId(value = "`tb_id`", type = IdType.AUTO)
     private Long tbId;
 
     /**
      * 用户名，唯一
      */
-    @TableField("username")
+    @TableField("`username`")
     private String username;
 
     /**
      * 加密后的密码
      */
-    @TableField("password")
+    @TableField("`password`")
     private String password;
 
-    @TableField("nickname")
+    @TableField("`nickname`")
     private String nickname;
 
-    @TableField("email")
+    @TableField("`email`")
     private String email;
 
     /**
      * 是否启用
      */
-    @TableField("enabled")
+    @TableField("`enabled`")
     private Boolean enabled;
 
-    @TableField("create_time")
+    @TableField("`create_time`")
     private LocalDateTime createTime;
 
-    @TableField("update_time")
+    @TableField("`update_time`")
     private LocalDateTime updateTime;
 }

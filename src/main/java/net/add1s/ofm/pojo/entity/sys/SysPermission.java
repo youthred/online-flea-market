@@ -19,30 +19,30 @@ public class SysPermission implements Serializable {
 
     private static final long serialVersionUID = -5342581624490942720L;
 
-    @TableId(value = "tb_id", type = IdType.AUTO)
+    @TableId(value = "`tb_id`", type = IdType.AUTO)
     private Long tbId;
 
-    @TableField("permission_url")
+    @TableField("`permission_url`")
     private String permissionUrl;
 
-    @TableField("request_method")
+    @TableField("`request_method`")
     private String requestMethod;
 
-    @TableField("permission_code")
+    @TableField("`permission_code`")
     private String permissionCode;
 
-    @TableField("permission_name")
+    @TableField("`permission_name`")
     private String permissionName;
 
-    @TableField("permission_desc")
+    @TableField("`permission_desc`")
     private String permissionDesc;
 
     /**
      * 同tbId
      */
-    @TableField("id")
+    @TableField("`id`")
     private Long id;
 
-    @TableField("pid")
+    @TableField("`pid`")
     private Long pid;
 }

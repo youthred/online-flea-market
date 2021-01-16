@@ -23,4 +23,4 @@ Vue.createApp({
             }
         }
     }
-}).mount('#loginApp')
+}).mount('#login')

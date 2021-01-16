@@ -19,30 +19,30 @@ public class ChinaCityLevel4 implements Serializable {
 
     private static final long serialVersionUID = 8683045414452921591L;
 
-    @TableId(value = "tb_id", type = IdType.AUTO)
+    @TableId(value = "`tb_id`", type = IdType.AUTO)
     private Long tbId;
 
-    @TableField("id")
+    @TableField("`id`")
     private Long id;
 
-    @TableField("pid")
+    @TableField("`pid`")
     private Long pid;
 
-    @TableField("deep")
+    @TableField("`deep`")
     private Integer deep;
 
     @TableField("`name`")
     private String name;
 
-    @TableField("pinyin_prefix")
+    @TableField("`pinyin_prefix`")
     private char pinyinPrefix;
 
-    @TableField("pinyin")
+    @TableField("`pinyin`")
     private String pinyin;
 
-    @TableField("ext_id")
+    @TableField("`ext_id`")
     private Long extId;
 
-    @TableField("ext_name")
+    @TableField("`ext_name`")
     private String extName;
 }

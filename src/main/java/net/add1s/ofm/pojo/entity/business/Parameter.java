@@ -1,4 +1,4 @@
-package net.add1s.ofm.pojo.entity.sys;
+package net.add1s.ofm.pojo.entity.business;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -10,24 +10,26 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
+ * 参数数据字典
+ *
  * @author pj.w@qq.com
  */
 @Data
 @Accessors(chain = true)
-@TableName("t_sys_role")
-public class SysRole implements Serializable {
+@TableName("t_parameter")
+public class Parameter implements Serializable {
 
-    private static final long serialVersionUID = 4439037815246514284L;
+    private static final long serialVersionUID = -4010591935801839548L;
 
     @TableId(value = "`tb_id`", type = IdType.AUTO)
     private Long tbId;
 
-    @TableField("`role_code`")
-    private String roleCode;
+    @TableField("`group_name`")
+    private String groupName;
 
-    @TableField("`role_name`")
-    private String roleName;
+    @TableField("`code`")
+    private String code;
 
-    @TableField("`role_desc`")
-    private String roleDesc;
+    @TableField("`desc`")
+    private String desc;
 }

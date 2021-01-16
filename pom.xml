@@ -19,9 +19,12 @@
         <java.version>11</java.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <fastjson.version>1.2.68</fastjson.version>
-        <mybatis.plus.boot.version>3.3.2</mybatis.plus.boot.version>
+        <mybatis.plus.boot.version>3.4.2</mybatis.plus.boot.version>
+        <mybatis.plus.generator.version>3.3.2</mybatis.plus.generator.version>
         <dynamic-datasource.version>3.2.1</dynamic-datasource.version>
         <mysql.connector.version>8.0.19</mysql.connector.version>
+        <p6spy.version>3.9.1</p6spy.version>
+        <druid.version>1.2.4</druid.version>
     </properties>
 
     <dependencies>
@@ -63,7 +66,10 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -85,7 +91,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -96,7 +101,6 @@
             <artifactId>hutool-all</artifactId>
             <version>5.5.2</version>
         </dependency>
-
         <!-- MyBatis-Plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -111,7 +115,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>${mybatis.plus.boot.version}</version>
+            <version>${mybatis.plus.generator.version}</version>
         </dependency>
         <!-- MySQL Connector -->
         <dependency>
@@ -125,13 +129,23 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
-
         <!-- io.netty/netty-all -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>${netty.version}</version>
         </dependency>
+        <!-- p6spy -->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>${p6spy.version}</version>
+        </dependency>
+        <!-- druid -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid</artifactId>-->
+<!--            <version>${druid.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

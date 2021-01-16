@@ -20,60 +20,63 @@ public class Goods implements Serializable {
 
     private static final long serialVersionUID = -8506606304323757616L;
 
-    @TableId(value = "tb_id", type = IdType.AUTO)
+    @TableId(value = "`tb_id`", type = IdType.AUTO)
     private Long tbId;
 
     /**
      * 商品名称
      */
-    @TableField("name")
+    @TableField("`name`")
     private String name;
 
     /**
      * 价格
      */
-    @TableField("price")
+    @TableField("`price`")
     private String price;
 
     /**
      * 商品描述
      */
-    @TableField("desc")
+    @TableField("`desc`")
     private String desc;
 
     /**
      * 图片地址，以“|”分隔
      */
-    @TableField("pics")
+    @TableField("`pics`")
     private String pics;
 
     /**
      * 浏览量
      */
-    @TableField("views")
+    @TableField("`views`")
     private Long views;
+
+    @TableField("`goods_type_code`")
+    private Long goodsTypeCode;
 
     /**
      * 发布地点TBID
      */
-    @TableField("location_tb_id")
+    @TableField("`location_tb_id`")
     private Long locationTbId;
 
     /**
      * 发布者TBID
      */
-    @TableField("sys_user_tb_id")
+    @TableField("`sys_user_tb_id`")
     private Long sysUserTbId;
 
     /**
      * 是否下架
      */
-    @TableField("off_shelf")
+    @TableField("`off_shelf`")
     private Boolean offShelf;
 
-    @TableField("create_time")
+    @TableField("`create_time`")
     private LocalDateTime createTime;
 
-    @TableField("update_time")
+    @TableField("`update_time`")
     private LocalDateTime updateTime;
 }

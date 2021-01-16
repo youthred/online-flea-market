@@ -5,7 +5,7 @@
       xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: header(${'OFM'}, ${'index'})"></head>
 <body>
-<div id="app">
+<div>
     <div class="sticky-top">
         <!--                <span th:replace="common/nav :: nav_homepage('homepage')"></span>-->
         <!--首页导航栏 nav_homepage-->
@@ -50,7 +50,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <div sec:authorize="isAnonymous()">
-                                <form action="/login" method="post" class="px-4 py-3">
+                                <form action="/login" method="post" class="px-4 py-3" id="login">
                                     <div class="form-group">
                                         <label for="usernameInput">用户名</label>
                                         <input name="username" type="text" class="form-control" id="usernameInput">
@@ -103,85 +103,24 @@
     </div><!-- nav end -->
 
     <div class="container">
-        <br>
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                   aria-controls="pills-home" aria-selected="true">Home</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-                   aria-controls="pills-profile" aria-selected="false">Profile</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-                   aria-controls="pills-contact" aria-selected="false">Contact</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <p>{{counter}}</p>
-                <span>123123</span>
+        <div id="goods" class="pt-3">
+            <label>
+                <select class="custom-select" id="goodsTypesSelector" required v-model="goodsTypeCode">
+                    <option v-bind:value="goodsType.code" v-for="goodsType in goodsTypeOptions">{{goodsType.desc}}</option>
+                </select>
+            </label>
+            <div class="card-columns pt-2" id="goodsPage">
+                <div class="card mb-4" v-for="goods in goodsPage.records">
+                    <img v-if="goods.pics != null" v-bind:src="goods.pics" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{goods.name}}</h5>
+                        <p class="card-text">{{goods.desc}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">{{goods.updateTime}}</small>
+                    </div>
+                </div>
             </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
-            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
         </div>
     </div><!-- bootstrap .container end -->
 
@@ -189,5 +128,7 @@
 
 <span th:replace="common/footer"></span>
 <script src="/static/js/my/index.js"></script>
+<script src="/static/js/my/login.js"></script>
+<script src="/static/js/my/goods.js"></script>
 </body>
 </html>

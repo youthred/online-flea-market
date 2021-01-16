@@ -10,18 +10,18 @@ axios.get("/chat/nettyHost").then(res => {
         if (window.WebSocket) {
             socket = new WebSocket(res.data.data)
             socket.onmessage = function (event) {
-                $resText.append('<h3><span class="badge badge-pill badge-primary">' + event.data + '</span></h3>')
+                $resText.append(`<h3><span class="badge badge-pill badge-primary">${event.data}</span></h3>`)
             };
             socket.onopen = function (event) {
-                $resText.append('<p class="text-muted text-center"><small><i class="fas fa-link"></i> ' + new Date().defaultFormat() + '</small></p>')
+                $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i>${new Date().defaultFormat()}</small></p>`)
             };
             socket.onclose = function (event) {
-                $resText.append('<p class="text-muted text-center"><small><i class="fas fa-unlink"></i> ' + new Date().defaultFormat() + '</small></p>')
+                $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i>${new Date().defaultFormat()}</small></p>`)
             };
         } else {
             alert('您的浏览器不支持WebSocket协议！')
         }
-    } else if (!res.data.success) {
+    } else {
         alert(res.data.message)
     }
 }).catch(err => {

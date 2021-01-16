@@ -1,11 +1,12 @@
 package net.add1s.ofm.controller;
 
 import net.add1s.ofm.cache.SimpleCacheManager;
+import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import net.add1s.ofm.pojo.entity.business.Goods;
+import net.add1s.ofm.service.IGoodsService;
+import net.add1s.ofm.service.IParameterService;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author pj.w@qq.com
@@ -14,13 +15,54 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/goods")
 public class GoodsController {
 
+    private final IGoodsService iGoodsService;
+    private final IParameterService iParameterService;
+
+    public GoodsController(IGoodsService iGoodsService,
+                           IParameterService iParameterService) {
+        this.iGoodsService = iGoodsService;
+        this.iParameterService = iParameterService;
+    }
+
+    /**
+     * 搜索所有商品
+     *
+     * @param q 搜索输入
+     * @return Res
+     */
     @GetMapping("/search")
     public Res search(@RequestParam("q") String q) {
         return Res.ok(q);
     }
 
+    /**
+     * 中国城市四级树
+     *
+     * @return Res
+     */
     @GetMapping("/chinaCityTree")
     public Res chinaCityTree() {
         return Res.ok(SimpleCacheManager.cityTree);
+    }
+
+    /**
+     * 分页
+     *
+     * @param mbpPage 分页及查询参数
+     * @return Res
+     */
+    @PostMapping("/page")
+    public Res page(@RequestBody MbpPage<Goods, Goods> mbpPage) {
+        return Res.ok(iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper()));
+    }
+
+    /**
+     * 商品类型
+     *
+     * @return Res
+     */
+    @GetMapping("/goodsTypes")
+    public Res goodsTypes() {
+        return Res.ok(iParameterService.goodsTypes());
     }
 }

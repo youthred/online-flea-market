@@ -1,16 +1,8 @@
 <div class="pb-5"></div>
-<div id="footerApp" class="container-fluid fixed-bottom bg-light" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-    <nav class="text-center text-muted">
-        <div class="row">
-            <div class="col-sm-2 p-2"><span><a v-bind:href="appInfo.github"><i class="fab fa-github"></i></a></span></div>
-            <div class="col-sm-2 p-2"><span><i class="fab fa-java"></i> {{appInfo.javaRuntimeVersion}}</span></div>
-            <div class="col-sm-8 p-2">
-                <span>
-                    <strong>{{appInfo.projectName}}</strong> <small>{{appInfo.projectVersion}} build at {{appInfo.buildTime}}</small>
-                </span>
-            </div>
-        </div>
-    </nav>
+<div id="footerApp" class="container-fluid fixed-bottom bg-white shadow" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+    <div class="text-center text-muted m-1">
+        <a v-bind:href="appInfo.github"><i class="fab fa-github"></i></a>
+    </div>
 </div>
 
 <script src="/static/js/vue/3.0.4/vue.global.prod.js"></script>
@@ -20,17 +12,14 @@
 <script src="/static/bootstrap/4.5.0/dist/js/bootstrap.min.js"></script>
 <script src="/static/js/my/prototypes.js"></script>
 <script src="/static/js/my/util.js"></script>
+<script src="/static/js/my/obj.js"></script>
 
 <script>
     Vue.createApp({
         data() {
             return {
                 appInfo: {
-                    github: '--',
-                    javaRuntimeVersion: '--',
-                    projectName: '--',
-                    projectVersion: '--',
-                    buildTime: '--'
+                    github: '--'
                 }
             }
         },

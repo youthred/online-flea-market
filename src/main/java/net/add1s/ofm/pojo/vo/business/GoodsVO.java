@@ -21,6 +21,7 @@ public class GoodsVO implements Serializable {
     private String desc;
     private String pics;
     private Long views;
+    private Long goodsTypeCode;
     private Long locationTbId;
     private Long sysUserTbId;
     private Boolean offShelf;
