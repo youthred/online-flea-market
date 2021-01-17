@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.add1s.ofm.common.enums.Symbol;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -79,4 +81,10 @@ public class Goods implements Serializable {
 
     @TableField("`update_time`")
     private LocalDateTime updateTime;
+
+    private transient String[] picArr;
+
+    public String[] getPicArr() {
+        return StringUtils.isNotBlank(this.pics) ? this.pics.split(Symbol.VERTICAL_BAR.forSplit()) : null;
+    }
 }

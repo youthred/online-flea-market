@@ -17,3 +17,10 @@ Date.prototype.format = function (fmt) {
 Date.prototype.defaultFormat = function () {
     return this.format('yyyy-MM-dd HH:mm:ss')
 }
+
+String.isNotBlank = function (str) {
+    return str !== null && str !== undefined && !/^\s*$/.test(str)
+}
+String.isBlank = function (str) {
+    return !this.isNotBlank(str)
+}

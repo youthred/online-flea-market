@@ -1,13 +1,12 @@
 const goodsApp = Vue.createApp({
     data() {
         return {
-            goodsTypeCode: -1,
             goodsTypeOptions: [],
             goodsPage: {},
             goodsPageRequest: {
                 page: {
                     current: 1,
-                    size: 30
+                    size: 10
                 },
                 queryOptions: [
                     {
@@ -26,9 +25,7 @@ const goodsApp = Vue.createApp({
                     let $goodsTypesSelector = $('#goodsTypesSelector');
                     let goodsTypes = res.data.data;
                     if (goodsTypes.length > 0) {
-                        let goodsTypeForFirst = goodsTypes[0];
-                        this.goodsTypeCode = goodsTypeForFirst.code
-                        this.goodsPageRequest.queryOptions[0].value = goodsTypeForFirst.code
+                        this.goodsPageRequest.queryOptions[0].value = goodsTypes[0].code
                         this.goodsTypeOptions = goodsTypes;
                         // $.each(goodsTypes, (index, item) => {
                         //     $goodsTypesSelector.append(`<option value="${item.code}">${item.desc}</option>`)
@@ -46,12 +43,25 @@ const goodsApp = Vue.createApp({
             axios.post("/goods/page", this.goodsPageRequest).then(res => {
                 if (res.data.success) {
                     this.goodsPage = res.data.data;
+                    console.log(this.goodsPage)
                 } else {
                     alert(res.data.message)
                 }
             }).catch(err => {
                 alert(err)
             })
+        },
+        onGoodsTypeChange() {
+            this.goodsPageRequest.page.current = 1
+            this.setGoodsPage()
+        },
+        prev() {
+            this.goodsPageRequest.page.current --;
+            this.setGoodsPage()
+        },
+        next() {
+            this.goodsPageRequest.page.current ++;
+            this.setGoodsPage()
         }
     }
 }).mount('#goods')

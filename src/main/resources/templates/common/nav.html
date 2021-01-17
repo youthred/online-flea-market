@@ -126,7 +126,7 @@
                     </div>
                     <div class="form-group col">
                         <figure class="figure">
-                            <img id="imageCaptcha" v-bind:src="imageCaptchaUrl" v-on:click="refreshImageCaptcha" title="点击刷新验证码" class="rounded">
+                            <img id="imageCaptcha" :src="imageCaptchaUrl" v-on:click="refreshImageCaptcha" title="点击刷新验证码" class="rounded">
                             <figcaption class="figure-caption text-right">{{imageCaptchaRemainingTime}}s</figcaption>
                         </figure>
                     </div>
