@@ -6,8 +6,9 @@ import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.add1s.ofm.cache.TimedCacheManager;
 import net.add1s.ofm.common.content.SessionContent;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -18,23 +19,23 @@ import java.io.IOException;
 /**
  * @author pj.w@qq.com
  */
-@Controller
+@RestController
 @Slf4j
 public class LoginController {
 
     @GetMapping("/")
-    public String index() {
-        return "index/index";
+    public ModelAndView index() {
+        return new ModelAndView("index/index");
     }
 
     @GetMapping("/login.html")
-    public String loginPage(HttpServletRequest request) {
-        return "sys/auth/login";
+    public ModelAndView loginPage(HttpServletRequest request) {
+        return new ModelAndView("sys/auth/login");
     }
 
     @GetMapping("/register.html")
-    public String registerPage() {
-        return "sys/auth/register";
+    public ModelAndView registerPage() {
+        return new ModelAndView("sys/auth/register");
     }
 
     /**

@@ -2,12 +2,12 @@ package net.add1s.ofm.controller;
 
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.config.props.ChatProps;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 @RequestMapping("/chat")
 public class ChatController {
 
@@ -18,11 +18,10 @@ public class ChatController {
     }
 
     @GetMapping("/groupSex.html")
-    public String groupSexPage() {
-        return "chat/groupSex";
+    public ModelAndView groupSexPage() {
+        return new ModelAndView("chat/groupSex");
     }
 
-    @ResponseBody
     @GetMapping("/nettyHost")
     public Res nettyHost() {
         return Res.ok(chatProps.getServerHost());

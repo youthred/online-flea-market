@@ -64,5 +64,5 @@ const goodsApp = Vue.createApp({
             this.setGoodsPage()
         }
     }
-}).mount('#goods')
+}).mount('#goodsIndexVueApp')
 goodsApp.init()

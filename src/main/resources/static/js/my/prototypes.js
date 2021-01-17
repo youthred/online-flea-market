@@ -24,3 +24,7 @@ String.isNotBlank = function (str) {
 String.isBlank = function (str) {
     return !this.isNotBlank(str)
 }
+
+Array.isNotEmpty = function (arr) {
+    return arr != null && arr.length > 0
+}

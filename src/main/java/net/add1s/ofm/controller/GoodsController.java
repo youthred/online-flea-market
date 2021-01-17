@@ -7,6 +7,7 @@ import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.IParameterService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author pj.w@qq.com
@@ -64,5 +65,16 @@ public class GoodsController {
     @GetMapping("/goodsTypes")
     public Res goodsTypes() {
         return Res.ok(iParameterService.goodsTypes());
+    }
+
+    /**
+     * 商品详情
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @GetMapping("/{goodsTbId}.html")
+    public ModelAndView detail(@PathVariable("goodsTbId") Long goodsTbId) {
+        return new ModelAndView("goods/detail", "goodsDetail", iGoodsService.details(goodsTbId));
     }
 }

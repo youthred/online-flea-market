@@ -103,17 +103,17 @@
     </div><!-- nav end -->
 
     <div class="container">
-        <div id="goods" class="pt-3">
+        <div id="goodsIndexVueApp" class="pt-3">
             <label>
                 <select class="custom-select" id="goodsTypesSelector" required v-model="goodsPageRequest.queryOptions[0].value" @change="onGoodsTypeChange">
                     <option :value="goodsType.code" v-for="goodsType in goodsTypeOptions">{{goodsType.desc}}</option>
                 </select>
             </label>
             <div class="card-columns pt-2" id="goodsPage">
-                <div class="card mb-4" v-for="goods in goodsPage.records">
-                    <img v-if="String.isNotBlank(goods.picArr) && goods.picArr.length > 0" :src="goods.picArr[0]" class="card-img-top">
+                <div class="card mb-3" v-for="goods in goodsPage.records">
+                    <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.picArr[0]" class="card-img-top">
                     <div class="card-body">
-                        <h5 class="card-title">{{goods.name}}</h5>
+                        <h5 class="card-title"><a :href="`/goods/${goods.tbId}.html`">{{goods.name}}</a></h5>
                         <p v-if="String.isNotBlank(goods.desc)" class="card-text">{{goods.desc}}</p>
                     </div>
                     <div class="card-footer">
@@ -141,6 +141,6 @@
 <span th:replace="common/footer"></span>
 <script src="/static/js/my/index.js"></script>
 <script src="/static/js/my/login.js"></script>
-<script src="/static/js/my/goods.js"></script>
+<script src="/static/js/my/goodsIndex.js"></script>
 </body>
 </html>
