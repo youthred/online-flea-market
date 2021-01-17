@@ -26,12 +26,6 @@ public class Goods implements Serializable {
     private Long tbId;
 
     /**
-     * 商品名称
-     */
-    @TableField("`name`")
-    private String name;
-
-    /**
      * 价格
      */
     @TableField("`price`")

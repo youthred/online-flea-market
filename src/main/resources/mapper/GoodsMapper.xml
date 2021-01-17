@@ -10,7 +10,6 @@
     <select id="findGoodsDetail" resultMap="findGoodsDetailMap">
         SELECT
             goods.`tb_id`,
-            goods.`name`,
             goods.`price`,
             goods.`desc`,
             goods.`pics`,

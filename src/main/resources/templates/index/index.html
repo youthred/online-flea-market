@@ -105,15 +105,18 @@
     <div class="container">
         <div id="goodsIndexVueApp" class="pt-3">
             <label>
-                <select class="custom-select" id="goodsTypesSelector" required v-model="goodsPageRequest.queryOptions[0].value" @change="onGoodsTypeChange">
+                <select class="custom-select" id="goodsTypesSelector" required
+                        v-model="goodsPageRequest.queryOptions[0].value" @change="onGoodsTypeChange">
                     <option :value="goodsType.code" v-for="goodsType in goodsTypeOptions">{{goodsType.desc}}</option>
                 </select>
             </label>
             <div class="card-columns pt-2" id="goodsPage">
                 <div class="card mb-3" v-for="goods in goodsPage.records">
-                    <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.picArr[0]" class="card-img-top">
+                    <a :href="`/goods/${goods.tbId}.html`">
+                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.picArr[0]" class="card-img-top">
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title"><a :href="`/goods/${goods.tbId}.html`">{{goods.name}}</a></h5>
+                        <h5 class="card-title text-danger">CNY {{goods.price}}</h5>
                         <p v-if="String.isNotBlank(goods.desc)" class="card-text">{{goods.desc}}</p>
                     </div>
                     <div class="card-footer">
@@ -124,13 +127,17 @@
             <nav aria-label="page nav">
                 <ul class="pagination justify-content-center">
                     <!--prev-->
-                    <li v-if="goodsPageRequest.page.current == 1" class="page-item btn disabled"><i class="fa fa-angle-double-left" aria-hidden="true"></i></li>
-                    <li v-if="goodsPageRequest.page.current > 1" class="page-item btn" @click="prev"><i class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                    <li v-if="goodsPageRequest.page.current == 1" class="page-item btn disabled"><i
+                            class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                    <li v-if="goodsPageRequest.page.current > 1" class="page-item btn" @click="prev"><i
+                            class="fa fa-angle-double-left" aria-hidden="true"></i></li>
                     <!--pageIndex/pages-->
                     <li class="page-item page-link">{{goodsPageRequest.page.current}} / {{goodsPage.total}}</li>
                     <!--next-->
-                    <li v-if="goodsPageRequest.page.current == goodsPage.pages || goodsPage.total === 0" class="page-item btn disabled"><i class="fa fa-angle-double-right" aria-hidden="true"></i></li>
-                    <li v-if="goodsPageRequest.page.current < goodsPage.pages" class="page-item btn" @click="next"><i class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                    <li v-if="goodsPageRequest.page.current == goodsPage.pages || goodsPage.total === 0"
+                        class="page-item btn disabled"><i class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                    <li v-if="goodsPageRequest.page.current < goodsPage.pages" class="page-item btn" @click="next"><i
+                            class="fa fa-angle-double-right" aria-hidden="true"></i></li>
                 </ul>
             </nav>
         </div>

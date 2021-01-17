@@ -21,7 +21,6 @@ public class GoodsVO implements Serializable {
 
     public GoodsVO(Goods goods) {
         this.tbId = goods.getTbId();
-        this.name = goods.getName();
         this.price = goods.getPrice();
         this.desc = goods.getDesc();
         this.pics = goods.getPics();
@@ -37,7 +36,6 @@ public class GoodsVO implements Serializable {
     private static final long serialVersionUID = 1035024677737233143L;
 
     private Long tbId;
-    private String name;
     private String price;
     private String desc;
     private String pics;
