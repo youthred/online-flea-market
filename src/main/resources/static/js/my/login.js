@@ -13,7 +13,7 @@ Vue.createApp({
     methods: {
         refreshImageCaptcha() {
             this.imageCaptchaRemainingTime = 30
-            this.imageCaptchaUrl = '/imageCaptcha?refreshRandomCode=' + Math.random()
+            this.imageCaptchaUrl = '/imageCaptcha?rd=' + Math.random()
         }
     },
     watch: {

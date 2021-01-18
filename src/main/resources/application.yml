@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: dev
   application:
     name: online-flea-market
   jackson:
@@ -19,7 +19,7 @@ mybatis-plus:
 ---
 # 开发
 server:
-  port: 8801
+  port: 81
   servlet:
     session:
       timeout: 30m
@@ -60,7 +60,7 @@ sys:
 ---
 # 测试
 server:
-  port: 8802
+  port: 82
   servlet:
     session:
       timeout: 30m
