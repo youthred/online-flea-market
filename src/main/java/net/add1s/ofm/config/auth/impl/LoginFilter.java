@@ -36,7 +36,7 @@ public class LoginFilter extends OncePerRequestFilter {
 
     public final String uri = "/login";
     public final String method = RequestMethod.POST.name();
-    public final String captchaCodeName = "image-captcha";
+    public final String captchaCodeName = "imageCaptcha";
     public final String username = "username";
 
     private final MyAuthenticationFailureHandler myAuthenticationFailureHandler;
