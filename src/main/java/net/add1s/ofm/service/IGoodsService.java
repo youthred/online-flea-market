@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
 
+import java.util.List;
+
 public interface IGoodsService extends IService<Goods> {
 
     /**
@@ -13,4 +15,12 @@ public interface IGoodsService extends IService<Goods> {
      * @return GoodsVO
      */
     GoodsVO details(Long goodsTbId);
+
+    /**
+     * 搜索全部二手商品
+     *
+     * @param q 搜索条件
+     * @return list GoodsVO
+     */
+    List<GoodsVO> search(String q);
 }

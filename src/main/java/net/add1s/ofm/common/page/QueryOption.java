@@ -10,6 +10,9 @@ import net.add1s.ofm.util.HumpUtil;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * @author pj.w@qq.com
  */
@@ -19,8 +22,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 @AllArgsConstructor
 public class QueryOption {
 
+    @NotBlank
     private String key;
+    @NotNull
     private Object value;
+    @NotNull
     private QueryTypeEnum type;
 
     public QueryBuilder toQueryBuilder() {

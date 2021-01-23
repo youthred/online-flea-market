@@ -2,12 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.add1s.ofm.mapper.GoodsMapper">
 
-    <resultMap id="findGoodsDetailMap" type="net.add1s.ofm.pojo.vo.business.GoodsVO" autoMapping="true">
-        <association property="user" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
-            <result column="nickname" property="nickname"/>
-        </association>
-    </resultMap>
-    <select id="findGoodsDetail" resultMap="findGoodsDetailMap">
+    <sql id="selectGoodsDetail">
         SELECT
             goods.`tb_id`,
             goods.`price`,
@@ -28,6 +23,20 @@
         LEFT JOIN t_parameter param ON param.group_name = 'GOODS_TYPE' AND param.`code` = goods.goods_type_code
         LEFT JOIN t_sys_user suser ON suser.tb_id = goods.sys_user_tb_id
         LEFT JOIN t_china_city_level4 city ON city.tb_id = goods.location_tb_id
+    </sql>
+
+    <resultMap id="findGoodsDetailMap" type="net.add1s.ofm.pojo.vo.business.GoodsVO" autoMapping="true">
+        <association property="user" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
+            <result column="nickname" property="nickname"/>
+        </association>
+    </resultMap>
+    <select id="findGoodsDetail" resultMap="findGoodsDetailMap">
+        <include refid="selectGoodsDetail"/>
         WHERE goods.`tb_id` = #{goodsTbId}
+    </select>
+
+    <select id="findByDesc" resultType="net.add1s.ofm.pojo.vo.business.GoodsVO">
+        <include refid="selectGoodsDetail"/>
+        WHERE goods.`desc` LIKE CONCAT('%', #{q}, '%')
     </select>
 </mapper>

@@ -42,6 +42,7 @@ public enum Symbol {
     CURLY_BRACES_RIGHT("}"),
     VERTICAL_BAR("|"),
     TILDE("~"),
+    SPACE(" "),
     ;
 
     private final String value;

@@ -6,6 +6,7 @@ import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.IParameterService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,8 +33,8 @@ public class GoodsController {
      * @return Res
      */
     @GetMapping("/search")
-    public Res search(@RequestParam("q") String q) {
-        return Res.ok(q);
+    public ModelAndView search(@RequestParam("q") String q) {
+        return new ModelAndView("/goods/search", "searchRes", iGoodsService.search(q));
     }
 
     /**
@@ -53,7 +54,7 @@ public class GoodsController {
      * @return Res
      */
     @PostMapping("/page")
-    public Res page(@RequestBody MbpPage<Goods, Goods> mbpPage) {
+    public Res page(@RequestBody @Validated MbpPage<Goods, Goods> mbpPage) {
         return Res.ok(iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper()));
     }
 
