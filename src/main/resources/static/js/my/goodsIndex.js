@@ -43,7 +43,6 @@ const goodsApp = Vue.createApp({
             axios.post("/goods/page", this.goodsPageRequest).then(res => {
                 if (res.data.success) {
                     this.goodsPage = res.data.data;
-                    console.log(this.goodsPage)
                 } else {
                     alert(res.data.message)
                 }

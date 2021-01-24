@@ -31,4 +31,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         String like = StringUtils.join(searchesTrimmed, Symbol.PERCENT.getValue());
         return this.baseMapper.findByDesc(like);
     }
+
+    @Override
+    public void view(Long goodsTbId) {
+        this.baseMapper.viewsAdd(goodsTbId);
+    }
 }

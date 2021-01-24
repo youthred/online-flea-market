@@ -39,4 +39,8 @@
         <include refid="selectGoodsDetail"/>
         WHERE goods.`desc` LIKE CONCAT('%', #{q}, '%')
     </select>
+
+    <update id="viewsAdd">
+        UPDATE t_goods SET `views` = `views` + 1 WHERE `tb_id` = #{goodsTbId}
+    </update>
 </mapper>

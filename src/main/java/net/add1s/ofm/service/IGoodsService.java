@@ -23,4 +23,11 @@ public interface IGoodsService extends IService<Goods> {
      * @return list GoodsVO
      */
     List<GoodsVO> search(String q);
+
+    /**
+     * 浏览量+1
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void view(Long goodsTbId);
 }

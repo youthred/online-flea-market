@@ -76,6 +76,7 @@ public class GoodsController {
      */
     @GetMapping("/{goodsTbId}.html")
     public ModelAndView detail(@PathVariable("goodsTbId") Long goodsTbId) {
+        iGoodsService.view(goodsTbId);
         return new ModelAndView("goods/detail", "goodsDetail", iGoodsService.details(goodsTbId));
     }
 }

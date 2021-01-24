@@ -2,7 +2,7 @@
 <html lang="zh-cn"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="common/header :: header('Goods-' + ${goodsDetail.tbId}, ${'goodsDetail'})"></head>
+<head th:replace="common/header :: header('Goods-' + ${goodsDetail.tbId})"></head>
 <body class="bg-light">
 <div class="container">
     <div id="goodsDetailVueApp">
@@ -23,6 +23,13 @@
                     <img class="rounded card-img" :src="`${pic}?rd=${Math.random()}`">
                 </div>
             </div>
+        </div>
+        <div>
+            <span class="text-muted">浏览 {{goodsDetail.views}}</span>
+            <span class="float-right">
+                <button class="btn btn-outline-dark rounded-pill mr-2"><i class="fa fa-exclamation-triangle"></i> 举报</button>
+                <button class="btn btn-success rounded-pill">我想要</button>
+            </span>
         </div>
     </div>
 </div>
