@@ -34,7 +34,7 @@ public class GoodsController {
      */
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("q") String q) {
-        return new ModelAndView("/goods/search", "searchRes", iGoodsService.search(q));
+        return new ModelAndView("goods/search", "searchRes", iGoodsService.search(q));
     }
 
     /**
