@@ -45,7 +45,9 @@
             </div>
             <div>
                 <span class="text-muted mr-2">浏览 {{goodsDetail.views}}</span>
-                <button class="btn btn-outline-dark btn-sm rounded-pill"><i class="fa fa-exclamation-triangle"></i> 举报</button>
+                <button @click="report" class="btn btn-outline-dark btn-sm rounded-pill"><i
+                        class="fa fa-exclamation-triangle"></i> 举报
+                </button>
                 <span class="float-right">
                     <button class="btn btn-success rounded-pill">我想要</button>
                 </span>
@@ -69,6 +71,25 @@
         methods: {
             init() {
                 console.log(this.goodsDetail)
+            },
+            report() {
+                let reportReason = prompt('举报理由')
+                if (String.isNotBlank(reportReason)) {
+                    axios.post("/goods/report", {
+                        'goodsTbId': this.goodsDetail.tbId,
+                        'reason': reportReason
+                    }).then(res => {
+                        if (res.data.success) {
+                            alert('举报成功')
+                        } else {
+                            alert(`举报失败：${res.data.message}`)
+                        }
+                    }).catch(err => {
+                        alert(err)
+                    })
+                } else {
+                    alert('举报原因不能为空')
+                }
             }
         }
     }).mount('#goodsDetailVueApp')

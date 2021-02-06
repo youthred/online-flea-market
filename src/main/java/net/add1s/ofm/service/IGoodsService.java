@@ -1,6 +1,7 @@
 package net.add1s.ofm.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
 
@@ -30,4 +31,11 @@ public interface IGoodsService extends IService<Goods> {
      * @param goodsTbId 商品TBID
      */
     void view(Long goodsTbId);
+
+    /**
+     * 举报
+     *
+     * @param goodsReportDTO 举报请求体
+     */
+    void report(GoodsReportDTO goodsReportDTO);
 }

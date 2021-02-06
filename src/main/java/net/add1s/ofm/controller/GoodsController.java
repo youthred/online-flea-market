@@ -3,6 +3,7 @@ package net.add1s.ofm.controller;
 import net.add1s.ofm.cache.SimpleCacheManager;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
+import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.IParameterService;
@@ -78,5 +79,11 @@ public class GoodsController {
     public ModelAndView detail(@PathVariable("goodsTbId") Long goodsTbId) {
         iGoodsService.view(goodsTbId);
         return new ModelAndView("goods/detail", "goodsDetail", iGoodsService.details(goodsTbId));
+    }
+
+    @PostMapping("/report")
+    public Res report(@RequestBody @Validated GoodsReportDTO goodsReportDTO) {
+        iGoodsService.report(goodsReportDTO);
+        return Res.ok();
     }
 }

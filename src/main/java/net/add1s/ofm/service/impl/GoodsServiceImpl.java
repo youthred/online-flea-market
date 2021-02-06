@@ -3,8 +3,11 @@ package net.add1s.ofm.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.common.enums.Symbol;
 import net.add1s.ofm.mapper.GoodsMapper;
+import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
+import net.add1s.ofm.pojo.entity.business.GoodsReport;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
+import net.add1s.ofm.service.IGoodsReportService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.util.SqlUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +21,12 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements IGoodsService {
+
+    private final IGoodsReportService iGoodsReportService;
+
+    public GoodsServiceImpl(IGoodsReportService iGoodsReportService) {
+        this.iGoodsReportService = iGoodsReportService;
+    }
 
     @Override
     public GoodsVO details(Long goodsTbId) {
@@ -35,5 +44,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public void view(Long goodsTbId) {
         this.baseMapper.viewsAdd(goodsTbId);
+    }
+
+    @Override
+    public void report(GoodsReportDTO goodsReportDTO) {
+        iGoodsReportService.save(
+                new GoodsReport()
+                        .setGoodsTbId(goodsReportDTO.getGoodsTbId())
+                        .setReason(goodsReportDTO.getReason())
+                        .setReviewed(false)
+        );
     }
 }
