@@ -28,8 +28,17 @@ public class GoodsReport implements Serializable {
     @TableField("reason")
     private String reason;
 
+    /**
+     * 是否已审查
+     */
     @TableField("reviewed")
     private Boolean reviewed;
+
+    /**
+     * 是否举报通过（下架对应商品）
+     */
+    @TableField("passed")
+    private Boolean passed;
 
     /**
      * 审查人TBID
