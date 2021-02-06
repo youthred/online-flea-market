@@ -73,23 +73,48 @@
                 console.log(this.goodsDetail)
             },
             report() {
-                let reportReason = prompt('举报理由')
-                if (String.isNotBlank(reportReason)) {
-                    axios.post("/goods/report", {
-                        'goodsTbId': this.goodsDetail.tbId,
-                        'reason': reportReason
-                    }).then(res => {
-                        if (res.data.success) {
-                            alert('举报成功')
+                Swal.fire({
+                    html: '举报理由 <span style="color: red">*</span>',
+                    input: 'textarea',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: '确定',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (reportReason) => {
+                        if (reportReason) {
+                            return fetch('/goods/report', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8;'
+                                },
+                                body: JSON.stringify({
+                                    'goodsTbId': this.goodsDetail.tbId,
+                                    'reason': reportReason
+                                })
+                            }).then(res => {
+                                if (!res.ok) {
+                                    throw new Error(res.statusText)
+                                }
+                                return res.json()
+                            }).catch(err => {
+                                Swal.showValidationMessage(
+                                    `举报失败：${err}`
+                                )
+                            })
                         } else {
-                            alert(`举报失败：${res.data.message}`)
+                            Swal.showValidationMessage('请填写举报理由')
                         }
-                    }).catch(err => {
-                        alert(err)
-                    })
-                } else {
-                    alert('举报原因不能为空')
-                }
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then(res => {
+                    if (res.value.success) {
+                        Swal.fire('举报成功', '', 'success')
+                    } else {
+                        Swal.fire('举报失败', res.message, 'error')
+                    }
+                })
             }
         }
     }).mount('#goodsDetailVueApp')
