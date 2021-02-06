@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author pj.w@qq.com
@@ -22,22 +23,25 @@ public class GoodsReport implements Serializable {
     @TableId(value = "`tb_id`", type = IdType.AUTO)
     private Long tbId;
 
-    @TableField("goods_tb_id")
+    @TableField("`create_time`")
+    private LocalDateTime createTime;
+
+    @TableField("`goods_tb_id`")
     private Long goodsTbId;
 
-    @TableField("reason")
+    @TableField("`reason`")
     private String reason;
 
     /**
      * 是否已审查
      */
-    @TableField("reviewed")
+    @TableField("`reviewed`")
     private Boolean reviewed;
 
     /**
      * 是否举报通过（下架对应商品）
      */
-    @TableField("passed")
+    @TableField("`passed`")
     private Boolean passed;
 
     /**
@@ -45,4 +49,7 @@ public class GoodsReport implements Serializable {
      */
     @TableField("`sys_user_tb_id`")
     private Long sysUserTbId;
+
+    @TableField("`review_time`")
+    private LocalDateTime reviewTime;
 }
