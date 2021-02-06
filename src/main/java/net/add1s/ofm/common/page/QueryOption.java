@@ -29,6 +29,11 @@ public class QueryOption {
     @NotNull
     private QueryTypeEnum type;
 
+    /**
+     * es
+     *
+     * @return QueryBuilder
+     */
     public QueryBuilder toQueryBuilder() {
         QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
         switch (type) {
@@ -58,6 +63,12 @@ public class QueryOption {
         return queryBuilder;
     }
 
+    /**
+     * mybatis plus
+     *
+     * @param <T> Entity
+     * @return QueryWrapper
+     */
     public <T> QueryWrapper<T> toQueryWrapper() {
         String lineKey = HumpUtil.humpToLine(key);
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();

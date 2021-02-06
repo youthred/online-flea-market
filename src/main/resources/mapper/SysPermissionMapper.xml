@@ -6,7 +6,7 @@
         select
             distinct p.permission_code
         from t_sys_permission p
-        left join t_sys_intermediate_role_permission rp on rp.permission_tb_id = p.tb_id
+        left join t_sys_bind_role_permission rp on rp.permission_tb_id = p.tb_id
         left join t_sys_role r on r.tb_id = rp.role_tb_id
         <where>
             <if test="roleCodes != null and roleCodes.size() > 0">
@@ -22,8 +22,8 @@
         select
             p.*
         from t_sys_permission p
-        left join t_sys_intermediate_role_permission rp on rp.permission_tb_id = p.tb_id
-        left join t_sys_intermediate_user_role ur on ur.role_tb_id = rp.role_tb_id
+        left join t_sys_bind_role_permission rp on rp.permission_tb_id = p.tb_id
+        left join t_sys_bind_user_role ur on ur.role_tb_id = rp.role_tb_id
         left join t_sys_user u on u.tb_id = ur.user_tb_id
         where u.username = #{username}
     </select>

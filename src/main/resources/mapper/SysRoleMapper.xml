@@ -6,7 +6,7 @@
         select
             r.role_code
         from t_sys_user u
-        left join t_sys_intermediate_user_role ur on ur.user_tb_id = u.tb_id
+        left join t_sys_bind_user_role ur on ur.user_tb_id = u.tb_id
         left join t_sys_role r on r.tb_id = ur.role_tb_id
         where u.username = #{username}
     </select>
