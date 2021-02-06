@@ -36,6 +36,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     public List<GoodsVO> search(String q) {
+        // " +": 匹配所有连续空格，replace为一个空格
         String[] searches = SqlUtil.escapeLike(q.trim()).replaceAll(" +", " ").split(Symbol.SPACE.getValue());
         List<String> searchesTrimmed = Arrays.stream(searches).distinct().map(String::trim).collect(Collectors.toList());
         String like = StringUtils.join(searchesTrimmed, Symbol.PERCENT.getValue());
