@@ -16,31 +16,23 @@ import org.springframework.stereotype.Component;
 @ChannelHandler.Sharable
 public class GroupSexChatChannelHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
-    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private static final ChannelGroup CHANNEL_GROUP = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("与客户端建立连接，通道开启：{}", ctx.channel());
-        channels.add(ctx.channel());
+        CHANNEL_GROUP.add(ctx.channel());
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info("与客户端断开连接，通道关闭：{}", ctx.channel());
-        channels.remove(ctx.channel());
+        CHANNEL_GROUP.remove(ctx.channel());
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) throws Exception {
-//        channels.writeAndFlush(new TextWebSocketFrame(
-//                StrUtil.format(
-//                        "{} - {}: {}",
-//                        LocalDateTimeUtil.format(LocalDateTime.now(), DatePattern.NORM_DATETIME_FORMATTER),
-//                        channelHandlerContext.channel().remoteAddress().toString(),
-//                        textWebSocketFrame.text()
-//                )
-//        ));
-        channels.writeAndFlush(new TextWebSocketFrame(
+        CHANNEL_GROUP.writeAndFlush(new TextWebSocketFrame(
                 StrUtil.format(
                         "{}: {}",
                         channelHandlerContext.channel().remoteAddress().toString(),
