@@ -21,6 +21,8 @@ public class GoodsVO implements Serializable {
 
     public GoodsVO(Goods goods) {
         this.tbId = goods.getTbId();
+        this.createTime = goods.getCreateTime();
+        this.updateTime = goods.getUpdateTime();
         this.price = goods.getPrice();
         this.desc = goods.getDesc();
         this.pics = goods.getPics();
@@ -29,13 +31,13 @@ public class GoodsVO implements Serializable {
         this.locationTbId = goods.getLocationTbId();
         this.sysUserTbId = goods.getSysUserTbId();
         this.offShelf = goods.getOffShelf();
-        this.createTime = goods.getCreateTime();
-        this.updateTime = goods.getUpdateTime();
     }
 
     private static final long serialVersionUID = 1035024677737233143L;
 
     private Long tbId;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
     private String price;
     private String desc;
     private String pics;
@@ -44,8 +46,6 @@ public class GoodsVO implements Serializable {
     private Long locationTbId;
     private Long sysUserTbId;
     private Boolean offShelf;
-    private LocalDateTime createTime;
-    private LocalDateTime updateTime;
 
     private String[] picArr;
     private String goodsTypeDesc;

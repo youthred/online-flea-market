@@ -25,6 +25,12 @@ public class Goods implements Serializable {
     @TableId(value = "`tb_id`", type = IdType.AUTO)
     private Long tbId;
 
+    @TableField("`create_time`")
+    private LocalDateTime createTime;
+
+    @TableField("`update_time`")
+    private LocalDateTime updateTime;
+
     /**
      * 价格
      */
@@ -69,12 +75,6 @@ public class Goods implements Serializable {
      */
     @TableField("`off_shelf`")
     private Boolean offShelf;
-
-    @TableField("`create_time`")
-    private LocalDateTime createTime;
-
-    @TableField("`update_time`")
-    private LocalDateTime updateTime;
 
     private transient String[] picArr;
 
