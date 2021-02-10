@@ -49,7 +49,7 @@
                         class="fa fa-exclamation-triangle"></i> 举报
                 </button>
                 <span class="float-right">
-                    <button class="btn btn-success rounded-pill">我想要</button>
+                    <button @click="iWantIt" class="btn btn-success rounded-pill">我想要</button>
                 </span>
             </div>
         </div>
@@ -115,6 +115,9 @@
                         Swal.fire('举报失败', res.message, 'error')
                     }
                 })
+            },
+            iWantIt() {
+                window.open('/goods/chat.html')
             }
         }
     }).mount('#goodsDetailVueApp')

@@ -31,7 +31,7 @@ public class GoodsController {
      * 搜索所有商品
      *
      * @param q 搜索输入
-     * @return Res
+     * @return ModelAndView
      */
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("q") String q) {
@@ -73,7 +73,7 @@ public class GoodsController {
      * 商品详情
      *
      * @param goodsTbId 商品TBID
-     * @return Res
+     * @return ModelAndView
      */
     @GetMapping("/{goodsTbId}.html")
     public ModelAndView detail(@PathVariable("goodsTbId") Long goodsTbId) {
@@ -81,9 +81,25 @@ public class GoodsController {
         return new ModelAndView("goods/detail", "goodsDetail", iGoodsService.details(goodsTbId));
     }
 
+    /**
+     * 举报
+     *
+     * @param goodsReportDTO 举报请求体
+     * @return Res
+     */
     @PostMapping("/report")
     public Res report(@RequestBody @Validated GoodsReportDTO goodsReportDTO) {
         iGoodsService.report(goodsReportDTO);
         return Res.ok();
+    }
+
+    /**
+     * 私聊
+     *
+     * @return ModelAndView
+     */
+    @GetMapping("/chat.html")
+    public ModelAndView chat() {
+        return new ModelAndView("goods/chat", "chats", iGoodsService.chats());
     }
 }

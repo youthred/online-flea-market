@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-cn"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="common/header :: header('私聊')"></head>
+<body class="bg-light">
+<div class="container">
+    <div id="chatVueApp">
+        <div v-if="Array.isNotEmpty(chats)">
+
+        </div>
+        <div v-else>
+            <div class="text-center">
+                <h1 class="text-muted">暂无私聊信息</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<span th:replace="common/footer"></span>
+<script th:inline="javascript">
+    const goodsApp = Vue.createApp({
+        data() {
+            return {
+                chats: [[${chats}]]
+            }
+        },
+        methods: {
+            init() {
+                console.log(this.chats)
+            }
+        }
+    }).mount('#chatVueApp')
+    goodsApp.init()
+</script>
+</body>
+</html>

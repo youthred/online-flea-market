@@ -6,6 +6,7 @@ import net.add1s.ofm.mapper.GoodsMapper;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.entity.business.GoodsReport;
+import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
 import net.add1s.ofm.service.IGoodsReportService;
 import net.add1s.ofm.service.IGoodsService;
@@ -57,5 +58,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                         .setReason(goodsReportDTO.getReason())
                         .setReviewed(false)
         );
+    }
+
+    @Override
+    public List<GoodsChatVO> chats() {
+        return null;
     }
 }

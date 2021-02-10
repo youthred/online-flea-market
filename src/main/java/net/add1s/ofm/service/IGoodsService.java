@@ -3,6 +3,7 @@ package net.add1s.ofm.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
+import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
 
 import java.util.List;
@@ -38,4 +39,11 @@ public interface IGoodsService extends IService<Goods> {
      * @param goodsReportDTO 举报请求体
      */
     void report(GoodsReportDTO goodsReportDTO);
+
+    /**
+     * 私聊
+     *
+     * @return GoodsChatVOs
+     */
+    List<GoodsChatVO> chats();
 }
