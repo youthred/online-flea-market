@@ -11,7 +11,7 @@
             goods.`views`,
             goods.`goods_type_code`,
             goods.`location_tb_id`,
-            goods.`sys_user_tb_id`,
+            goods.`seller_sys_user_tb_id`,
             goods.`off_shelf`,
             goods.`create_time`,
             goods.`update_time`,
@@ -21,12 +21,12 @@
             suser.nickname
         FROM t_goods goods
         LEFT JOIN t_parameter param ON param.group_name = 'GOODS_TYPE' AND param.`code` = goods.goods_type_code
-        LEFT JOIN t_sys_user suser ON suser.tb_id = goods.sys_user_tb_id
+        LEFT JOIN t_sys_user suser ON suser.tb_id = goods.seller_sys_user_tb_id
         LEFT JOIN t_china_city_level4 city ON city.tb_id = goods.location_tb_id
     </sql>
 
     <resultMap id="findGoodsDetailMap" type="net.add1s.ofm.pojo.vo.business.GoodsVO" autoMapping="true">
-        <association property="user" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
+        <association property="seller" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
             <result column="nickname" property="nickname"/>
         </association>
     </resultMap>

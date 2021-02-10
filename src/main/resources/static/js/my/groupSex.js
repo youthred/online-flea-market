@@ -5,7 +5,7 @@ if (!window.WebSocket) {
 let $resText = $('#resText')
 let $msgInput = $('#msgInput');
 let $sendMsgBtn = $('#sendMsgBtn');
-axios.get("/chat/nettyHost").then(res => {
+axios.get('/chat/nettyHost').then(res => {
     if (res.data.success) {
         if (window.WebSocket) {
             socket = new WebSocket(res.data.data)

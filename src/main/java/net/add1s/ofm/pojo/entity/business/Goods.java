@@ -65,10 +65,10 @@ public class Goods implements Serializable {
     private Long locationTbId;
 
     /**
-     * 发布者TBID
+     * 卖家TBID
      */
-    @TableField("`sys_user_tb_id`")
-    private Long sysUserTbId;
+    @TableField("`seller_sys_user_tb_id`")
+    private Long sellerSysUserTbId;
 
     /**
      * 是否下架

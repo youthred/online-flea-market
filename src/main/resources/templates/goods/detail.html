@@ -29,7 +29,7 @@
                         </svg>
                     </div>
                     <div class="col-9 col-sm-10 col-md-11">
-                        <p><strong>{{goodsDetail.user.nickname}}</strong></p>
+                        <p><strong>{{goodsDetail.seller.nickname}}</strong></p>
                         <p><small class="text-muted">发布于{{goodsDetail.cityName}}</small></p>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         class="fa fa-exclamation-triangle"></i> 举报
                 </button>
                 <span class="float-right">
-                    <button @click="iWantIt" class="btn btn-success rounded-pill">我想要</button>
+                    <a @click="iWantIt" class="btn btn-success rounded-pill" :href="`/goods/chat?goodsTbId=${goodsDetail.tbId}&sellerSysUserTbId=${goodsDetail.sellerSysUserTbId}`" target="_blank">我想要</a>
                 </span>
             </div>
         </div>
@@ -115,9 +115,6 @@
                         Swal.fire('举报失败', res.message, 'error')
                     }
                 })
-            },
-            iWantIt() {
-                window.open('/goods/chat.html')
             }
         }
     }).mount('#goodsDetailVueApp')

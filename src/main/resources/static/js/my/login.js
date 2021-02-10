@@ -21,7 +21,7 @@ Vue.createApp({
             this.imageCaptchaUrl = '/imageCaptcha?rd=' + Math.random()
         },
         login() {
-            axios.post("/login", Qs.stringify(this.user)).then(res => {
+            axios.post('/login', Qs.stringify(this.user)).then(res => {
                 if (res.data.success) {
                     $(location).attr('href', '/');
                 } else {

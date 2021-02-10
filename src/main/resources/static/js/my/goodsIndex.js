@@ -20,7 +20,7 @@ const goodsApp = Vue.createApp({
     },
     methods: {
         init() {
-            axios.get("/goods/goodsTypes").then(res => {
+            axios.get('/goods/goodsTypes').then(res => {
                 if (res.data.success) {
                     let $goodsTypesSelector = $('#goodsTypesSelector');
                     let goodsTypes = res.data.data;
@@ -40,7 +40,7 @@ const goodsApp = Vue.createApp({
             })
         },
         setGoodsPage() {
-            axios.post("/goods/page", this.goodsPageRequest).then(res => {
+            axios.post('/goods/page', this.goodsPageRequest).then(res => {
                 if (res.data.success) {
                     this.goodsPage = res.data.data;
                 } else {

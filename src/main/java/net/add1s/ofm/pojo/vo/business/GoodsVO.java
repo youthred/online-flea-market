@@ -29,7 +29,7 @@ public class GoodsVO implements Serializable {
         this.views = goods.getViews();
         this.goodsTypeCode = goods.getGoodsTypeCode();
         this.locationTbId = goods.getLocationTbId();
-        this.sysUserTbId = goods.getSysUserTbId();
+        this.sellerSysUserTbId = goods.getSellerSysUserTbId();
         this.offShelf = goods.getOffShelf();
     }
 
@@ -44,7 +44,7 @@ public class GoodsVO implements Serializable {
     private Long views;
     private Long goodsTypeCode;
     private Long locationTbId;
-    private Long sysUserTbId;
+    private Long sellerSysUserTbId;
     private Boolean offShelf;
 
     private String[] picArr;
@@ -52,7 +52,7 @@ public class GoodsVO implements Serializable {
     private String cityName;
     private String cityExtName;
 
-    private SysUserVO user;
+    private SysUserVO seller;
 
     public String[] getPicArr() {
         return StringUtils.isNotBlank(this.pics) ? this.pics.split(Symbol.VERTICAL_BAR.forSplit()) : null;

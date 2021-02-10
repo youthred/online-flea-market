@@ -98,8 +98,8 @@ public class GoodsController {
      *
      * @return ModelAndView
      */
-    @GetMapping("/chat.html")
-    public ModelAndView chat() {
+    @GetMapping("/chat")
+    public ModelAndView chat(@RequestParam("goodsTbId") Long goodsTbId, @RequestParam("sellerSysUserTbId") Long sellerSysUserTbId) {
         return new ModelAndView("goods/chat", "chats", iGoodsService.chats());
     }
 }
