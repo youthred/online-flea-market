@@ -43,7 +43,9 @@ public interface IGoodsService extends IService<Goods> {
     /**
      * 私聊
      *
+     * @param goodsTbId 商品TBID
+     * @param sellerSysUserTbId 卖家用户TBID
      * @return GoodsChatVOs
      */
-    List<GoodsChatVO> chats();
+    List<GoodsChatVO> chats(Long goodsTbId, Long sellerSysUserTbId);
 }

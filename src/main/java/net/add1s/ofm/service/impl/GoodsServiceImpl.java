@@ -61,7 +61,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public List<GoodsChatVO> chats() {
+    public List<GoodsChatVO> chats(Long goodsTbId, Long sellerSysUserTbId) {
         return null;
     }
 }

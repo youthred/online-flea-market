@@ -96,10 +96,12 @@ public class GoodsController {
     /**
      * 私聊
      *
+     * @param goodsTbId 商品TBID
+     * @param sellerSysUserTbId 卖家用户TBID
      * @return ModelAndView
      */
     @GetMapping("/chat")
     public ModelAndView chat(@RequestParam("goodsTbId") Long goodsTbId, @RequestParam("sellerSysUserTbId") Long sellerSysUserTbId) {
-        return new ModelAndView("goods/chat", "chats", iGoodsService.chats());
+        return new ModelAndView("goods/chat", "chats", iGoodsService.chats(goodsTbId, sellerSysUserTbId));
     }
 }
