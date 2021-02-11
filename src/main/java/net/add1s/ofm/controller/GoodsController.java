@@ -11,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author pj.w@qq.com
  */
@@ -101,7 +103,7 @@ public class GoodsController {
      * @return ModelAndView
      */
     @GetMapping("/chat")
-    public ModelAndView chat(@RequestParam("goodsTbId") Long goodsTbId, @RequestParam("sellerSysUserTbId") Long sellerSysUserTbId) {
+    public ModelAndView chat(@RequestParam("goodsTbId") @NotNull Long goodsTbId, @RequestParam("sellerSysUserTbId") @NotNull Long sellerSysUserTbId) {
         return new ModelAndView("goods/chat", "chats", iGoodsService.chats(goodsTbId, sellerSysUserTbId));
     }
 }

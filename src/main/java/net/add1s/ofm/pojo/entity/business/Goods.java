@@ -56,7 +56,7 @@ public class Goods implements Serializable {
     private Long views;
 
     @TableField("`goods_type_code`")
-    private Long goodsTypeCode;
+    private Short goodsTypeCode;
 
     /**
      * 发布地点TBID

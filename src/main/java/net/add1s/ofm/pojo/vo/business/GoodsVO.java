@@ -42,7 +42,7 @@ public class GoodsVO implements Serializable {
     private String desc;
     private String pics;
     private Long views;
-    private Long goodsTypeCode;
+    private Short goodsTypeCode;
     private Long locationTbId;
     private Long sellerSysUserTbId;
     private Boolean offShelf;
