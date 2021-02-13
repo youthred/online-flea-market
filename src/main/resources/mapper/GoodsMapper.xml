@@ -45,4 +45,58 @@
     <update id="viewsAdd">
         UPDATE t_goods SET `views` = `views` + 1 WHERE `tb_id` = #{goodsTbId}
     </update>
+
+    <resultMap id="findChatListMap" type="net.add1s.ofm.pojo.vo.business.GoodsChatVO">
+        <result column="actice" property="active"/>
+        <association property="seller" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
+            <id column="seller_sys_user_tb_id" property="tbId"/>
+            <result column="nickname" property="nickname"/>
+        </association>
+        <association property="goods" javaType="net.add1s.ofm.pojo.vo.business.GoodsVO">
+            <id column="goods_tb_id" property="tbId"/>
+            <result column="pics" property="pics"/>
+        </association>
+        <association property="lastMessage" javaType="net.add1s.ofm.pojo.vo.business.ChatMessageVO" autoMapping="true"/>
+    </resultMap>
+    <select id="findChatList" resultMap="findChatListMap">
+        WITH chat_msg AS (
+            SELECT
+                t.tb_id,
+                t.create_time,
+                t.goods_tb_id,
+                t.buyer_sys_user_tb_id,
+                t.message_content,
+                t.message_type_code,
+                t.is_from_buyer
+            FROM
+                (
+                    SELECT
+                        tb_id,
+                        create_time,
+                        goods_tb_id,
+                        buyer_sys_user_tb_id,
+                        message_content,
+                        message_type_code,
+                        is_from_buyer,
+                        ROW_NUMBER() OVER(PARTITION BY goods_tb_id ORDER BY create_time DESC) rn
+                    FROM t_chat_message WHERE buyer_sys_user_tb_id = #{buyerSysUserTbId}
+                ) t WHERE t.rn = 1
+        )
+        SELECT
+            cm.tb_id,
+            cm.create_time,
+            cm.goods_tb_id,
+            cm.message_content,
+            cm.message_type_code,
+            goods.pics,
+            goods.seller_sys_user_tb_id,
+            seller.nickname
+            <if test="goodsTbId != null">
+                ,
+                CASE cm.goods_tb_id WHEN #{goodsTbId} THEN 1 ELSE 0 END active
+            </if>
+        FROM chat_msg cm
+        LEFT JOIN t_goods goods ON goods.tb_id = cm.goods_tb_id
+        LEFT JOIN t_sys_user seller ON seller.tb_id = goods.seller_sys_user_tb_id
+    </select>
 </mapper>

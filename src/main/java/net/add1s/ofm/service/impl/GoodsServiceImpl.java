@@ -6,10 +6,12 @@ import net.add1s.ofm.mapper.GoodsMapper;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.entity.business.GoodsReport;
+import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
 import net.add1s.ofm.service.IGoodsReportService;
 import net.add1s.ofm.service.IGoodsService;
+import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.util.SqlUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,12 @@ import java.util.stream.Collectors;
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements IGoodsService {
 
     private final IGoodsReportService iGoodsReportService;
+    private final ISysUserService iSysUserService;
 
-    public GoodsServiceImpl(IGoodsReportService iGoodsReportService) {
+    public GoodsServiceImpl(IGoodsReportService iGoodsReportService,
+                            ISysUserService iSysUserService) {
         this.iGoodsReportService = iGoodsReportService;
+        this.iSysUserService = iSysUserService;
     }
 
     @Override
@@ -61,7 +66,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public List<GoodsChatVO> chats(Long goodsTbId, Long sellerSysUserTbId) {
-        return null;
+    public List<GoodsChatVO> chats(Long goodsTbId) {
+        MyUserDetails currentUser = iSysUserService.currentUser();
+        return this.baseMapper.findChatList(currentUser.getTbId(), goodsTbId);
     }
 }
