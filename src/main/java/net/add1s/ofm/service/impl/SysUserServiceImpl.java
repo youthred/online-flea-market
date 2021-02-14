@@ -34,7 +34,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public MyUserDetails currentUser() {
-        Validate.isTrue(this.isLogin(), "当前访问者未登录或为匿名用户");
+        Validate.isTrue(this.isLogin(), "当前访问者未登录");
         return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
