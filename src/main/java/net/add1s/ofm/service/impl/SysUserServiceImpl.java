@@ -37,4 +37,5 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Validate.isTrue(this.isLogin(), "当前访问者未登录");
         return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+
 }
