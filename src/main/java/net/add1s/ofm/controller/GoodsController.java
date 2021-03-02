@@ -100,7 +100,7 @@ public class GoodsController {
      * @return ModelAndView
      */
     @GetMapping("/chat")
-    public ModelAndView chat(@RequestParam("goodsTbId") Long goodsTbId) {
+    public ModelAndView chat(@RequestParam(value = "goodsTbId", required = false) Long goodsTbId) {
         return new ModelAndView("goods/chat", "chats", iGoodsService.chats(goodsTbId));
     }
 }

@@ -58,4 +58,16 @@ public class ChatMessage implements Serializable {
      */
     @TableField("`is_from_buyer`")
     private Boolean isFromBuyer;
+
+    /**
+     * 买家已读
+     */
+    @TableField("`read_buyer`")
+    private boolean readBuyer;
+
+    /**
+     * 卖家已读
+     */
+    @TableField("`read_seller`")
+    private boolean readSeller;
 }

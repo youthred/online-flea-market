@@ -6,8 +6,18 @@
 <body class="bg-light">
 <div class="container">
     <div id="chatVueApp">
-        <div v-if="Array.isNotEmpty(chats)">
-
+        <div v-if="Array.isNotEmpty(chats)" class="pt-3">
+            <div class="list-group  list-group-flush">
+                <button v-for="chat in chats" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">List group item heading</h5>
+                        <small>3 days ago</small>
+                    </div>
+                    <p class="mb-1">Some placeholder content in a paragraph.</p>
+                    <small>And some small print.</small>
+                    <span v-if="chat.unread > 0" class="badge badge-danger badge-pill float-right">{{chat.unread}}</span>
+                </button>
+            </div>
         </div>
         <div v-else>
             <div class="text-center">

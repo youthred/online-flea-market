@@ -1,14 +1,17 @@
 package net.add1s.ofm.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.common.enums.Symbol;
 import net.add1s.ofm.mapper.GoodsMapper;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
+import net.add1s.ofm.pojo.entity.business.ChatMessage;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.entity.business.GoodsReport;
 import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
+import net.add1s.ofm.service.IChatMessageService;
 import net.add1s.ofm.service.IGoodsReportService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,11 +32,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     private final IGoodsReportService iGoodsReportService;
     private final ISysUserService iSysUserService;
+    private final IChatMessageService iChatMessageService;
 
     public GoodsServiceImpl(IGoodsReportService iGoodsReportService,
-                            ISysUserService iSysUserService) {
+                            ISysUserService iSysUserService,
+                            IChatMessageService iChatMessageService) {
         this.iGoodsReportService = iGoodsReportService;
         this.iSysUserService = iSysUserService;
+        this.iChatMessageService = iChatMessageService;
     }
 
     @Override
@@ -68,6 +75,24 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public List<GoodsChatVO> chats(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
+        if (Objects.nonNull(goodsTbId)) {
+            firstChat(currentUser.getTbId(), goodsTbId);
+        }
         return this.baseMapper.findChatList(currentUser.getTbId(), goodsTbId);
+    }
+
+    private void firstChat(Long buyerSysUserTbId, Long goodsTbId) {
+        ChatMessage firstChatOfThis = iChatMessageService.getOne(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getBuyerSysUserTbId, buyerSysUserTbId).eq(ChatMessage::getGoodsTbId, goodsTbId).eq(ChatMessage::getMessageTypeCode, -1));
+        if (Objects.isNull(firstChatOfThis)) {
+            iChatMessageService.save(
+                    new ChatMessage()
+                            .setCreateTime(LocalDateTime.now())
+                            .setGoodsTbId(goodsTbId)
+                            .setBuyerSysUserTbId(buyerSysUserTbId)
+                            .setMessageContent("你好")
+                            .setMessageTypeCode((short) -1)
+                            .setIsFromBuyer(true)
+            );
+        }
     }
 }

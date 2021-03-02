@@ -98,5 +98,6 @@
         FROM chat_msg cm
         LEFT JOIN t_goods goods ON goods.tb_id = cm.goods_tb_id
         LEFT JOIN t_sys_user seller ON seller.tb_id = goods.seller_sys_user_tb_id
+        ORDER BY cm.create_time DESC
     </select>
 </mapper>
