@@ -19,13 +19,13 @@ axios.get('/chat/nettyHost').then(res => {
                 $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i>${new Date().defaultFormat()}</small></p>`)
             };
         } else {
-            alert('您的浏览器不支持WebSocket协议！')
+            Swal.fire('', '您的浏览器不支持WebSocket协议！', 'error')
         }
     } else {
-        alert(res.data.message)
+        Swal.fire('', res.data.message, 'error')
     }
 }).catch(err => {
-    alert(err)
+    Swal.fire('', err.toString(), 'error')
 })
 
 function send(msg) {
@@ -38,7 +38,7 @@ function send(msg) {
         $sendMsgBtn.attr('disabled', 'disabled')
         $msgInput.focus()
     } else {
-        alert('WebSocket连接建立失败！')
+        Swal.fire('', 'WebSocket连接建立失败！', 'error')
     }
 }
 

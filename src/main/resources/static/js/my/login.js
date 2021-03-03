@@ -2,8 +2,8 @@ Vue.createApp({
     data() {
         return {
             user: {
-                username: '',
-                password: '',
+                username: 'admin',
+                password: 'admin',
                 imageCaptcha: ''
             },
             imageCaptchaUrl: '/imageCaptcha',
@@ -25,10 +25,10 @@ Vue.createApp({
                 if (res.data.success) {
                     $(location).attr('href', '/');
                 } else {
-                    alert(res.data.message)
+                    Swal.fire('', res.data.message, 'error')
                 }
             }).catch(err => {
-                alert(err)
+                Swal.fire('', err.toString(), 'error')
             })
         }
     },

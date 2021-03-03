@@ -70,13 +70,21 @@ public class GoodsController {
     }
 
     /**
-     * 商品详情
+     * 通过TBID获取对应商品详情
+     */
+    @GetMapping("/{goodsTbId}")
+    public Res getByTbId(@PathVariable("goodsTbId") Long goodsTbId) {
+        return Res.ok(iGoodsService.details(goodsTbId));
+    }
+
+    /**
+     * 通过TBID跳转对应商品详情页面
      *
      * @param goodsTbId 商品TBID
      * @return ModelAndView
      */
     @GetMapping("/{goodsTbId}.html")
-    public ModelAndView detail(@PathVariable("goodsTbId") Long goodsTbId) {
+    public ModelAndView detailPage(@PathVariable("goodsTbId") Long goodsTbId) {
         iGoodsService.view(goodsTbId);
         return new ModelAndView("goods/detail", "goodsDetail", iGoodsService.details(goodsTbId));
     }

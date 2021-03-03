@@ -33,10 +33,10 @@ const goodsApp = Vue.createApp({
                         this.setGoodsPage()
                     }
                 } else {
-                    alert(res.data.message)
+                    Swal.fire('', res.data.message, 'error')
                 }
             }).catch(err => {
-                alert(err)
+                Swal.fire('', err.toString(), 'error')
             })
         },
         setGoodsPage() {
@@ -44,10 +44,10 @@ const goodsApp = Vue.createApp({
                 if (res.data.success) {
                     this.goodsPage = res.data.data;
                 } else {
-                    alert(res.data.message)
+                    Swal.fire('', res.data.message, 'error')
                 }
             }).catch(err => {
-                alert(err)
+                Swal.fire('', err.toString(), 'error')
             })
         },
         onGoodsTypeChange() {

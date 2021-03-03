@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import net.add1s.ofm.common.enums.Symbol;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.vo.sys.SysUserVO;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -48,13 +49,32 @@ public class GoodsVO implements Serializable {
     private Boolean offShelf;
 
     private String[] picArr;
+    private String mainPicUrl;
     private String goodsTypeDesc;
     private String cityName;
     private String cityExtName;
 
     private SysUserVO seller;
 
+    public GoodsVO setPicArr() {
+        this.picArr = StringUtils.isNotBlank(this.pics) ? this.pics.split(Symbol.VERTICAL_BAR.forSplit()) : null;
+        return this;
+    }
+
     public String[] getPicArr() {
-        return StringUtils.isNotBlank(this.pics) ? this.pics.split(Symbol.VERTICAL_BAR.forSplit()) : null;
+        setPicArr();
+        return picArr;
+    }
+
+    public GoodsVO setMainPicUrl() {
+        if (ArrayUtils.isNotEmpty(this.picArr) && StringUtils.isNotBlank(this.picArr[0])) {
+            this.mainPicUrl = this.picArr[0];
+        }
+        return this;
+    }
+
+    public String getMainPicUrl() {
+        setMainPicUrl();
+        return mainPicUrl;
     }
 }

@@ -7,21 +7,55 @@
 <div class="container">
     <div id="chatVueApp">
         <div v-if="Array.isNotEmpty(chats)" class="pt-3">
-            <div class="list-group  list-group-flush">
-                <button v-for="chat in chats" class="list-group-item list-group-item-action">
+            <div class="list-group list-group-flush">
+                <button v-for="chat in chats" :id="chat.goods.tbId" @click="showChatModal(chat.goods.tbId)"
+                        class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">List group item heading</h5>
-                        <small>3 days ago</small>
+                        <h5 class="mb-1">{{chat.seller.nickname}}g</h5>
+                        <small>{{chat.intervals}}</small>
                     </div>
-                    <p class="mb-1">Some placeholder content in a paragraph.</p>
-                    <small>And some small print.</small>
-                    <span v-if="chat.unread > 0" class="badge badge-danger badge-pill float-right">{{chat.unread}}</span>
+                    <p v-if="chat.messageTypeCode === 2" class="mb-1">[点击查看]</p>
+                    <p v-else class="mb-1">{{chat.lastMessage.messageContent}}</p>
+                    <!--                    <small>And some small print.</small>-->
+                    <span v-if="chat.unread > 0"
+                          class="badge badge-danger badge-pill float-right">{{chat.unread}}</span>
                 </button>
             </div>
         </div>
         <div v-else>
             <div class="text-center">
                 <h1 class="text-muted">暂无私聊信息</h1>
+            </div>
+        </div>
+        <div id="chatModal"
+             class="modal fade"
+             data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="chatModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="row">
+                            <div class="col-3 col-sm-2 col-md-1">
+                                <img v-if="String.isNotBlank(chatModal.goodsDetail.mainPicUrl)"
+                                     :src="`${chatModal.goodsDetail.mainPicUrl}?rd=${Math.random()}`"
+                                     class="modal-title img-fluid rounded">
+                            </div>
+                            <div class="col-9 col-sm-10 col-md-11">
+                                <span class="modal-title">&yen;{{chatModal.goodsDetail.price}}</span>
+                            </div>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                        <button type="button" class="btn btn-primary" @click="buyNow">立即购买</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -31,12 +65,34 @@
     const goodsApp = Vue.createApp({
         data() {
             return {
-                chats: [[${chats}]]
+                chats: [[${chats}]],
+                chatModal: {
+                    goodsDetail: {
+                        price: '',
+                        mainPicUrl: ''
+                    }
+                }
             }
         },
         methods: {
             init() {
                 console.log(this.chats)
+            },
+            showChatModal(goodsTbId) {
+                axios.get(`/goods/${goodsTbId}`).then(res => {
+                    if (res.data.success) {
+                        this.chatModal.goodsDetail = res.data.data
+                        console.log('goodsDetail -> ', this.chatModal.goodsDetail)
+                    } else {
+                        Swal.fire('', res.data.message, 'error')
+                    }
+                }).catch(err => {
+                    Swal.fire('', err.toString(), 'error')
+                })
+                $('#chatModal').modal('toggle')
+            },
+            buyNow() {
+                Swal.fire('', '开发中...', 'info')
             }
         }
     }).mount('#chatVueApp')
