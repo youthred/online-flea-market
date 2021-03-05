@@ -2,13 +2,23 @@
 
 > 可在线私聊的WEB跳蚤市场
 
-## 功能点
+## 使用技术
+- 架构：SpringBoot
+- 技术点：SpringBoot, SpringSecurity, MyBatisPlus, Netty
+- 后台语言：Java
+- 前台语言：HTML, JavaScript, VUE
+- 数据库：MySQL_8.0.22
+- IDE：IntelliJ IDEA 2020.3.2 (Ultimate Edition)
+- 数据库操作工具：Navicat Premium 15
+- 测试服务器：CentOS_7
+- 测试地址：[http://youthred.cn:82/](http://youthred.cn:82/)
 
+## 功能点
 - 登录
     - [x] Session/Cookie
     - [x] JSON AJAX响应
 - 用户前台
-    - 用户空间
+    - 用户主页
         - [ ] 我发布的
         - [ ] 我卖出的
         - [ ] 我买到的
