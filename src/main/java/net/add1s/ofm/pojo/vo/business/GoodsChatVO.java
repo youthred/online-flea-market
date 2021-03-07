@@ -41,7 +41,7 @@ public class GoodsChatVO implements Serializable {
      * 间隔时间秒描述，eg：1秒种/2分钟/3小时/4天前/（超一周）2021年1月1日
      */
     private String intervalsDesc;
-    /**
+    /**0
      * 未读消息
      */
     private int unread;
@@ -49,6 +49,6 @@ public class GoodsChatVO implements Serializable {
     public String getIntervals() {
         Duration between = LocalDateTimeUtil.between(LocalDateTime.now(), this.lastMessage.getCreateTime());
         String simple = IntervalsUtil.simple(between.abs().toMillis());
-        return StringUtils.isBlank(simple) ? LocalDateTimeUtil.format(lastMessage.getCreateTime(), DatePattern.CHINESE_DATE_PATTERN) : simple + "前";
+        return StringUtils.isBlank(simple) ? LocalDateTimeUtil.format(lastMessage.getCreateTime(), DatePattern.CHINESE_DATE_PATTERN) : simple;
     }
 }

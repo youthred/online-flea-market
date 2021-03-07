@@ -10,43 +10,47 @@ import cn.hutool.core.date.DateUtil;
 public class IntervalsUtil {
 
     /**
-     * 返回 1秒种/2分钟/3小时/4天前/（超一周）2021年1月1日
+     * 返回 1秒种/2分钟/3小时/4天前/（超一月(31days)）2021年1月1日
      *
      * @param millis 间隔毫秒速
      * @return 间隔秒速
      */
     public static String simple(Long millis) {
-        if (moreThenOneWeek(millis)) {
-            return null;
-        } else if (moreThenOneDay(millis)) {
-            return DateUtil.formatBetween(millis, BetweenFormatter.Level.DAY);
-        } else if (moreThenOneHour(millis)) {
-            return DateUtil.formatBetween(millis, BetweenFormatter.Level.HOUR);
-        } else if (moreThenOneMinute(millis)) {
-            return DateUtil.formatBetween(millis, BetweenFormatter.Level.MINUTE);
-        } else if (moreThenOneSecond(millis)) {
-            return DateUtil.formatBetween(millis, BetweenFormatter.Level.SECOND);
+        String intervalsDesc = null;
+        final String SUFFIX = "前";
+        if (lessThanOneMinute(millis)) {
+            intervalsDesc = "刚刚";
+        } else if (lessThanOneHour(millis)) {
+            intervalsDesc = DateUtil.formatBetween(millis, BetweenFormatter.Level.MINUTE) + SUFFIX;
+        } else if (lessThanOneDay(millis)) {
+            intervalsDesc = DateUtil.formatBetween(millis, BetweenFormatter.Level.HOUR) + SUFFIX;
+        } else if (lessThanOneMonth(millis)) {
+            intervalsDesc = DateUtil.formatBetween(millis, BetweenFormatter.Level.DAY) + SUFFIX;
         }
-        return "即时";
+        return intervalsDesc;
     }
 
-    private static boolean moreThenOneWeek(Long millis) {
-        return millis > DateUnit.WEEK.getMillis();
+    private static boolean lessThanOneMonth(Long millis) {
+        return millis < DateUnit.DAY.getMillis() * 31;
     }
 
-    private static boolean moreThenOneDay(Long millis) {
-        return millis > DateUnit.DAY.getMillis();
+    private static boolean lessThanOneWeek(Long millis) {
+        return millis < DateUnit.WEEK.getMillis();
     }
 
-    private static boolean moreThenOneHour(Long millis) {
-        return millis > DateUnit.HOUR.getMillis();
+    private static boolean lessThanOneDay(Long millis) {
+        return millis < DateUnit.DAY.getMillis();
     }
 
-    private static boolean moreThenOneMinute(Long millis) {
-        return millis > DateUnit.MINUTE.getMillis();
+    private static boolean lessThanOneHour(Long millis) {
+        return millis < DateUnit.HOUR.getMillis();
     }
 
-    private static boolean moreThenOneSecond(Long millis) {
-        return millis > DateUnit.SECOND.getMillis();
+    private static boolean lessThanOneMinute(Long millis) {
+        return millis < DateUnit.MINUTE.getMillis();
+    }
+
+    private static boolean lessThanOneSecond(Long millis) {
+        return millis < DateUnit.SECOND.getMillis();
     }
 }

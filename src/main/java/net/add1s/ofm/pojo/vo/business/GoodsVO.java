@@ -56,25 +56,16 @@ public class GoodsVO implements Serializable {
 
     private SysUserVO seller;
 
-    public GoodsVO setPicArr() {
-        this.picArr = StringUtils.isNotBlank(this.pics) ? this.pics.split(Symbol.VERTICAL_BAR.forSplit()) : null;
-        return this;
-    }
-
     public String[] getPicArr() {
-        setPicArr();
-        return picArr;
-    }
-
-    public GoodsVO setMainPicUrl() {
-        if (ArrayUtils.isNotEmpty(this.picArr) && StringUtils.isNotBlank(this.picArr[0])) {
-            this.mainPicUrl = this.picArr[0];
-        }
-        return this;
+        return StringUtils.isNotBlank(this.pics) ? this.pics.split(Symbol.VERTICAL_BAR.forSplit()) : null;
     }
 
     public String getMainPicUrl() {
-        setMainPicUrl();
-        return mainPicUrl;
+        String[] picArr = getPicArr();
+        if (ArrayUtils.isNotEmpty(picArr) && StringUtils.isNotBlank(picArr[0])) {
+            return picArr[0];
+        } else {
+            return null;
+        }
     }
 }
