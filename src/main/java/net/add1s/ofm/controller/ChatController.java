@@ -22,8 +22,13 @@ public class ChatController {
         return new ModelAndView("chat/groupSex");
     }
 
-    @GetMapping("/nettyHost")
-    public Res nettyHost() {
-        return Res.ok(chatProps.getServerHost());
+    /**
+     * 群聊HOST
+     *
+     * @return Res
+     */
+    @GetMapping("/groupSexNettyHost")
+    public Res groupSexNettyHost() {
+        return Res.ok(chatProps.getGroupSexServerHost());
     }
 }

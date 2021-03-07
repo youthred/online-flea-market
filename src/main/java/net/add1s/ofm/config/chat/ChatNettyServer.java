@@ -38,7 +38,7 @@ public class ChatNettyServer {
             sb.option(ChannelOption.SO_BACKLOG, 1024);
             sb.group(workGroup, bossGroup)
                     .channel(NioServerSocketChannel.class)
-                    .localAddress(chatProps.getPort())
+                    .localAddress(chatProps.getGroupSexPort())
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
@@ -50,7 +50,7 @@ public class ChatNettyServer {
                             ch.pipeline().addLast(groupSexChatChannelHandler);
                         }
                     });
-            ChannelFuture cf = sb.bind(chatProps.getPort()).sync();
+            ChannelFuture cf = sb.bind(chatProps.getGroupSexPort()).sync();
             cf.channel().closeFuture().sync();
         } finally {
             workGroup.shutdownGracefully().sync();

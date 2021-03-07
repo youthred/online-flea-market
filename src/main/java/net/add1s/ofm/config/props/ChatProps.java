@@ -16,9 +16,27 @@ import javax.validation.constraints.NotBlank;
 @Accessors(chain = true)
 public class ChatProps {
 
+    /**
+     * 群聊端口
+     */
     @NotBlank
-    private Integer port;
+    private Integer groupSexPort;
 
+    /**
+     * 群聊HOST
+     */
     @NotBlank
-    private String serverHost;
+    private String groupSexServerHost;
+
+    /**
+     * 商品私聊端口
+     */
+    @NotBlank
+    private Integer goodsPrivateChatPort;
+
+    /**
+     * 商品私聊HOST
+     */
+    @NotBlank
+    private String goodsPrivateChatServerHost;
 }

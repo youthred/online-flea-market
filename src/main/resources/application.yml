@@ -68,8 +68,10 @@ sys:
     java-runtime-version: '@java.runtime.version@'
     build-time: '@maven.build.timestamp@'
   chat:
-    port: 8888
-    server-host: 'ws://localhost:${sys.chat.port}/ws'
+    group-sex-port: 8888
+    group-sex-server-host: 'ws://localhost:${sys.chat.group-sex-port}/ws'
+    goods-private-chat-port: 7777
+    goods-private-chat-server-host: 'ws://localhost:${sys.chat.goods-private-chat-port}/ws'
 
 ---
 server:
@@ -120,5 +122,7 @@ sys:
     java-runtime-version: '@java.runtime.version@'
     build-time: '@maven.build.timestamp@'
   chat:
-    port: 8888
-    server-host: 'ws://youthred.cn:${sys.chat.port}/ws'
+    group-sex-port: 8888
+    group-sex-server-host: 'ws://youthred.cn:${sys.chat.group-sex-port}/ws'
+    goods-private-chat-port: 7777
+    goods-private-chat-server-host: 'ws://youthred.cn:${sys.chat.goods-private-chat-port}/ws'
