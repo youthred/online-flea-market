@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/common/**",
 //                        "/goods/search",
 //                        "/goods/chinaCityTree",
-//                        "/chat/groupSex.html",
+//                        "/chat/doChat.html",
 //                        "/chat/nettyHost"
                 ).permitAll()  // 无需认证
 //                .antMatchers("/", "/index").authenticated() // 登录即可访问

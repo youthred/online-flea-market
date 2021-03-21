@@ -81,6 +81,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return this.baseMapper.findChatList(currentUser.getTbId(), goodsTbId);
     }
 
+    @Override
+    public GoodsChatVO chat(Long goodsTbId) {
+        MyUserDetails currentUser = iSysUserService.currentUser();
+        return this.baseMapper.findChat(currentUser.getTbId(), goodsTbId);
+    }
+
     private void firstChat(Long buyerSysUserTbId, Long goodsTbId) {
         ChatMessage firstChatOfThis = iChatMessageService.getOne(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getBuyerSysUserTbId, buyerSysUserTbId).eq(ChatMessage::getGoodsTbId, goodsTbId).eq(ChatMessage::getMessageTypeCode, -1));
         if (Objects.isNull(firstChatOfThis)) {

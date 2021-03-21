@@ -49,8 +49,8 @@
                         class="fa fa-exclamation-triangle"></i> 举报
                 </button>
                 <span class="float-right">
-                    <a class="btn btn-success rounded-pill"
-                       :href="`/goods/chat?goodsTbId=${goodsDetail.tbId}`"
+                    <a id="iWantLink" class="btn btn-success rounded-pill"
+                       :href="`/goods/chatList?goodsTbId=${goodsDetail.tbId}`"
                        target="_blank">我想要</a>
                 </span>
             </div>
@@ -67,13 +67,17 @@
     const goodsApp = Vue.createApp({
         data() {
             return {
-                goodsDetail: [[${goodsDetail}]]
+                goodsDetail: [[${detail.goodsDetail}]],
+                currentLoginUser: [[${detail.currentLoginUser}]]
+            }
+        },
+        mounted() {
+            // 卖家不可点“我想要”
+            if (this.goodsDetail.seller.tbId === this.currentLoginUser.tbId) {
+                $('#iWantLink').addClass('disabled')
             }
         },
         methods: {
-            init() {
-                console.log(this.goodsDetail)
-            },
             report() {
                 Swal.fire({
                     html: '举报理由 <span style="color: red">*</span>',
@@ -120,7 +124,6 @@
             }
         }
     }).mount('#goodsDetailVueApp')
-    goodsApp.init()
 </script>
 </body>
 </html>

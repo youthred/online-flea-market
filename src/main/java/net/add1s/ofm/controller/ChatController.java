@@ -2,6 +2,7 @@ package net.add1s.ofm.controller;
 
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.config.props.ChatProps;
+import net.add1s.ofm.service.IGoodsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +31,15 @@ public class ChatController {
     @GetMapping("/groupSexNettyHost")
     public Res groupSexNettyHost() {
         return Res.ok(chatProps.getGroupSexServerHost());
+    }
+
+    /**
+     * 群聊HOST
+     *
+     * @return Res
+     */
+    @GetMapping("/goodsPrivateNettyHost")
+    public Res goodsPrivateNettyHost() {
+        return Res.ok(chatProps.getGoodsPrivateChatServerHost());
     }
 }

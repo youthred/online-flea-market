@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author pj.w@qq.com
@@ -37,6 +38,10 @@ public class GoodsChatVO implements Serializable {
      * 最后一条消息
      */
     private ChatMessageVO lastMessage;
+    /**
+     * 所有聊天记录
+     */
+    private List<ChatMessageVO> chatMessages;
     /**
      * 间隔时间秒描述，eg：1秒种/2分钟/3小时/4天前/（超一周）2021年1月1日
      */

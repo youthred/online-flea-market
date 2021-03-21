@@ -17,26 +17,31 @@ import net.add1s.ofm.config.chat.handler.GroupSexChatChannelHandler;
 import net.add1s.ofm.config.props.ChatProps;
 import org.springframework.stereotype.Component;
 
+/**
+ * 群聊NETTY服务端
+ *
+ * @author pj.w@qq.com
+ */
 @Component
 @Slf4j
-public class ChatNettyServer {
+public class GroupSexNettyServer {
 
     private final ChatProps chatProps;
     private final GroupSexChatChannelHandler groupSexChatChannelHandler;
 
-    public ChatNettyServer(ChatProps chatProps,
-                           GroupSexChatChannelHandler groupSexChatChannelHandler) {
+    public GroupSexNettyServer(ChatProps chatProps,
+                               GroupSexChatChannelHandler groupSexChatChannelHandler) {
         this.chatProps = chatProps;
         this.groupSexChatChannelHandler = groupSexChatChannelHandler;
     }
 
-    public void start() throws Exception {
+    public void run() throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap sb = new ServerBootstrap();
             sb.option(ChannelOption.SO_BACKLOG, 1024);
-            sb.group(workGroup, bossGroup)
+            sb.group(workerGroup, bossGroup)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(chatProps.getGroupSexPort())
                     .childHandler(new ChannelInitializer<SocketChannel>() {
@@ -53,7 +58,7 @@ public class ChatNettyServer {
             ChannelFuture cf = sb.bind(chatProps.getGroupSexPort()).sync();
             cf.channel().closeFuture().sync();
         } finally {
-            workGroup.shutdownGracefully().sync();
+            workerGroup.shutdownGracefully().sync();
             bossGroup.shutdownGracefully().sync();
         }
     }

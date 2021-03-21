@@ -18,7 +18,8 @@
             param.`desc` AS goodsTypeDesc,
             city.`name` cityName,
             city.`ext_name` cityExtName,
-            suser.nickname
+            suser.nickname,
+            suser.tb_id sellerTbId
         FROM t_goods goods
         LEFT JOIN t_parameter param ON param.group_name = 'GOODS_TYPE' AND param.`code` = goods.goods_type_code
         LEFT JOIN t_sys_user suser ON suser.tb_id = goods.seller_sys_user_tb_id
@@ -28,6 +29,7 @@
     <resultMap id="findGoodsDetailMap" type="net.add1s.ofm.pojo.vo.business.GoodsVO" autoMapping="true">
         <association property="seller" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
             <result column="nickname" property="nickname"/>
+            <result column="sellerTbId" property="tbId"/>
         </association>
     </resultMap>
     <select id="findGoodsDetail" resultMap="findGoodsDetailMap">
@@ -100,4 +102,6 @@
         LEFT JOIN t_sys_user seller ON seller.tb_id = goods.seller_sys_user_tb_id
         ORDER BY cm.create_time DESC
     </select>
+
+    <select id="findChat" resultType="net.add1s.ofm.pojo.vo.business.GoodsChatVO"></select>
 </mapper>

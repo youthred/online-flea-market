@@ -7,9 +7,13 @@ import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.IParameterService;
+import net.add1s.ofm.service.ISysUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author pj.w@qq.com
@@ -20,11 +24,14 @@ public class GoodsController {
 
     private final IGoodsService iGoodsService;
     private final IParameterService iParameterService;
+    private final ISysUserService iSysUserService;
 
     public GoodsController(IGoodsService iGoodsService,
-                           IParameterService iParameterService) {
+                           IParameterService iParameterService,
+                           ISysUserService iSysUserService) {
         this.iGoodsService = iGoodsService;
         this.iParameterService = iParameterService;
+        this.iSysUserService = iSysUserService;
     }
 
     /**
@@ -86,7 +93,10 @@ public class GoodsController {
     @GetMapping("/{goodsTbId}.html")
     public ModelAndView detailPage(@PathVariable("goodsTbId") Long goodsTbId) {
         iGoodsService.view(goodsTbId);
-        return new ModelAndView("goods/detail", "goodsDetail", iGoodsService.details(goodsTbId));
+        Map<String, Object> detailMap = new HashMap<>();
+        detailMap.put("goodsDetail", iGoodsService.details(goodsTbId));
+        detailMap.put("currentLoginUser", iSysUserService.currentUser());
+        return new ModelAndView("goods/detail", "detail", detailMap);
     }
 
     /**
@@ -102,13 +112,24 @@ public class GoodsController {
     }
 
     /**
-     * 私聊
+     * 私聊列表
      *
      * @param goodsTbId 商品TBID null代表不通过商品“我想要”直接进入私聊页面
      * @return ModelAndView
      */
-    @GetMapping("/chat")
+    @GetMapping("/chatList")
     public ModelAndView chat(@RequestParam(value = "goodsTbId", required = false) Long goodsTbId) {
-        return new ModelAndView("goods/chat", "chats", iGoodsService.chats(goodsTbId));
+        return new ModelAndView("goods/chatList", "chats", iGoodsService.chats(goodsTbId));
+    }
+
+    /**
+     * 私聊页面
+     *
+     * @param goodsTbId 商品TBID
+     * @return ModelAndView
+     */
+    @GetMapping("/doChat/{goodsTbId}")
+    public ModelAndView doChat(@PathVariable("goodsTbId") Long goodsTbId) {
+        return new ModelAndView("goods/doChat", "chat", iGoodsService.chat(goodsTbId));
     }
 }

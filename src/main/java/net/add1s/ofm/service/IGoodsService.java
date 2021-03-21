@@ -41,10 +41,18 @@ public interface IGoodsService extends IService<Goods> {
     void report(GoodsReportDTO goodsReportDTO);
 
     /**
+     * 私聊列表
+     *
+     * @param goodsTbId 商品TBID
+     * @return GoodsChatVO list
+     */
+    List<GoodsChatVO> chats(Long goodsTbId);
+
+    /**
      * 私聊
      *
      * @param goodsTbId 商品TBID
      * @return GoodsChatVO
      */
-    List<GoodsChatVO> chats(Long goodsTbId);
+    GoodsChatVO chat(Long goodsTbId);
 }

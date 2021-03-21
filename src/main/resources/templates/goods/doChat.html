@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-cn"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: header('DO CHAT')"></head>
+<body>
+
+<div class="container">
+    <br>
+    <h1>击剑大厅</h1>
+    <form onsubmit="return false">
+        <div class="form-group overflow-auto" style="height: 500px" id="resText"></div>
+        <div class="form-group">
+            <label for="msgInput"></label><input type="text" id="msgInput" name="msg" class="form-control" placeholder="祖安问候...">
+        </div>
+        <div class="form-group">
+            <button id="sendMsgBtn" disabled="disabled" class="form-control btn btn-primary" onclick="send(this.form.msg.value)"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </form>
+</div>
+
+<span th:replace="common/footer"></span>
+<script src="/static/js/my/doChat.js"></script>
+</body>
+</html>

@@ -17,4 +17,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     void viewsAdd(@Param("goodsTbId") Long goodsTbId);
 
     List<GoodsChatVO> findChatList(@Param("buyerSysUserTbId") Long buyerSysUserTbId, @Param("goodsTbId") Long goodsTbId);
+
+    GoodsChatVO findChat(@Param("buyerSysUserTbId") Long buyerSysUserTbId, @Param("goodsTbId") Long goodsTbId);
 }

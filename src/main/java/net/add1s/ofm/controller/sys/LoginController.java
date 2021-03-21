@@ -6,6 +6,8 @@ import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.add1s.ofm.cache.TimedCacheManager;
 import net.add1s.ofm.common.content.SessionContent;
+import net.add1s.ofm.common.response.Res;
+import net.add1s.ofm.service.ISysUserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +24,12 @@ import java.io.IOException;
 @RestController
 @Slf4j
 public class LoginController {
+
+    private final ISysUserService iSysUserService;
+
+    public LoginController(ISysUserService iSysUserService) {
+        this.iSysUserService = iSysUserService;
+    }
 
     @GetMapping("/")
     public ModelAndView index() {
@@ -55,5 +63,10 @@ public class LoginController {
             gifCaptcha.write(out);
             out.flush();
         }
+    }
+
+    @GetMapping("/currentLoginUser")
+    public Res currentLoginUser() {
+        return Res.ok(iSysUserService.currentUser());
     }
 }
