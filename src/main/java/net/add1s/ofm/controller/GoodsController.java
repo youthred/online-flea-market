@@ -80,8 +80,8 @@ public class GoodsController {
      * 通过TBID获取对应商品详情
      */
     @GetMapping("/{goodsTbId}")
-    public Res getByTbId(@PathVariable("goodsTbId") Long goodsTbId) {
-        return Res.ok(iGoodsService.details(goodsTbId));
+    public Res getDetailsByTbId(@PathVariable("goodsTbId") Long goodsTbId) {
+        return Res.ok(iGoodsService.detail(goodsTbId));
     }
 
     /**
@@ -94,7 +94,7 @@ public class GoodsController {
     public ModelAndView detailPage(@PathVariable("goodsTbId") Long goodsTbId) {
         iGoodsService.view(goodsTbId);
         Map<String, Object> detailMap = new HashMap<>();
-        detailMap.put("goodsDetail", iGoodsService.details(goodsTbId));
+        detailMap.put("goodsDetail", iGoodsService.detail(goodsTbId));
         detailMap.put("currentLoginUser", iSysUserService.currentUser());
         return new ModelAndView("goods/detail", "detail", detailMap);
     }

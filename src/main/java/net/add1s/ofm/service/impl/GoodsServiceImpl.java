@@ -9,6 +9,7 @@ import net.add1s.ofm.pojo.entity.business.ChatMessage;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.entity.business.GoodsReport;
 import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
+import net.add1s.ofm.pojo.vo.business.ChatMessageVO;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
 import net.add1s.ofm.service.IChatMessageService;
@@ -43,7 +44,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public GoodsVO details(Long goodsTbId) {
+    public GoodsVO detail(Long goodsTbId) {
         return this.baseMapper.findGoodsDetail(goodsTbId);
     }
 
@@ -84,7 +85,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public GoodsChatVO chat(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
-        return this.baseMapper.findChat(currentUser.getTbId(), goodsTbId);
+        List<ChatMessageVO> chatMessageVOS = iChatMessageService.list(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getGoodsTbId, goodsTbId).eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId()))
+                .stream()
+                .map(ChatMessageVO::new)
+                .collect(Collectors.toList());
+        chatMessageVOS.forEach(chatMessageVO -> chatMessageVO.setIsFromCurrentUser(currentUser.getTbId()));
+        return new GoodsChatVO()
+                .setGoods(this.detail(goodsTbId))
+                .setChatMessages(chatMessageVOS);
     }
 
     private void firstChat(Long buyerSysUserTbId, Long goodsTbId) {
@@ -95,9 +103,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                             .setCreateTime(LocalDateTime.now())
                             .setGoodsTbId(goodsTbId)
                             .setBuyerSysUserTbId(buyerSysUserTbId)
+                            .setSellerSysUserTbId(this.getById(goodsTbId).getSellerSysUserTbId())
                             .setMessageContent("你好")
                             .setMessageTypeCode((short) -1)
-                            .setIsFromBuyer(true)
+                            .setSenderSysUserTbId(buyerSysUserTbId)
             );
         }
     }

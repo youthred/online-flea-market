@@ -67,9 +67,12 @@
                 t.create_time,
                 t.goods_tb_id,
                 t.buyer_sys_user_tb_id,
+                t.seller_sys_user_tb_id,
                 t.message_content,
                 t.message_type_code,
-                t.is_from_buyer
+                t.sender_sys_user_tb_id,
+                t.read_buyer,
+                t.read_seller
             FROM
                 (
                     SELECT
@@ -77,9 +80,12 @@
                         create_time,
                         goods_tb_id,
                         buyer_sys_user_tb_id,
+                        seller_sys_user_tb_id,
                         message_content,
                         message_type_code,
-                        is_from_buyer,
+                        sender_sys_user_tb_id,
+                        read_buyer,
+                        read_seller,
                         ROW_NUMBER() OVER(PARTITION BY goods_tb_id ORDER BY create_time DESC) rn
                     FROM t_chat_message WHERE buyer_sys_user_tb_id = #{buyerSysUserTbId}
                 ) t WHERE t.rn = 1
@@ -102,6 +108,4 @@
         LEFT JOIN t_sys_user seller ON seller.tb_id = goods.seller_sys_user_tb_id
         ORDER BY cm.create_time DESC
     </select>
-
-    <select id="findChat" resultType="net.add1s.ofm.pojo.vo.business.GoodsChatVO"></select>
 </mapper>

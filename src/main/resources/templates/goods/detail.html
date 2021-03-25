@@ -2,7 +2,7 @@
 <html lang="zh-cn"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="common/header :: header('Goods-' + ${goodsDetail == null ? 'NULL' : goodsDetail.tbId})"></head>
+<head th:replace="common/header :: header('Goods-' + ${detail.goodsDetail == null ? 'NULL' : detail.goodsDetail.tbId})"></head>
 <body class="bg-light">
 <div class="container">
     <div id="goodsDetailVueApp">

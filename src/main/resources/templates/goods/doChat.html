@@ -8,20 +8,139 @@
 <body>
 
 <div class="container">
-    <br>
-    <h1>击剑大厅</h1>
-    <form onsubmit="return false">
-        <div class="form-group overflow-auto" style="height: 500px" id="resText"></div>
-        <div class="form-group">
-            <label for="msgInput"></label><input type="text" id="msgInput" name="msg" class="form-control" placeholder="祖安问候...">
+    <div id="doChatVueApp">
+        <div class="row pt-3">
+            <div class="col-4 col-sm-3 col-md-2">
+                <img v-if="String.isNotBlank(chat.goods.mainPicUrl)"
+                     :src="`${chat.goods.mainPicUrl}?rd=${Math.random()}`"
+                     class="img-fluid rounded">
+            </div>
+            <div class="col-8 col-sm-9 col-md-10">
+                <a class="btn btn-primary float-right" :href="`/goods/${chat.goods.tbId}.html`">查看商品页</a>
+                <p><strong>{{chat.goods.seller.nickname}}</strong></p>
+                <p><small class="text-muted">发布于{{chat.goods.cityName}}</small></p>
+            </div>
         </div>
-        <div class="form-group">
-            <button id="sendMsgBtn" disabled="disabled" class="form-control btn btn-primary" onclick="send(this.form.msg.value)"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </form>
+        <form onsubmit="return false" class="pt-3">
+            <div class="form-group overflow-auto" style="height: 500px" id="resText">
+                <div v-if="Array.isNotEmpty(chat.chatMessages)">
+                    <p v-for="msg in chat.chatMessages">
+                        <span class="badge badge-pill badge-secondary">
+                            <span v-if="msg.fromCurrentUser">我</span>
+                            <span v-else>对方</span>
+                        </span>
+                        {{msg.messageContent}}
+                        <small class="text-muted">{{msg.createTime}}</small>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="msgInput"></label><input type="text" id="msgInput" name="msg" class="form-control"
+                                                     placeholder="">
+            </div>
+            <div class="form-group">
+                <button id="sendMsgBtn" disabled="disabled" class="form-control btn btn-primary"
+                        onclick="send(this.form.msg.value)"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <span th:replace="common/footer"></span>
-<script src="/static/js/my/doChat.js"></script>
+<script th:inline="javascript">
+    const goodsApp = Vue.createApp({
+        data() {
+            return {
+                chat: [[${chat}]]
+            }
+        },
+        mounted() {
+            console.log(this.chat)
+        },
+        methods: {}
+    }).mount('#doChatVueApp')
+
+    let socket
+    if (!window.WebSocket) {
+        window.WebSocket = window.MozWebSocket
+    }
+    let $resText = $('#resText')
+    let $msgInput = $('#msgInput');
+    let $sendMsgBtn = $('#sendMsgBtn');
+    axios.get('/netty/goodsPrivateNettyHost').then(res => {
+        if (res.data.success) {
+            if (window.WebSocket) {
+                socket = new WebSocket(res.data.data)
+                socket.onmessage = function (event) {
+                    $resText.append(`<h3><span class="badge badge-pill badge-primary">${event.data}</span></h3>`)
+                };
+                socket.onopen = function (event) {
+                    $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i>${new Date().defaultFormat()}</small></p>`)
+                };
+                socket.onclose = function (event) {
+                    $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i>${new Date().defaultFormat()}</small></p>`)
+                };
+            } else {
+                Swal.fire('', '您的浏览器不支持WebSocket协议！', 'error')
+            }
+        } else {
+            Swal.fire('', res.data.message, 'error')
+        }
+    }).catch(err => {
+        Swal.fire('', err.toString(), 'error')
+    })
+
+    let currentLoginUser;
+    axios.get('/currentLoginUser').then(res => {
+        if (res.data.success) {
+            currentLoginUser = res.data.data;
+        } else {
+            Swal.fire('', res.data.message, 'error')
+        }
+    }).catch(err => {
+        Swal.fire('', err.toString(), 'error')
+    })
+
+    function send(msg) {
+        if (!window.WebSocket) {
+            return
+        }
+        if (socket.readyState === WebSocket.OPEN) {
+            let nettyChatMessage = {
+                'userDetails': currentLoginUser
+            }
+            socket.send(JSON.stringify(nettyChatMessage))
+            $msgInput.val('')
+            $sendMsgBtn.attr('disabled', 'disabled')
+            $msgInput.focus()
+        } else {
+            Swal.fire('', 'WebSocket连接建立失败！', 'error')
+        }
+    }
+
+    /**
+     * 监听输入框以改变按钮可用状态
+     */
+    $(function () {
+        $msgInput.bind('input propertychange', function () {
+            if (isBlank($msgInput.val())) {
+                $sendMsgBtn.attr('disabled', 'disabled')
+            } else {
+                $sendMsgBtn.removeAttr('disabled')
+            }
+        })
+    })
+
+    /**
+     * 给输入框绑定回车输入发送信息事件
+     */
+    $(function () {
+        $msgInput.bind('keypress', function (event) {
+            if (event.keyCode === '13') {
+                send($msgInput.val())
+            }
+        })
+    })
+</script>
 </body>
 </html>

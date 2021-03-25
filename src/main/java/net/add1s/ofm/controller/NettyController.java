@@ -2,19 +2,18 @@ package net.add1s.ofm.controller;
 
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.config.props.ChatProps;
-import net.add1s.ofm.service.IGoodsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping("/chat")
-public class ChatController {
+@RequestMapping("/netty")
+public class NettyController {
 
     private final ChatProps chatProps;
 
-    public ChatController(ChatProps chatProps) {
+    public NettyController(ChatProps chatProps) {
         this.chatProps = chatProps;
     }
 

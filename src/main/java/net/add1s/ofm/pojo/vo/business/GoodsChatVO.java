@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author pj.w@qq.com
@@ -52,8 +53,11 @@ public class GoodsChatVO implements Serializable {
     private int unread;
 
     public String getIntervals() {
-        Duration between = LocalDateTimeUtil.between(LocalDateTime.now(), this.lastMessage.getCreateTime());
-        String simple = IntervalsUtil.simple(between.abs().toMillis());
-        return StringUtils.isBlank(simple) ? LocalDateTimeUtil.format(lastMessage.getCreateTime(), DatePattern.CHINESE_DATE_PATTERN) : simple;
+        if (Objects.nonNull(this.lastMessage)) {
+            Duration between = LocalDateTimeUtil.between(LocalDateTime.now(), this.lastMessage.getCreateTime());
+            String simple = IntervalsUtil.simple(between.abs().toMillis());
+            return StringUtils.isBlank(simple) ? LocalDateTimeUtil.format(lastMessage.getCreateTime(), DatePattern.CHINESE_DATE_PATTERN) : simple;
+        }
+        return null;
     }
 }

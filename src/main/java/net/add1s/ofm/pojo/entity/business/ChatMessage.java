@@ -42,6 +42,12 @@ public class ChatMessage implements Serializable {
     private Long buyerSysUserTbId;
 
     /**
+     * 卖家用户TBID
+     */
+    @TableField("`seller_sys_user_tb_id`")
+    private Long sellerSysUserTbId;
+
+    /**
      * 消息内容
      */
     @TableField("`message_content`")
@@ -54,10 +60,10 @@ public class ChatMessage implements Serializable {
     private Short messageTypeCode;
 
     /**
-     * 消息发送者（是否买家发送）
+     * 消息发送者用户TBID
      */
-    @TableField("`is_from_buyer`")
-    private Boolean isFromBuyer;
+    @TableField("`sender_sys_user_tb_id`")
+    private Long senderSysUserTbId;
 
     /**
      * 买家已读
