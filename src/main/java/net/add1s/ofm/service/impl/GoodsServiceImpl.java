@@ -20,6 +20,7 @@ import net.add1s.ofm.util.SqlUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -79,7 +80,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         List<GoodsChatVO> chatList = this.baseMapper.findChatList(currentUser.getTbId());
         chatList.forEach(goodsChatVO ->
                 goodsChatVO
-                        .setChatMessages(iChatMessageService.list(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId()).or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId())).stream().map(ChatMessageVO::new).collect(Collectors.toList()))
+                        .setChatMessages(
+                                iChatMessageService.list(
+                                        Wrappers.lambdaQuery(ChatMessage.class)
+                                                .and(chatMessageLambdaQueryWrapper -> chatMessageLambdaQueryWrapper
+                                                        .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
+                                                        .or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()))
+                                                .eq(ChatMessage::getGoodsTbId, goodsChatVO.getGoods().getTbId())
+                                ).stream().map(ChatMessageVO::new).collect(Collectors.toList()))
                         .setCurrentTransactionRole(currentUser.getTbId())
                         .setUnread()
                         .setChatMessages(null)  // 清空历史聊天信息，减小传输压力
@@ -90,10 +98,17 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public GoodsChatVO chat(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
-        if (Objects.nonNull(goodsTbId)) {
+        List<ChatMessage> existChatMessages = iChatMessageService.list(
+                Wrappers.lambdaQuery(ChatMessage.class)
+                        .eq(ChatMessage::getGoodsTbId, goodsTbId)
+                        .and(chatMessageLambdaQueryWrapper -> chatMessageLambdaQueryWrapper
+                                .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
+                                .or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()))
+        );
+        if (CollectionUtils.isEmpty(existChatMessages)) {
             firstChat(currentUser.getTbId(), goodsTbId);
         }
-        List<ChatMessageVO> chatMessageVOS = iChatMessageService.list(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getGoodsTbId, goodsTbId).eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId()).or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()))
+        List<ChatMessageVO> chatMessageVOS = existChatMessages
                 .stream()
                 .map(ChatMessageVO::new)
                 .collect(Collectors.toList());

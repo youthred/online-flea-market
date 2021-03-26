@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:v-on="http://www.w3.org/1999/xhtml"
       xmlns:v-bind="http://www.w3.org/1999/xhtml">
-<head th:replace="common/header :: header('DO CHAT')"></head>
+<head th:replace="common/header :: header('与' + ${chat.goods.seller.nickname} + '的私聊')"></head>
 <body>
 
 <div class="container">
