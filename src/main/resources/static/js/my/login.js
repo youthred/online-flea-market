@@ -2,8 +2,8 @@ Vue.createApp({
     data() {
         return {
             user: {
-                username: 'admin',
-                password: 'admin',
+                username: 'jack',
+                password: 'jack',
                 imageCaptcha: ''
             },
             imageCaptchaUrl: '/imageCaptcha',

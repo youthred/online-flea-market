@@ -48,7 +48,7 @@
 
 <span th:replace="common/footer"></span>
 <script th:inline="javascript">
-    const goodsApp = Vue.createApp({
+    const doChatVueApp = Vue.createApp({
         data() {
             return {
                 chat: [[${chat}]]
@@ -107,7 +107,15 @@
         }
         if (socket.readyState === WebSocket.OPEN) {
             let nettyChatMessage = {
-                'userDetails': currentLoginUser
+                'currentUserDetails': currentLoginUser,
+                'chatMessageDTO': {
+                    'goodsTbId': doChatVueApp.chat.goods.tbId,
+                    'buyerSysUserTbId': doChatVueApp.chat.chatMessages[0].buyerSysUserTbId,
+                    'sellerSysUserTbId': doChatVueApp.chat.chatMessages[0].sellerSysUserTbId,
+                    'messageContent': msg,
+                    'messageTypeCode': 1,   // 暂时只支持文本类消息
+                    'senderSysUserTbId': currentLoginUser.tbId
+                }
             }
             socket.send(JSON.stringify(nettyChatMessage))
             $msgInput.val('')

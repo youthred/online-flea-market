@@ -74,25 +74,34 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public List<GoodsChatVO> chats(Long goodsTbId) {
+    public List<GoodsChatVO> chats() {
         MyUserDetails currentUser = iSysUserService.currentUser();
-        if (Objects.nonNull(goodsTbId)) {
-            firstChat(currentUser.getTbId(), goodsTbId);
-        }
-        return this.baseMapper.findChatList(currentUser.getTbId(), goodsTbId);
+        List<GoodsChatVO> chatList = this.baseMapper.findChatList(currentUser.getTbId());
+        chatList.forEach(goodsChatVO ->
+                goodsChatVO
+                        .setChatMessages(iChatMessageService.list(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId()).or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId())).stream().map(ChatMessageVO::new).collect(Collectors.toList()))
+                        .setCurrentTransactionRole(currentUser.getTbId())
+                        .setUnread()
+                        .setChatMessages(null)  // 清空历史聊天信息，减小传输压力
+        );
+        return chatList;
     }
 
     @Override
     public GoodsChatVO chat(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
-        List<ChatMessageVO> chatMessageVOS = iChatMessageService.list(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getGoodsTbId, goodsTbId).eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId()))
+        if (Objects.nonNull(goodsTbId)) {
+            firstChat(currentUser.getTbId(), goodsTbId);
+        }
+        List<ChatMessageVO> chatMessageVOS = iChatMessageService.list(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getGoodsTbId, goodsTbId).eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId()).or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()))
                 .stream()
                 .map(ChatMessageVO::new)
                 .collect(Collectors.toList());
         chatMessageVOS.forEach(chatMessageVO -> chatMessageVO.setIsFromCurrentUser(currentUser.getTbId()));
         return new GoodsChatVO()
                 .setGoods(this.detail(goodsTbId))
-                .setChatMessages(chatMessageVOS);
+                .setChatMessages(chatMessageVOS)
+                .setCurrentTransactionRole(currentUser.getTbId());
     }
 
     private void firstChat(Long buyerSysUserTbId, Long goodsTbId) {

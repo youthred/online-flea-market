@@ -50,7 +50,7 @@
                 </button>
                 <span class="float-right">
                     <a id="iWantLink" class="btn btn-success rounded-pill"
-                       :href="`/goods/chatList?goodsTbId=${goodsDetail.tbId}`"
+                       :href="`/goods/doChat/${goodsDetail.tbId}`"
                        target="_blank">我想要</a>
                 </span>
             </div>
@@ -72,8 +72,8 @@
             }
         },
         mounted() {
-            // 卖家不可点“我想要”
-            if (this.goodsDetail.seller.tbId === this.currentLoginUser.tbId) {
+            // 游客或卖家不可点“我想要”
+            if (this.currentLoginUser === null || this.goodsDetail.seller.tbId === this.currentLoginUser.tbId) {
                 $('#iWantLink').addClass('disabled')
             }
         },

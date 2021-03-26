@@ -5,13 +5,13 @@
 <head th:replace="common/header :: header('私聊')"></head>
 <body class="bg-light">
 <div class="container">
-    <div id="chatVueApp">
+    <div id="chatListVueApp">
         <div v-if="Array.isNotEmpty(chats)" class="pt-3">
             <div class="list-group list-group-flush">
                 <button v-for="chat in chats" :id="chat.goods.tbId" @click="doChat(chat.goods.tbId)"
                         class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{chat.seller.nickname}}g</h5>
+                        <h5 class="mb-1">{{chat.goods.seller.nickname}}g</h5>
                         <small>{{chat.intervals}}</small>
                     </div>
                     <p v-if="chat.messageTypeCode === 2" class="mb-1">[点击查看]</p>
@@ -62,7 +62,7 @@
 </div>
 <span th:replace="common/footer"></span>
 <script th:inline="javascript">
-    const goodsApp = Vue.createApp({
+    const chatListVueApp = Vue.createApp({
         data() {
             return {
                 chats: [[${chats}]],
@@ -85,8 +85,8 @@
                 Swal.fire('', '开发中...', 'info')
             }
         }
-    }).mount('#chatVueApp')
-    goodsApp.init()
+    }).mount('#chatListVueApp')
+    chatListVueApp.init()
 </script>
 </body>
 </html>

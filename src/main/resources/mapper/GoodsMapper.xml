@@ -49,14 +49,14 @@
     </update>
 
     <resultMap id="findChatListMap" type="net.add1s.ofm.pojo.vo.business.GoodsChatVO">
-        <result column="actice" property="active"/>
-        <association property="seller" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
-            <id column="seller_sys_user_tb_id" property="tbId"/>
-            <result column="nickname" property="nickname"/>
-        </association>
+        <result column="unread" property="unread"/>
         <association property="goods" javaType="net.add1s.ofm.pojo.vo.business.GoodsVO">
             <id column="goods_tb_id" property="tbId"/>
             <result column="pics" property="pics"/>
+            <association property="seller" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
+                <id column="seller_sys_user_tb_id" property="tbId"/>
+                <result column="nickname" property="nickname"/>
+            </association>
         </association>
         <association property="lastMessage" javaType="net.add1s.ofm.pojo.vo.business.ChatMessageVO" autoMapping="true"/>
     </resultMap>
@@ -87,7 +87,7 @@
                         read_buyer,
                         read_seller,
                         ROW_NUMBER() OVER(PARTITION BY goods_tb_id ORDER BY create_time DESC) rn
-                    FROM t_chat_message WHERE buyer_sys_user_tb_id = #{buyerSysUserTbId}
+                    FROM t_chat_message WHERE buyer_sys_user_tb_id = #{currentUserTbId} OR seller_sys_user_tb_id = #{currentUserTbId}
                 ) t WHERE t.rn = 1
         )
         SELECT
@@ -99,10 +99,6 @@
             goods.pics,
             goods.seller_sys_user_tb_id,
             seller.nickname
-            <if test="goodsTbId != null">
-                ,
-                CASE cm.goods_tb_id WHEN #{goodsTbId} THEN 1 ELSE 0 END active
-            </if>
         FROM chat_msg cm
         LEFT JOIN t_goods goods ON goods.tb_id = cm.goods_tb_id
         LEFT JOIN t_sys_user seller ON seller.tb_id = goods.seller_sys_user_tb_id

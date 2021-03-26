@@ -1,7 +1,6 @@
-package net.add1s.ofm.pojo.vo.business;
+package net.add1s.ofm.pojo.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import net.add1s.ofm.pojo.entity.business.ChatMessage;
 
@@ -13,23 +12,9 @@ import java.time.LocalDateTime;
  */
 @Data
 @Accessors(chain = true)
-@NoArgsConstructor
-public class ChatMessageVO implements Serializable {
+public class ChatMessageDTO implements Serializable {
 
-    private static final long serialVersionUID = 8353372227673157255L;
-
-    public ChatMessageVO(ChatMessage chatMessage) {
-        this.tbId = chatMessage.getTbId();
-        this.createTime = chatMessage.getCreateTime();
-        this.goodsTbId = chatMessage.getGoodsTbId();
-        this.buyerSysUserTbId = chatMessage.getBuyerSysUserTbId();
-        this.sellerSysUserTbId = chatMessage.getSellerSysUserTbId();
-        this.messageContent = chatMessage.getMessageContent();
-        this.messageTypeCode = chatMessage.getMessageTypeCode();
-        this.senderSysUserTbId = chatMessage.getSenderSysUserTbId();
-        this.readBuyer = chatMessage.isReadBuyer();
-        this.readSeller = chatMessage.isReadSeller();
-    }
+    private static final long serialVersionUID = -3322096355972862615L;
 
     private Long tbId;
     /**
@@ -68,14 +53,22 @@ public class ChatMessageVO implements Serializable {
      * 卖家已读
      */
     private boolean readSeller;
-
     /**
      * 是否当前用户所发送的消息
      */
     private boolean isFromCurrentUser;
+    /**
+     * 对方用户TBID
+     */
+    private Long otherSideTbId;
 
-    public ChatMessageVO setIsFromCurrentUser(Long currentUserTbId) {
+    public ChatMessageDTO setIsFromCurrentUser(Long currentUserTbId) {
         this.isFromCurrentUser = this.senderSysUserTbId.equals(currentUserTbId);
+        return this;
+    }
+
+    public ChatMessageDTO setOtherSideTbId() {
+        this.otherSideTbId = this.senderSysUserTbId.equals(this.buyerSysUserTbId) ? this.sellerSysUserTbId : this.buyerSysUserTbId;
         return this;
     }
 

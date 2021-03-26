@@ -4,7 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import net.add1s.ofm.pojo.vo.sys.SysUserVO;
+import net.add1s.ofm.common.enums.TransactionRoleEnum;
 import net.add1s.ofm.util.IntervalsUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,15 +22,6 @@ import java.util.Objects;
 public class GoodsChatVO implements Serializable {
 
     private static final long serialVersionUID = -7140675880366479127L;
-
-    /**
-     * 当前会话窗口是否激活
-     */
-    private boolean active;
-    /**
-     * 卖家
-     */
-    private SysUserVO seller;
     /**
      * 商品
      */
@@ -47,10 +38,15 @@ public class GoodsChatVO implements Serializable {
      * 间隔时间秒描述，eg：1秒种/2分钟/3小时/4天前/（超一周）2021年1月1日
      */
     private String intervalsDesc;
-    /**0
+    /**
      * 未读消息
      */
-    private int unread;
+    private long unread;
+
+    /**
+     * 当前用户交易角色
+     */
+    private TransactionRoleEnum currentTransactionRole;
 
     public String getIntervals() {
         if (Objects.nonNull(this.lastMessage)) {
@@ -59,5 +55,23 @@ public class GoodsChatVO implements Serializable {
             return StringUtils.isBlank(simple) ? LocalDateTimeUtil.format(lastMessage.getCreateTime(), DatePattern.CHINESE_DATE_PATTERN) : simple;
         }
         return null;
+    }
+
+    public GoodsChatVO setCurrentTransactionRole(Long currentLoginSysUserTbId) {
+        if (Objects.nonNull(this.goods.getSeller())) {
+            this.currentTransactionRole = currentLoginSysUserTbId.equals(this.goods.getSeller().getTbId()) ? TransactionRoleEnum.SELLER : TransactionRoleEnum.BUYER;
+        }
+        return this;
+    }
+
+    public GoodsChatVO setUnread() {
+        if (Objects.nonNull(this.currentTransactionRole)) {
+            if (this.currentTransactionRole.equals(TransactionRoleEnum.SELLER)) {
+                this.unread = this.chatMessages.stream().filter(chatMessageVO -> !chatMessageVO.isReadSeller()).count();
+            } else {
+                this.unread = this.chatMessages.stream().filter(chatMessageVO -> !chatMessageVO.isReadBuyer()).count();
+            }
+        }
+        return this;
     }
 }

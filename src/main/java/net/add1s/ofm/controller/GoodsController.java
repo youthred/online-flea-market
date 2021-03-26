@@ -95,7 +95,7 @@ public class GoodsController {
         iGoodsService.view(goodsTbId);
         Map<String, Object> detailMap = new HashMap<>();
         detailMap.put("goodsDetail", iGoodsService.detail(goodsTbId));
-        detailMap.put("currentLoginUser", iSysUserService.currentUser());
+        detailMap.put("currentLoginUser", iSysUserService.isLogin() ? iSysUserService.currentUser() : null);
         return new ModelAndView("goods/detail", "detail", detailMap);
     }
 
@@ -114,12 +114,11 @@ public class GoodsController {
     /**
      * 私聊列表
      *
-     * @param goodsTbId 商品TBID null代表不通过商品“我想要”直接进入私聊页面
      * @return ModelAndView
      */
     @GetMapping("/chatList")
-    public ModelAndView chat(@RequestParam(value = "goodsTbId", required = false) Long goodsTbId) {
-        return new ModelAndView("goods/chatList", "chats", iGoodsService.chats(goodsTbId));
+    public ModelAndView chat() {
+        return new ModelAndView("goods/chatList", "chats", iGoodsService.chats());
     }
 
     /**
