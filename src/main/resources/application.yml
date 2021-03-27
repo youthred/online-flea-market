@@ -84,7 +84,7 @@ spring:
     activate:
       on-profile: prod
   pid:
-    file: ./app.pid
+    file: ./ofm-pid
   datasource:
     dynamic:
       primary: master

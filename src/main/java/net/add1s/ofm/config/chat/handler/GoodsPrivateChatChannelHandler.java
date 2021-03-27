@@ -57,6 +57,7 @@ public class GoodsPrivateChatChannelHandler extends SimpleChannelInboundHandler<
         log.error(Arrays.toString(ExceptionUtils.getStackFrames(cause)));
         ctx.channel().close();
         CHANNEL_GROUP.remove(ctx.channel());
+        USER_CHANNELS.forEach(userChannel -> userChannel.getGoodsChatChannels().removeIf(goodsChatChannel -> goodsChatChannel.getChannel().id().asShortText().equals(ctx.channel().id().asShortText())));
     }
 
     @Override
@@ -80,7 +81,7 @@ public class GoodsPrivateChatChannelHandler extends SimpleChannelInboundHandler<
     private void sendToOtherSide(ChatMessageDTO chatMessageDTO) {
         GoodsChatChannel otherSideGoodsChatChannel = getGoodsChatChannelFromUserChannelOfOtherSide(chatMessageDTO);
         if (Objects.nonNull(otherSideGoodsChatChannel)) {
-            otherSideGoodsChatChannel.getChannel().writeAndFlush(chatMessageDTO.getMessageContent());
+            otherSideGoodsChatChannel.getChannel().writeAndFlush(new TextWebSocketFrame(chatMessageDTO.getMessageContent()));
         }
     }
 

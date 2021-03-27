@@ -72,6 +72,7 @@
             if (window.WebSocket) {
                 socket = new WebSocket(res.data.data)
                 socket.onmessage = function (event) {
+                    console.log(event)
                     $resText.append(`<h3><span class="badge badge-pill badge-primary">${event.data}</span></h3>`)
                 };
                 socket.onopen = function (event) {
