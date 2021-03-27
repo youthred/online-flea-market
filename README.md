@@ -5,7 +5,7 @@
 ## 使用技术
 - 架构：SpringBoot
 - 技术点：SpringBoot, SpringSecurity, MyBatisPlus, Netty
-- 后台语言：Java
+- 后台语言：Java_11
 - 前台语言：HTML, JavaScript, VUE
 - 数据库：MySQL_8.0.22
 - IDE：IntelliJ IDEA 2020.3.2 (Ultimate Edition)
