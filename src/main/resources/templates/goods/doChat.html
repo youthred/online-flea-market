@@ -23,16 +23,20 @@
         </div>
         <form onsubmit="return false" class="pt-3">
             <div class="form-group overflow-auto" style="height: 500px" id="resText">
-                <div v-if="Array.isNotEmpty(chat.chatMessages)">
-                    <p v-for="msg in chat.chatMessages">
-                        <span class="badge badge-pill badge-secondary">
-                            <span v-if="msg.fromCurrentUser">我</span>
-                            <span v-else>对方</span>
-                        </span>
-                        {{msg.messageContent}}
-                        <small class="text-muted">{{msg.createTime}}</small>
-                    </p>
-                </div>
+                <span v-if="Array.isNotEmpty(chat.chatMessages)">
+                    <span v-for="msg in chat.chatMessages">
+                        <p v-if="msg.fromCurrentUser" class="text-right pr-2">
+<!--                            <span class="badge badge-pill badge-secondary">我</span>-->
+                            <span class="badge badge-pill badge-success text-white rounded-pill">{{msg.messageContent}}</span>
+                            <br><small class="text-muted">{{msg.createTime}}</small>
+                        </p>
+                        <p v-else>
+<!--                            <span class="badge badge-pill badge-secondary">对方</span>-->
+                            <span class="badge badge-pill badge-dark text-white rounded-pill">{{msg.messageContent}}</span>
+                            <br><small class="text-muted">{{msg.createTime}}</small>
+                        </p>
+                    </span>
+                </span>
             </div>
             <div class="form-group">
                 <label for="msgInput"></label><input type="text" id="msgInput" name="msg" class="form-control"
@@ -40,7 +44,7 @@
             </div>
             <div class="form-group">
                 <button id="sendMsgBtn" disabled="disabled" class="form-control btn btn-primary"
-                        onclick="send(this.form.msg.value)"><i class="fas fa-paper-plane"></i></button>
+                        onclick="send(this.form.msg.value, 1, false)"><i class="fas fa-paper-plane"></i></button>
             </div>
         </form>
     </div>
@@ -56,6 +60,8 @@
         },
         mounted() {
             console.log(this.chat)
+            let $rt = $('#resText')
+            $rt.scrollTop($rt[0].scrollHeight)
         },
         methods: {}
     }).mount('#doChatVueApp')
@@ -72,14 +78,25 @@
             if (window.WebSocket) {
                 socket = new WebSocket(res.data.data)
                 socket.onmessage = function (event) {
-                    console.log(event)
-                    $resText.append(`<h3><span class="badge badge-pill badge-primary">${event.data}</span></h3>`)
+                    let otherSideChatMessage = JSON.parse(event.data)
+                    // 对方
+                    $resText.append(`
+                        <p>
+                            <span class="badge badge-pill badge-dark text-white rounded-pill">${otherSideChatMessage.messageContent}</span>
+                            <br><small class="text-muted">${otherSideChatMessage.createTime}</small>
+                        </p>
+                    `)
+                    scrollChatDivToNewest()
                 };
                 socket.onopen = function (event) {
                     $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i>${new Date().defaultFormat()}</small></p>`)
+                    scrollChatDivToNewest()
+                    // 连接上后发送一条消息给服务端进行用户-商品-通道的定位绑定
+                    send('用户-商品-通道绑定消息', 1, true)
                 };
                 socket.onclose = function (event) {
                     $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i>${new Date().defaultFormat()}</small></p>`)
+                    scrollChatDivToNewest()
                 };
             } else {
                 Swal.fire('', '您的浏览器不支持WebSocket协议！', 'error')
@@ -102,7 +119,7 @@
         Swal.fire('', err.toString(), 'error')
     })
 
-    function send(msg) {
+    function send(msg, messageTypeCode, userGoodsChannelConnectBind) {
         if (!window.WebSocket) {
             return
         }
@@ -115,8 +132,19 @@
                     'sellerSysUserTbId': doChatVueApp.chat.chatMessages[0].sellerSysUserTbId,
                     'messageContent': msg,
                     'messageTypeCode': 1,   // 暂时只支持文本类消息
-                    'senderSysUserTbId': currentLoginUser.tbId
+                    'senderSysUserTbId': currentLoginUser.tbId,
+                    'userGoodsChannelConnectBind': userGoodsChannelConnectBind
                 }
+            }
+            if (!userGoodsChannelConnectBind) {
+                // 我
+                $resText.append(`
+                    <p class="text-right">
+                        <span class="badge badge-pill badge-success text-white rounded-pill">${msg}</span>
+                        <br><small class="text-muted">${new Date().defaultFormat()}</small>
+                    </p>
+                `)
+                scrollChatDivToNewest()
             }
             socket.send(JSON.stringify(nettyChatMessage))
             $msgInput.val('')
@@ -146,10 +174,17 @@
     $(function () {
         $msgInput.bind('keypress', function (event) {
             if (event.keyCode === '13') {
-                send($msgInput.val())
+                send($msgInput.val(), 1, false)
             }
         })
     })
+
+    /**
+     * 滚动到聊天div底部
+     */
+    function scrollChatDivToNewest() {
+        $resText.scrollTop($resText[0].scrollHeight)
+    }
 </script>
 </body>
 </html>

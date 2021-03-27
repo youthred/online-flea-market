@@ -62,15 +62,18 @@ public class GoodsPrivateChatChannelHandler extends SimpleChannelInboundHandler<
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame textWebSocketFrame) throws Exception {
-        log.info(textWebSocketFrame.text());
         // 接受到的消息
         NettyChatMessage nettyChatMessage = JSON.parseObject(textWebSocketFrame.text(), NettyChatMessage.class);
-        // 添加到用户-通道绑定集合里
-        addToUserChannelList(ctx, nettyChatMessage);
-        // 聊天消息入库
-        iChatMessageService.save(nettyChatMessage.getChatMessageDTO().toEntity().setCreateTime(LocalDateTime.now()));
-        // 若对方用户的对应通道存在，便通过WebSocket发送给对方
-        sendToOtherSide(nettyChatMessage.getChatMessageDTO().setOtherSideTbId());
+        nettyChatMessage.getChatMessageDTO().setCreateTime(LocalDateTime.now());
+        if (nettyChatMessage.getChatMessageDTO().isUserGoodsChannelConnectBind()) {
+            // 添加到用户-商品-通道绑定集合里
+            addToUserChannelList(ctx, nettyChatMessage);
+        } else {
+            // 聊天消息入库
+            iChatMessageService.save(nettyChatMessage.getChatMessageDTO().toEntity());
+            // 若对方用户的对应通道存在，便通过WebSocket发送给对方
+            sendToOtherSide(nettyChatMessage.getChatMessageDTO().setOtherSideTbId());
+        }
     }
 
     /**
@@ -81,7 +84,13 @@ public class GoodsPrivateChatChannelHandler extends SimpleChannelInboundHandler<
     private void sendToOtherSide(ChatMessageDTO chatMessageDTO) {
         GoodsChatChannel otherSideGoodsChatChannel = getGoodsChatChannelFromUserChannelOfOtherSide(chatMessageDTO);
         if (Objects.nonNull(otherSideGoodsChatChannel)) {
-            otherSideGoodsChatChannel.getChannel().writeAndFlush(new TextWebSocketFrame(chatMessageDTO.getMessageContent()));
+            otherSideGoodsChatChannel.getChannel().writeAndFlush(new TextWebSocketFrame(
+                    new ChatMessageDTO()
+                            .setMessageContent(chatMessageDTO.getMessageContent())
+                            .setMessageTypeCode((short) 1)
+                            .setCreateTime(chatMessageDTO.getCreateTime())
+                            .toJsonString()
+            ));
         }
     }
 

@@ -1,5 +1,6 @@
 package net.add1s.ofm.pojo.dto;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import net.add1s.ofm.pojo.entity.business.ChatMessage;
@@ -61,6 +62,10 @@ public class ChatMessageDTO implements Serializable {
      * 对方用户TBID
      */
     private Long otherSideTbId;
+    /**
+     * 是否属于用户-商品-通道绑定消息，如果是则不进行消息的转发，仅绑定维护对应关系
+     */
+    private boolean userGoodsChannelConnectBind;
 
     public ChatMessageDTO setIsFromCurrentUser(Long currentUserTbId) {
         this.isFromCurrentUser = this.senderSysUserTbId.equals(currentUserTbId);
@@ -84,5 +89,9 @@ public class ChatMessageDTO implements Serializable {
             .setSenderSysUserTbId(this.senderSysUserTbId)
             .setReadBuyer(this.readBuyer)
             .setReadSeller(this.readSeller);
+    }
+
+    public String toJsonString() {
+        return JSON.toJSONString(this);
     }
 }
