@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -92,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionUrl("/login.html")  // SESSION超时后重新登录，使用server.servlet.session.timeout配置，值eg: 10s
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionUrl("/login.html")  // SESSION超时后重新登录，使用server.servlet.session.timeout配置，值eg: 10s
                 .sessionFixation().newSession() // session劫持保护，每次登录都重新生成
                 .maximumSessions(1) // 一个账户只允许一个session连接
                 .maxSessionsPreventsLogin(false)    // 允许再次登录，但之前的登录状态将被下线

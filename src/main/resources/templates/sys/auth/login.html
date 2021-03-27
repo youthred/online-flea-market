@@ -6,45 +6,61 @@
       xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: header('登录')"></head>
 <body>
-
+<div class="sticky-top">
+    <span th:replace="common/nav :: nav_homepage('homepage')"></span>
+</div><!-- nav end -->
     <div class="container">
+
         <div id="loginVueApp">
             <br>
             <div class="jumbotron">
-                <h1 class="display-4">Hello, world!</h1>
-                <p class="lead">这是一个非前后端分离的Springboot项目。</p>
+                <h1 class="display-4">登录</h1>
+                <p class="lead">Online flea market web application</p>
                 <hr class="my-4">
-                <form action="/login" method="post">
+                <div>
                     <div class="form-group">
                         <label for="usernameInput">用户名</label>
-                        <input name="username" type="text" class="form-control" id="usernameInput">
+                        <input name="username" v-model="user.username" type="text" class="form-control"
+                               id="usernameInput">
                     </div>
                     <div class="form-group">
                         <label for="passwordInput">密码</label>
-                        <input name="password" type="password" class="form-control" id="passwordInput" aria-describedby="passwordHelp">
-                        <small id="passwordHelp" class="form-text text-muted">您的密码将使用MD5摘要算法加密，不可逆</small>
+                        <input name="password" v-model="user.password" type="password"
+                               class="form-control" id="passwordInput"
+                               aria-describedby="passwordHelp">
+                        <small id="passwordHelp"
+                               class="form-text text-muted">您的密码将使用MD5摘要算法加密，不可逆</small>
                     </div>
                     <div class="row">
                         <div class="form-group col">
                             <label for="imageCaptchaInput">验证码</label>
-                            <input name="imageCaptcha" type="text" class="form-control" id="imageCaptchaInput">
+                            <input name="imageCaptcha" v-model="user.imageCaptcha" type="text"
+                                   class="form-control"
+                                   id="imageCaptchaInput">
                         </div>
                         <div class="form-group col">
                             <figure class="figure">
-                                <img id="imageCaptcha" :src="imageCaptchaUrl" v-on:click="refreshImageCaptcha" title="点击刷新验证码" class="rounded">
-                                <figcaption class="figure-caption text-right">{{imageCaptchaRemainingTime}}s</figcaption>
+                                <img id="imageCaptcha" :src="imageCaptchaUrl"
+                                     @click="refreshImageCaptcha" title="点击刷新验证码"
+                                     class="img-fluid img-thumbnail">
+                                <figcaption class="figure-caption text-right">
+                                    {{imageCaptchaRemainingTime}}s
+                                </figcaption>
                             </figure>
                         </div>
                     </div>
                     <div class="form-group custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="rememberMeSwitch" name="remember-me" aria-describedby="rememberMeHelp">
+                        <input type="checkbox" class="custom-control-input" id="rememberMeSwitch"
+                               name="remember-me" aria-describedby="rememberMeHelp">
                         <label class="custom-control-label" for="rememberMeSwitch">记住登录状态</label>
                         <small id="rememberMeHelp" class="form-text text-muted">两天内免登录</small>
                     </div>
-                    <button type="submit" class="btn btn-primary">登录</button>
-                </form>
+                    <button type="button" class="btn btn-primary" @click="login">登录</button>
+                    <a class="btn" href="/register.html">注册</a>
+                </div>
             </div>
         </div>
+
     </div>
 
 <span th:replace="common/footer"></span>

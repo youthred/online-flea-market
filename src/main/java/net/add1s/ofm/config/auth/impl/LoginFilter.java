@@ -73,10 +73,10 @@ public class LoginFilter extends OncePerRequestFilter {
         HttpSession session = servletWebRequest.getRequest().getSession();
         // 表单图形验证码的值
         String captchaCode = Optional.ofNullable(ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), captchaCodeName)).filter(StringUtils::isNotBlank).orElseThrow(() -> new SessionAuthenticationException("验证码为空。"));
-        // 缓存KEY
+        // 从当前连接的SESSION中获取验证码缓存KEY
         String key = (String) session.getAttribute(SessionContent.IMAGE_CAPTCHA_KEY);
         // 图形验证码
-        ICaptcha iCaptcha = Optional.ofNullable(TimedCacheManager.IMAGE_CAPTCHA.get(key, false)).orElseThrow(() -> new SessionAuthenticationException("验证码已过期，请重新获取。"));
-        Validate.isTrue(iCaptcha.verify(captchaCode), "验证不通过。");
+        ICaptcha iCaptcha = Optional.ofNullable(TimedCacheManager.IMAGE_CAPTCHA.get(key, false)).orElseThrow(() -> new SessionAuthenticationException("验证码已过期，请重新获取"));
+        Validate.isTrue(iCaptcha.verify(captchaCode), "验证不通过");
     }
 }

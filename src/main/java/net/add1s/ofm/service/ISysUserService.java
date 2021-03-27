@@ -1,9 +1,13 @@
 package net.add1s.ofm.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import net.add1s.ofm.pojo.dto.UserRegisterDTO;
 import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
+import net.add1s.ofm.pojo.vo.business.VerifyResult;
 import net.add1s.ofm.pojo.vo.sys.SysUserVO;
+
+import javax.servlet.http.HttpSession;
 
 public interface ISysUserService extends IService<SysUser> {
 
@@ -22,4 +26,19 @@ public interface ISysUserService extends IService<SysUser> {
      * @return MyUserDetails
      */
     MyUserDetails currentUser();
+
+    /**
+     * 用户注册
+     *
+     * @param userRegisterDTO UserRegisterDTO
+     * @param session
+     */
+    String register(UserRegisterDTO userRegisterDTO, HttpSession session);
+
+    /**
+     * 新用户启用确认
+     *
+     * @param key 缓存KEY
+     */
+    VerifyResult verifyNewUser(String key);
 }

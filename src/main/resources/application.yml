@@ -58,6 +58,8 @@ spring:
             min-idle: 5
             max-active: 20
 sys:
+  web:
+    host: http://localhost:${server.port}
   security:
     salt: 123456
   app:
@@ -112,6 +114,8 @@ spring:
             min-idle: 5
             max-active: 20
 sys:
+  web:
+    host: http://youthre.cn:${server.port}
   security:
     salt: 123456
   app:

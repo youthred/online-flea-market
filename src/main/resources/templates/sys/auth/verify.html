@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-cn"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: header('用户验证')"></head>
+<body>
+<div class="sticky-top">
+    <span th:replace="common/nav :: nav_homepage('homepage')"></span>
+</div><!-- nav end -->
+<div class="container">
+    <div id="verifyVueApp">
+        <br>
+    </div>
+</div>
+<span th:replace="common/footer"></span>
+<script src="/static/js/my/verify.js"></script>
+</body>
+</html>
