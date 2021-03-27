@@ -102,8 +102,23 @@ public class GoodsPrivateChatChannelHandler extends SimpleChannelInboundHandler<
      */
     private void addToUserChannelList(ChannelHandlerContext ctx, NettyChatMessage nettyChatMessage) {
         GoodsChatChannel goodsChatChannelFromUserChannelOfSender = getGoodsChatChannelFromUserChannelOfSender(nettyChatMessage.getChatMessageDTO());
-        // 不存在->新添加
-        if (Objects.isNull(goodsChatChannelFromUserChannelOfSender)) {
+        UserChannel userChannel = getFromUserChannel(nettyChatMessage.getCurrentUserDetails().getTbId());
+        if (Objects.nonNull(userChannel)) {
+            // 用户存在但对应当前[商品-通道]不存在->新添加[商品-通道]
+            if (Objects.isNull(goodsChatChannelFromUserChannelOfSender)) {
+                userChannel.addToGoodsChatChannels(
+                        nettyChatMessage.getChatMessageDTO().getGoodsTbId(),
+                        nettyChatMessage.getChatMessageDTO().getBuyerSysUserTbId(),
+                        nettyChatMessage.getChatMessageDTO().getSellerSysUserTbId(),
+                        ctx.channel()
+                );
+            }
+            // 已存在但通道已改变则修改
+            else if (!goodsChatChannelFromUserChannelOfSender.getChannel().id().asShortText().equals(ctx.channel().id().asShortText())) {
+                goodsChatChannelFromUserChannelOfSender.setChannel(ctx.channel());
+            }
+        } else {
+            // 当前[用户-商品-通道]不存在->新添加[用户-商品-通道]
             USER_CHANNELS.add(
                     new UserChannel()
                             .setUserDetails(nettyChatMessage.getCurrentUserDetails())
@@ -114,10 +129,6 @@ public class GoodsPrivateChatChannelHandler extends SimpleChannelInboundHandler<
                                     ctx.channel()
                             )
             );
-        }
-        // 已存在但通道已改变则修改
-        else if (!goodsChatChannelFromUserChannelOfSender.getChannel().id().asShortText().equals(ctx.channel().id().asShortText())) {
-            goodsChatChannelFromUserChannelOfSender.setChannel(ctx.channel());
         }
     }
 
