@@ -1,9 +1,12 @@
 package net.add1s.ofm.service.impl;
 
+import cn.hutool.captcha.ICaptcha;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.cache.TimedCacheManager;
+import net.add1s.ofm.common.content.SessionContent;
+import net.add1s.ofm.config.auth.MyPasswordEncoder;
 import net.add1s.ofm.config.props.WebProps;
 import net.add1s.ofm.mapper.SysUserMapper;
 import net.add1s.ofm.pojo.dto.UserRegisterDTO;
@@ -17,20 +20,25 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     private final WebProps webProps;
+    private final MyPasswordEncoder myPasswordEncoder;
 
-    public SysUserServiceImpl(WebProps webProps) {
+    public SysUserServiceImpl(WebProps webProps,
+                              MyPasswordEncoder myPasswordEncoder) {
         this.webProps = webProps;
+        this.myPasswordEncoder = myPasswordEncoder;
     }
 
     @Override
@@ -54,17 +62,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public String register(UserRegisterDTO userRegisterDTO, HttpSession session) {
-        // todo 验证码
-        Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getEmail, userRegisterDTO.getEmail())) == 0, "邮箱已存在");
-        Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, userRegisterDTO.getUsername())) == 0, "用户名已存在");
-        Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getNickname, userRegisterDTO.getNickname())) == 0, "昵称已存在");
+        registerValidate(userRegisterDTO, session);
         SysUser sysUser = userRegisterDTO.toEntity();
+        sysUser.setPassword(myPasswordEncoder.encode(sysUser.getPassword()));
         this.save(sysUser);
         // todo 发邮件确认（启用）用户，这里模拟已经发送
         final String verifyLinkPrefix = webProps.getHost() + "/verify/";
         String key = IdUtil.fastSimpleUUID();
         TimedCacheManager.NEW_USER_VERIFY.put(key, sysUser.getTbId());
         return verifyLinkPrefix + key;
+    }
+
+    private void registerValidate(UserRegisterDTO userRegisterDTO, HttpSession session) {
+        String key = (String) session.getAttribute(SessionContent.IMAGE_CAPTCHA_KEY);
+        ICaptcha iCaptcha = Optional.ofNullable(TimedCacheManager.IMAGE_CAPTCHA.get(key, false)).orElseThrow(() -> new SessionAuthenticationException("验证码已过期，请重新获取"));
+        Validate.isTrue(iCaptcha.verify(userRegisterDTO.getImageCaptcha()), "验证码错误");
+        Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getEmail, userRegisterDTO.getEmail())) == 0, "邮箱已存在");
+        Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, userRegisterDTO.getUsername())) == 0, "用户名已存在");
+        Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getNickname, userRegisterDTO.getNickname())) == 0, "昵称已存在");
     }
 
     @Override
@@ -76,7 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 boolean isVerify = this.update(Wrappers.lambdaUpdate(SysUser.class).set(SysUser::getEnabled, true).eq(SysUser::getTbId, userTbId));
                 return new VerifyResult().setSuccess(isVerify).setMessage(isVerify ? null : "请联系管理员");
             } else {
-                return new VerifyResult().setSuccess(false).setMessage("验证链接已过期，注册信息将在过期后的10分钟内删除，请重新注册并及时进行验证");
+                return new VerifyResult().setSuccess(false).setMessage("验证链接已过期或不存在，注册信息将在过期后的10分钟内删除，请重新注册并及时进行验证");
             }
         } catch (Exception e) {
             String stackTrace = ExceptionUtils.getStackTrace(e);

@@ -2,7 +2,6 @@ package net.add1s.ofm.config.auth;
 
 import cn.hutool.core.date.DateUnit;
 import net.add1s.ofm.config.auth.impl.*;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -28,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final MyAuthenticationAccessDeniedHandler myAuthenticationAccessDeniedHandler;
     private final MyLogoutSuccessHandler myLogoutSuccessHandler;
     private final LoginFilter loginFilter;
+    private final MyPasswordEncoder myPasswordEncoder;
 
     public SecurityConfig(
             MyUserDetailsService myUserDetailsService,
@@ -37,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             MyInvalidSessionStrategy myInvalidSessionStrategy,
             MyAuthenticationAccessDeniedHandler myAuthenticationAccessDeniedHandler,
             MyLogoutSuccessHandler myLogoutSuccessHandler,
-            LoginFilter loginFilter
-    ) {
+            LoginFilter loginFilter,
+            MyPasswordEncoder myPasswordEncoder) {
         this.myUserDetailsService = myUserDetailsService;
         this.myAuthenticationSuccessHandler = myAuthenticationSuccessHandler;
         this.myAuthenticationFailureHandler = myAuthenticationFailureHandler;
@@ -47,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.myAuthenticationAccessDeniedHandler = myAuthenticationAccessDeniedHandler;
         this.myLogoutSuccessHandler = myLogoutSuccessHandler;
         this.loginFilter = loginFilter;
+        this.myPasswordEncoder = myPasswordEncoder;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(myUserDetailsService).passwordEncoder(myPasswordEncoder);
     }
 
     @Override
@@ -111,9 +111,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 开放静态资源
         web.ignoring().antMatchers("/static/**");
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new MyPasswordEncoder();
-    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new MyPasswordEncoder();
+//    }
 }

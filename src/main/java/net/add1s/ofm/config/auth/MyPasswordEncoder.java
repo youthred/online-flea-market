@@ -1,6 +1,7 @@
 package net.add1s.ofm.config.auth;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -8,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author pj.w@qq.com
  */
+@Component
 public class MyPasswordEncoder implements PasswordEncoder {
 
     /**

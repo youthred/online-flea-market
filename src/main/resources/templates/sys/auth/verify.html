@@ -12,9 +12,40 @@
 <div class="container">
     <div id="verifyVueApp">
         <br>
+        <div v-if="verifyResult.success">
+            <div class="jumbotron">
+                <h1 class="display-4"><i class="far fa-check-circle text-success"></i> 激活成功</h1>
+                <hr class="my-4">
+                <a class="btn btn-primary btn-lg" href="/login.html" role="button">现在登录</a>
+            </div>
+        </div>
+        <div v-else>
+            <div class="jumbotron">
+                <h1 class="display-4"><i class="far fa-times-circle text-danger"></i> 激活失败</h1>
+                <p class="lead">{{verifyResult.message}}</p>
+                <hr class="my-4">
+                <button class="btn btn-dark btn-lg" href="#" @click="contactAdmin">联系管理员</button>
+            </div>
+        </div>
     </div>
 </div>
 <span th:replace="common/footer"></span>
-<script src="/static/js/my/verify.js"></script>
+<script th:inline="javascript">
+    Vue.createApp({
+        data() {
+            return {
+                verifyResult: [[${verifyResult}]]
+            }
+        },
+        mounted() {
+            console.log(this.verifyResult)
+        },
+        methods: {
+            contactAdmin() {
+                Swal.fire('', '开发中...', 'info')
+            }
+        }
+    }).mount('#verifyVueApp')
+</script>
 </body>
 </html>

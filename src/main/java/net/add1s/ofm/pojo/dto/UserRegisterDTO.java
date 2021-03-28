@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,10 +17,17 @@ public class UserRegisterDTO implements Serializable {
 
     private static final long serialVersionUID = 5144249278074441072L;
 
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
+    @NotBlank
+    private String rePassword;
+    @NotBlank
     private String nickname;
+    @NotBlank
     private String email;
+    @NotBlank
     private String imageCaptcha;
 
     public SysUser toEntity() {
