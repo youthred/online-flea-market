@@ -10,13 +10,16 @@ axios.get('/netty/groupSexNettyHost').then(res => {
         if (window.WebSocket) {
             socket = new WebSocket(res.data.data)
             socket.onmessage = function (event) {
-                $resText.append(`<h3><span class="badge badge-pill badge-primary">${event.data}</span></h3>`)
+                $resText.append(`<h6><span class="badge badge-pill badge-primary">${event.data}</span></h6>`)
+                scrollChatDivToNewest()
             };
             socket.onopen = function (event) {
                 $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i>${new Date().defaultFormat()}</small></p>`)
+                scrollChatDivToNewest()
             };
             socket.onclose = function (event) {
                 $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i>${new Date().defaultFormat()}</small></p>`)
+                scrollChatDivToNewest()
             };
         } else {
             Swal.fire('', '您的浏览器不支持WebSocket协议！', 'error')
@@ -65,3 +68,10 @@ $(function () {
         }
     })
 })
+
+/**
+ * 滚动到聊天div底部
+ */
+function scrollChatDivToNewest() {
+    $resText.scrollTop($resText[0].scrollHeight)
+}
