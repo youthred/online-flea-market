@@ -1,9 +1,8 @@
-package net.add1s.ofm.controller.sys;
+package net.add1s.ofm.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
-import lombok.extern.slf4j.Slf4j;
 import net.add1s.ofm.cache.TimedCacheManager;
 import net.add1s.ofm.common.content.SessionContent;
 import net.add1s.ofm.common.response.Res;
@@ -23,7 +22,6 @@ import java.io.IOException;
  * @author pj.w@qq.com
  */
 @RestController
-@Slf4j
 public class LoginController {
 
     private final ISysUserService iSysUserService;

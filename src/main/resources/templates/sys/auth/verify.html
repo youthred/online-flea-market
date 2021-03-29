@@ -7,13 +7,12 @@
 <head th:replace="common/header :: header('用户验证')"></head>
 <body>
 <div class="sticky-top">
-    <span th:replace="common/nav :: nav_homepage('homepage')"></span>
+    <span th:replace="common/nav :: nav_common('common')"></span>
 </div><!-- nav end -->
 <div class="container">
     <div id="verifyVueApp">
-        <br>
         <div v-if="verifyResult.success">
-            <div class="jumbotron">
+            <div class="jumbotron pt-3">
                 <h1 class="display-4"><i class="far fa-check-circle text-success"></i> 激活成功</h1>
                 <hr class="my-4">
                 <a class="btn btn-primary btn-lg" href="/login.html" role="button">现在登录</a>

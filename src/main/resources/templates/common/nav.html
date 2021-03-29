@@ -10,8 +10,8 @@
 </head>
 <body>
 
-<!--首页导航栏 nav_homepage-->
-<nav th:fragment="nav_homepage(item)" class="navbar navbar-expand-lg navbar-light bg-light">
+<!--公共导航栏 nav_common-->
+<nav th:fragment="nav_common(item)" class="navbar navbar-expand-lg navbar-light bg-light">
     <!--    <a class="navbar-brand mb-0 h1" href="/">在线跳蚤市场</a>-->
     <a class="navbar-brand" href="/"><img src="/static/img/favicon.ico" class="rounded img-fluid"
                                           style="height: 30px" alt="logo"></a>
@@ -33,10 +33,10 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="nscHomepage">
+    <div class="collapse navbar-collapse" id="nscCommon">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="/netty/groupSex.html">击剑</a>
+                <a class="nav-link" href="/netty/groupSex.html">群聊</a>
             </li>
         </ul>
         <!--.mr-auto后的元素靠右侧排列-->
@@ -74,14 +74,14 @@
 
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                <a class="nav-link dropdown-toggle" href="#" id="ndCommon" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span sec:authorize="isAnonymous()">未登录</span>
                     <span sec:authorize="!isAnonymous()">
                         <span sec:authentication="principal.nickname"></span>
                     </span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ndCommon">
                     <!-- 匿名用户（未登录） -->
                     <div sec:authorize="isAnonymous()">
                         <a class="dropdown-item" href="/login.html">登录</a>
@@ -90,7 +90,7 @@
                     </div>
                     <!-- 已登录 -->
                     <div sec:authorize="!isAnonymous()">
-                        <a class="dropdown-item" href="/admin/articles">我的</a>
+                        <a class="dropdown-item" href="/home/my.html">我的</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">注销</a>
                     </div>
@@ -100,64 +100,89 @@
     </div>
 </nav>
 
-<!--后台导航栏 nav_admin-->
-<nav th:fragment="nav_admin(item)" class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand mb-0 h1" href="/">Melog</a>
-    <!--    <a class="navbar-brand" href="/"><img th:src="@{img/LOGO4.png}" class="rounded img-fluid" style="height: 30px" alt="logo"></a>-->
-
-    <!--在这个button（data-target="#navbarSupportedContent"）之后的元素（id="navbarSupportedContent"）在小屏幕上会自动折叠-->
+<!--用户主页导航栏 nav_home-->
+<nav th:fragment="nav_userHome(item)" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/"><img src="/static/img/favicon.ico" class="rounded img-fluid"
+                                          style="height: 30px" alt="logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nscAdmin" aria-controls="nscAdmin" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="nscAdmin">
-        <!--.mr-auto后的元素靠右侧排列-->
-        <!--<div class="mr-auto"></div>-->
-
+    <div class="collapse navbar-collapse" id="nscUserHome">
         <div th:switch="${item}" class="mr-auto">
-            <ul th:case="articles" class="navbar-nav">
+            <ul th:case="my" class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/admin/articles">我的文章</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/new"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/statistics">数据统计</a>
-                </li>
-            </ul>
-            <ul th:case="new" class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/articles">我的文章</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/admin/new"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/statistics">数据统计</a>
-                </li>
-            </ul>
-            <ul th:case="statistics" class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/articles">我的文章</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/new"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/admin/statistics">数据统计</a>
+                    <a class="nav-link active" href="/home/my.html">我的</a>
                 </li>
             </ul>
         </div>
-
-        <!--当前登陆用户-->
+        <div class="mr-auto"></div>
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="ndAdmin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="nickname"></span>
+                <a class="nav-link dropdown-toggle" href="#" id="ndUserHome" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span sec:authorize="isAnonymous()">未登录</span>
+                    <span sec:authorize="!isAnonymous()">
+                        <span sec:authentication="principal.nickname"></span>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ndUserHome">
+                    <!-- 匿名用户（未登录） -->
+                    <div sec:authorize="isAnonymous()">
+                        <a class="dropdown-item" href="/login.html">登录</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">-</a>
+                    </div>
+                    <!-- 已登录 -->
+                    <div sec:authorize="!isAnonymous()">
+                        <a class="dropdown-item active" href="/home/my.html">我的</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">注销</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--系统管理员导航栏 nav_admin-->
+<nav th:fragment="nav_admin(item)" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/"><img src="/static/img/favicon.ico" class="rounded img-fluid"
+                                          style="height: 30px" alt="logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nscAdmin" aria-controls="nscAdmin" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nscAdmin">
+        <div th:switch="${item}" class="mr-auto">
+            <ul th:case="sys" class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/sys">系统管理</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mr-auto"></div>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="ndAdmin" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span sec:authorize="isAnonymous()">未登录</span>
+                    <span sec:authorize="!isAnonymous()">
+                        <span sec:authentication="principal.nickname"></span>
+                    </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ndAdmin">
-                    <a class="dropdown-item" href="/logout">注销</a>
+                    <!-- 匿名用户（未登录） -->
+                    <div sec:authorize="isAnonymous()">
+                        <a class="dropdown-item" href="/login.html">登录</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">-</a>
+                    </div>
+                    <!-- 已登录 -->
+                    <div sec:authorize="!isAnonymous()">
+                        <a class="dropdown-item" href="/home/my.html">我的</a>
+                        <a class="dropdown-item active" href="/admin/sys.html">系统管理</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">注销</a>
+                    </div>
                 </div>
             </li>
         </ul>

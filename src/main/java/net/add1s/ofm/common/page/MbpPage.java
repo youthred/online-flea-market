@@ -15,18 +15,18 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class MbpPage<P, Q> implements Serializable {
+public class MbpPage<T> implements Serializable {
 
     private static final long serialVersionUID = 4770750188358323477L;
 
-    private Page<P> page;
+    private Page<T> page;
     private List<QueryOption> queryOptions = new ArrayList<>();
 
-    public QueryWrapper<Q> toQueryWrapper() {
+    public QueryWrapper<T> toQueryWrapper() {
         if (queryOptions.size() == 1) {
             return queryOptions.get(0).toQueryWrapper();
         }
-        QueryWrapper<Q> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         for (QueryOption queryOption : queryOptions) {
             String lineKey = HumpUtil.humpToLine(queryOption.getKey());
             switch (queryOption.getType()) {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-cn"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: header('我的')"></head>
+<body>
+<div class="sticky-top">
+    <span th:replace="common/nav :: nav_userHome('my')"></span>
+</div><!-- nav end -->
+<div class="container-fluid">
+<div id="userHomeMyVueApp">
+    <div class="row pt-3">
+        <div class="col-3 col-sm-2 col-md-1">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-posted-tab" data-toggle="pill" href="#v-pills-posted" role="tab" aria-controls="v-pills-posted" aria-selected="true">我发布的</a>
+                <a class="nav-link" id="v-pills-sold-tab" data-toggle="pill" href="#v-pills-sold" role="tab" aria-controls="v-pills-sold" aria-selected="false">我卖出的</a>
+                <a class="nav-link" id="v-pills-got-tab" data-toggle="pill" href="#v-pills-got" role="tab" aria-controls="v-pills-got" aria-selected="false">我买到的</a>
+                <a class="nav-link" id="v-pills-privateChat-tab" data-toggle="pill" href="#v-pills-privateChat" role="tab" aria-controls="v-pills-privateChat" aria-selected="false">我的私聊</a>
+                <a class="nav-link" id="v-pills-like-tab" data-toggle="pill" href="#v-pills-like" role="tab" aria-controls="v-pills-like" aria-selected="false">我的点赞</a>
+                <a class="nav-link" id="v-pills-comments-tab" data-toggle="pill" href="#v-pills-comments" role="tab" aria-controls="v-pills-comments" aria-selected="false">我的评论</a>
+            </div>
+        </div>
+        <div class="col-9 col-sm-10 col-md-11">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-posted" role="tabpanel" aria-labelledby="v-pills-posted-tab">
+                    <button class="btn btn-light float-right">发布闲置</button>
+                    <div class="pt-3 pb-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioOnShelf" value="0" v-model="request.posted.offShelf">
+                            <label class="form-check-label" for="inlineRadioOnShelf">已发布</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioOffShelf" value="1" v-model="request.posted.offShelf">
+                            <label class="form-check-label" for="inlineRadioOffShelf">已下架</label>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-borderless">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">主图</th>
+                            <th scope="col">描述</th>
+                            <th scope="col">定价</th>
+                            <th scope="col">浏览</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="v-pills-sold" role="tabpanel" aria-labelledby="v-pills-sold-tab">2</div>
+                <div class="tab-pane fade" id="v-pills-got" role="tabpanel" aria-labelledby="v-pills-got-tab">3</div>
+                <div class="tab-pane fade" id="v-pills-privateChat" role="tabpanel" aria-labelledby="v-pills-privateChat-tab">4</div>
+                <div class="tab-pane fade" id="v-pills-like" role="tabpanel" aria-labelledby="v-pills-like-tab">5</div>
+                <div class="tab-pane fade" id="v-pills-comments" role="tabpanel" aria-labelledby="v-pills-comments-tab">6</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<span th:replace="common/footer"></span>
+<script src="/static/js/my/userHomeMy.js"></script>
+</body>
+</html>

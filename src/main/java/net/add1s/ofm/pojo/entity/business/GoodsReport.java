@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
+ * 商品举报
+ *
  * @author pj.w@qq.com
  */
 @Data

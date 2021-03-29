@@ -22,14 +22,10 @@ const goodsApp = Vue.createApp({
         init() {
             axios.get('/goods/goodsTypes').then(res => {
                 if (res.data.success) {
-                    let $goodsTypesSelector = $('#goodsTypesSelector');
                     let goodsTypes = res.data.data;
                     if (goodsTypes.length > 0) {
                         this.goodsPageRequest.queryOptions[0].value = goodsTypes[0].code
                         this.goodsTypeOptions = goodsTypes;
-                        // $.each(goodsTypes, (index, item) => {
-                        //     $goodsTypesSelector.append(`<option value="${item.code}">${item.desc}</option>`)
-                        // })
                         this.setGoodsPage()
                     }
                 } else {

@@ -62,7 +62,7 @@ public class GoodsController {
      * @return Res
      */
     @PostMapping("/page")
-    public Res page(@RequestBody @Validated MbpPage<Goods, Goods> mbpPage) {
+    public Res page(@RequestBody @Validated MbpPage<Goods> mbpPage) {
         return Res.ok(iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getOffShelf, false)));
     }
 
