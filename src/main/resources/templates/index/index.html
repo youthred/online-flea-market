@@ -47,7 +47,7 @@
                                 class="fa fa-angle-double-left" aria-hidden="true"></i></li>
                         <li v-if="goodsPageRequest.page.current > 1" class="page-item btn" @click="prev"><i
                                 class="fa fa-angle-double-left" aria-hidden="true"></i></li>
-                        <!--pageIndex/pages-->
+                        <!--pageIndex of pages-->
                         <li class="page-item page-link">{{goodsPageRequest.page.current}} / {{goodsPage.pages}}</li>
                         <!--next-->
                         <li v-if="goodsPageRequest.page.current == goodsPage.pages || goodsPage.total === 0"

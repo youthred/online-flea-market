@@ -35,9 +35,9 @@ public class UserHomeController {
      *
      * @return Res
      */
-    @PostMapping("/my/posted")
-    public Res myPosted(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iUserHomeService.myPosted(mbpPage));
+    @PostMapping("/my/postedPage")
+    public Res myPostedPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
+        return Res.ok(iUserHomeService.myPostedPage(mbpPage));
     }
 
     // endregion

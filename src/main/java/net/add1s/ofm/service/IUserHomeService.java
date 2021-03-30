@@ -6,5 +6,5 @@ import net.add1s.ofm.pojo.entity.business.Goods;
 
 public interface IUserHomeService {
 
-    IPage<Goods> myPosted(MbpPage<Goods> mbpPage);
+    IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage);
 }

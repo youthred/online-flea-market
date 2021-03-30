@@ -24,7 +24,7 @@
         </div>
         <div class="col-9 col-sm-10 col-md-11">
             <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-posted" role="tabpanel" aria-labelledby="v-pills-posted-tab">
+                <div class="tab-pane fade show active overflow-auto" id="v-pills-posted" role="tabpanel" aria-labelledby="v-pills-posted-tab">
                     <button class="btn btn-light float-right">发布闲置</button>
                     <div class="pt-3 pb-1">
                         <div class="form-check form-check-inline">
@@ -42,28 +42,44 @@
                             <th scope="col">ID</th>
                             <th scope="col">主图</th>
                             <th scope="col">描述</th>
-                            <th scope="col">定价</th>
-                            <th scope="col">浏览</th>
+                            <th scope="col">定价(&yen;)</th>
+                            <th scope="col">浏览量</th>
                             <th scope="col">操作</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
+                        <tbody v-if="Array.isNotEmpty(response.posted.postedPage.records)">
+                        <tr v-for="goods in response.posted.postedPage.records">
+                            <th scope="row">{{goods.tbId}}</th>
+                            <td><img :src="goods.mainPicUrl" class="img-fluid rounded img-thumbnail" style="height: 30px"></td>
+                            <td><span class="d-inline-block text-truncate" style="max-width: 450px;">{{goods.desc}}</span></td>
+                            <td>{{goods.price}}</td>
+                            <td>{{goods.views}}</td>
+                            <td>[X]</td>
                         </tr>
                         </tbody>
                     </table>
+                    <nav aria-label="page nav">
+                        <ul class="pagination justify-content-center">
+                            <!--prev-->
+                            <li v-if="request.posted.postedRequest.page.current == 1" class="page-item btn disabled"><i
+                                    class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                            <li v-if="request.posted.postedRequest.page.current > 1" class="page-item btn" @click="postedPagePrev"><i
+                                    class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                            <!--pageIndex of pages-->
+                            <li class="page-item page-link">{{request.posted.postedRequest.page.current}} / {{response.posted.postedPage.pages}}</li>
+                            <!--next-->
+                            <li v-if="request.posted.postedRequest.page.current == response.posted.postedPage.pages || response.posted.postedPage.total === 0"
+                                class="page-item btn disabled"><i class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                            <li v-if="request.posted.postedRequest.page.current < response.posted.postedPage.pages" class="page-item btn" @click="postedPageNext"><i
+                                    class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="tab-pane fade" id="v-pills-sold" role="tabpanel" aria-labelledby="v-pills-sold-tab">2</div>
-                <div class="tab-pane fade" id="v-pills-got" role="tabpanel" aria-labelledby="v-pills-got-tab">3</div>
-                <div class="tab-pane fade" id="v-pills-privateChat" role="tabpanel" aria-labelledby="v-pills-privateChat-tab">4</div>
-                <div class="tab-pane fade" id="v-pills-like" role="tabpanel" aria-labelledby="v-pills-like-tab">5</div>
-                <div class="tab-pane fade" id="v-pills-comments" role="tabpanel" aria-labelledby="v-pills-comments-tab">6</div>
+                <div class="tab-pane fade overflow-auto" id="v-pills-sold" role="tabpanel" aria-labelledby="v-pills-sold-tab">2</div>
+                <div class="tab-pane fade overflow-auto" id="v-pills-got" role="tabpanel" aria-labelledby="v-pills-got-tab">3</div>
+                <div class="tab-pane fade overflow-auto" id="v-pills-privateChat" role="tabpanel" aria-labelledby="v-pills-privateChat-tab">4</div>
+                <div class="tab-pane fade overflow-auto" id="v-pills-like" role="tabpanel" aria-labelledby="v-pills-like-tab">5</div>
+                <div class="tab-pane fade overflow-auto" id="v-pills-comments" role="tabpanel" aria-labelledby="v-pills-comments-tab">6</div>
             </div>
         </div>
     </div>

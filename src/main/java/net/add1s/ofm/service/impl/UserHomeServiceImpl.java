@@ -1,8 +1,10 @@
 package net.add1s.ofm.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.pojo.entity.business.Goods;
+import net.add1s.ofm.pojo.vo.business.GoodsVO;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.service.IUserHomeService;
@@ -23,7 +25,9 @@ public class UserHomeServiceImpl implements IUserHomeService {
     }
 
     @Override
-    public IPage<Goods> myPosted(MbpPage<Goods> mbpPage) {
-        return iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getSellerSysUserTbId, iSysUserService.currentUser().getTbId()));
+    public IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage) {
+        Page<Goods> page = iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getSellerSysUserTbId, iSysUserService.currentUser().getTbId()));
+        page.convert(GoodsVO::new);
+        return page;
     }
 }
