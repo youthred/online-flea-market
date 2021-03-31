@@ -27,37 +27,6 @@
                 <h1 class="text-muted">暂无私聊信息</h1>
             </div>
         </div>
-        <div id="chatModal"
-             class="modal fade"
-             data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="chatModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="row">
-                            <div class="col-3 col-sm-2 col-md-1">
-                                <img v-if="String.isNotBlank(chatModal.goodsDetail.mainPicUrl)"
-                                     :src="`${chatModal.goodsDetail.mainPicUrl}?rd=${Math.random()}`"
-                                     class="modal-title img-fluid rounded">
-                            </div>
-                            <div class="col-9 col-sm-10 col-md-11">
-                                <span class="modal-title">&yen;{{chatModal.goodsDetail.price}}</span>
-                            </div>
-                        </div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-                        <button type="button" class="btn btn-primary" @click="buyNow">立即购买</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 <span th:replace="common/footer"></span>
@@ -65,13 +34,7 @@
     const chatListVueApp = Vue.createApp({
         data() {
             return {
-                chats: [[${chats}]],
-                chatModal: {
-                    goodsDetail: {
-                        price: '',
-                        mainPicUrl: ''
-                    }
-                }
+                chats: [[${chats}]]
             }
         },
         methods: {
@@ -79,7 +42,7 @@
                 console.log(this.chats)
             },
             doChat(goodsTbId) {
-                window.open(`/goods/doChat/${goodsTbId}`)
+                window.open(`/goods/doChat/${goodsTbId}.html`)
             },
             buyNow() {
                 Swal.fire('', '开发中...', 'info')

@@ -116,7 +116,7 @@ public class GoodsController {
      *
      * @return ModelAndView
      */
-    @GetMapping("/chatList")
+    @GetMapping("/chatList.html")
     public ModelAndView chat() {
         return new ModelAndView("goods/chatList", "chats", iGoodsService.chats());
     }
