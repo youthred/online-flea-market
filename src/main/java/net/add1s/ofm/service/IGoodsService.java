@@ -54,4 +54,18 @@ public interface IGoodsService extends IService<Goods> {
      * @return GoodsChatVO
      */
     GoodsChatVO chat(Long goodsTbId);
+
+    /**
+     * 下架商品
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void offShelf(Long goodsTbId);
+
+    /**
+     * 重新上架商品
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void onShelf(Long goodsTbId);
 }

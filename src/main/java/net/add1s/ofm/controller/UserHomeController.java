@@ -40,5 +40,29 @@ public class UserHomeController {
         return Res.ok(iUserHomeService.myPostedPage(mbpPage));
     }
 
+    /**
+     * 下架商品
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @PutMapping("/offShelf/{goodsTbId}")
+    public Res offShelf(@PathVariable("goodsTbId") Long goodsTbId) {
+        iUserHomeService.offShelf(goodsTbId);
+        return Res.ok();
+    }
+
+    /**
+     * 重新发布商品
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @PutMapping("/onShelf/{goodsTbId}")
+    public Res onShelf(@PathVariable("goodsTbId") Long goodsTbId) {
+        iUserHomeService.onShelf(goodsTbId);
+        return Res.ok();
+    }
+
     // endregion
 }

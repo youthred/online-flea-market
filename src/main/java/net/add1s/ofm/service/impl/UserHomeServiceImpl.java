@@ -30,4 +30,14 @@ public class UserHomeServiceImpl implements IUserHomeService {
         page.convert(GoodsVO::new);
         return page;
     }
+
+    @Override
+    public void offShelf(Long goodsTbId) {
+        iGoodsService.offShelf(goodsTbId);
+    }
+
+    @Override
+    public void onShelf(Long goodsTbId) {
+        iGoodsService.onShelf(goodsTbId);
+    }
 }

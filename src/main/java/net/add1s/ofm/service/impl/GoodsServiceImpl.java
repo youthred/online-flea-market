@@ -3,6 +3,8 @@ package net.add1s.ofm.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.common.enums.Symbol;
+import net.add1s.ofm.common.enums.SysRoleEnum;
+import net.add1s.ofm.common.exception.BusinessException;
 import net.add1s.ofm.mapper.GoodsMapper;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.ChatMessage;
@@ -18,6 +20,7 @@ import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.util.SqlUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -119,6 +122,30 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 .setCurrentTransactionRole(currentUser.getTbId());
     }
 
+    @Override
+    public void offShelf(Long goodsTbId) {
+        if (isAllowedToOperateGoods(goodsTbId)) {
+            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).eq(Goods::getTbId, goodsTbId));
+        } else {
+            throw new BusinessException("权限不足，禁止操作其他用户的商品");
+        }
+    }
+
+    @Override
+    public void onShelf(Long goodsTbId) {
+        if (isAllowedToOperateGoods(goodsTbId)) {
+            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).eq(Goods::getTbId, goodsTbId));
+        } else {
+            throw new BusinessException("权限不足，禁止操作其他用户的商品");
+        }
+    }
+
+    /**
+     * 第一次私聊默认消息
+     *
+     * @param buyerSysUserTbId 卖家用户TBID
+     * @param goodsTbId        商品TBID
+     */
     private void firstChat(Long buyerSysUserTbId, Long goodsTbId) {
         ChatMessage firstChatOfThis = iChatMessageService.getOne(Wrappers.lambdaQuery(ChatMessage.class).eq(ChatMessage::getBuyerSysUserTbId, buyerSysUserTbId).eq(ChatMessage::getGoodsTbId, goodsTbId).eq(ChatMessage::getMessageTypeCode, -1));
         if (Objects.isNull(firstChatOfThis)) {
@@ -133,5 +160,17 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                             .setSenderSysUserTbId(buyerSysUserTbId)
             );
         }
+    }
+
+    /**
+     * 当前用户是否允许操作某一商品，仅超级管理员和商品卖家允许操作
+     *
+     * @param goodsTbId 商品TBID
+     * @return 是否允许
+     */
+    private boolean isAllowedToOperateGoods(Long goodsTbId) {
+        MyUserDetails currentUser = iSysUserService.currentUser();
+        return currentUser.getAuthorities().contains(new SimpleGrantedAuthority(SysRoleEnum.ADMIN.forRolePrefix()))
+                || this.getById(goodsTbId).getSellerSysUserTbId().equals(currentUser.getTbId());
     }
 }

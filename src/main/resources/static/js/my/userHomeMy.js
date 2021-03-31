@@ -43,6 +43,7 @@ Vue.createApp({
         init() {
             this.setPostedPage()
         },
+        // region posted
         setPostedPage() {
             axios.post('/home/my/postedPage', this.request.posted.postedRequest).then(res => {
                 if (res.data.success) {
@@ -62,7 +63,30 @@ Vue.createApp({
         postedPageNext() {
             this.request.posted.postedRequest.page.current ++
             this.setPostedPage()
+        },
+        offShelf(goodsTbId) {
+            axios.put(`/home/offShelf/${goodsTbId}`).then(res => {
+                if (res.data.success) {
+                    this.setPostedPage()
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        onShelf(goodsTbId) {
+            axios.put(`/home/onShelf/${goodsTbId}`).then(res => {
+                if (res.data.success) {
+                    this.setPostedPage()
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
         }
+        // endregion
     },
     watch: {
         'request.posted.offShelf'(n, o) {

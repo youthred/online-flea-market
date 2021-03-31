@@ -7,4 +7,8 @@ import net.add1s.ofm.pojo.entity.business.Goods;
 public interface IUserHomeService {
 
     IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage);
+
+    void offShelf(Long goodsTbId);
+
+    void onShelf(Long goodsTbId);
 }
