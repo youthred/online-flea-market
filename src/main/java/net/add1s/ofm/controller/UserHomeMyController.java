@@ -6,7 +6,6 @@ import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.service.IUserHomeService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 用户主页-我的
@@ -21,11 +20,6 @@ public class UserHomeMyController {
 
     public UserHomeMyController(IUserHomeService iUserHomeService) {
         this.iUserHomeService = iUserHomeService;
-    }
-
-    @GetMapping("/my.html")
-    public ModelAndView myPage() {
-        return new ModelAndView("home/my");
     }
 
     // region 我发布的 posted

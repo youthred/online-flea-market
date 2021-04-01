@@ -90,7 +90,7 @@
                     </div>
                     <!-- 已登录 -->
                     <div sec:authorize="!isAnonymous()">
-                        <a class="dropdown-item" href="/home/my/my.html">我的</a>
+                        <a class="dropdown-item" href="/home/my.html">我的</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">注销</a>
                     </div>
@@ -111,7 +111,7 @@
         <div th:switch="${item}" class="mr-auto">
             <ul th:case="my" class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/home/my/my.html">我的</a>
+                    <a class="nav-link active" href="/home/my.html">我的</a>
                 </li>
             </ul>
         </div>
@@ -134,7 +134,7 @@
                     </div>
                     <!-- 已登录 -->
                     <div sec:authorize="!isAnonymous()">
-                        <a class="dropdown-item active" href="/home/my/my.html">我的</a>
+                        <a class="dropdown-item active" href="/home/my.html">我的</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">注销</a>
                     </div>
@@ -178,7 +178,7 @@
                     </div>
                     <!-- 已登录 -->
                     <div sec:authorize="!isAnonymous()">
-                        <a class="dropdown-item" href="/home/my/my.html">我的</a>
+                        <a class="dropdown-item" href="/home/my.html">我的</a>
                         <a class="dropdown-item active" href="/admin/sys.html">系统管理</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">注销</a>
