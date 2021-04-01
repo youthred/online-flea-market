@@ -5,11 +5,17 @@ Vue.createApp({
                 posted: {           // 我发布的
                     postedPage: {}
                 },
-                sold: {},           // 我卖出的
-                got: {},            // 我买到的
-                privateChat: {},    // 我的私聊
-                like: {},           // 我的点赞
-                comments: {}        // 我的评论
+                sold: {             // 我卖出的
+                },
+                got: {              // 我买到的
+                },
+                privateChat: {      // 我的私聊
+                    chats: []
+                },
+                like: {             // 我的点赞
+                },
+                comments: {         // 我的评论
+                }
             },
             request: {
                 posted: {
@@ -42,13 +48,13 @@ Vue.createApp({
     methods: {
         init() {
             this.setPostedPage()
+            this.setPrivateChats()
         },
-        // region posted
+        // region 我发布的 posted
         setPostedPage() {
-            axios.post('/home/my/postedPage', this.request.posted.postedRequest).then(res => {
+            axios.post('/home/my/posted/page', this.request.posted.postedRequest).then(res => {
                 if (res.data.success) {
                     this.response.posted.postedPage = res.data.data;
-                    console.log(this.response.posted.postedPage)
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -65,7 +71,7 @@ Vue.createApp({
             this.setPostedPage()
         },
         offShelf(goodsTbId) {
-            axios.put(`/home/offShelf/${goodsTbId}`).then(res => {
+            axios.put(`/home/my/posted/offShelf/${goodsTbId}`).then(res => {
                 if (res.data.success) {
                     this.setPostedPage()
                 } else {
@@ -76,7 +82,7 @@ Vue.createApp({
             })
         },
         onShelf(goodsTbId) {
-            axios.put(`/home/onShelf/${goodsTbId}`).then(res => {
+            axios.put(`/home/my/posted/onShelf/${goodsTbId}`).then(res => {
                 if (res.data.success) {
                     this.setPostedPage()
                 } else {
@@ -85,7 +91,34 @@ Vue.createApp({
             }).catch(err => {
                 Swal.fire('', err.toString(), 'error')
             })
-        }
+        },
+        // endregion
+
+        // region 我卖出的 sold
+        // endregion
+
+        // region 我买到的 got
+        // endregion
+
+        // region 我的私聊 privateChat
+        setPrivateChats() {
+            axios.get('/home/my/privateChat/chats').then(res => {
+                if (res.data.success) {
+                    this.response.privateChat.chats = res.data.data;
+                    console.log(this.response.privateChat.chats)
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        // endregion
+
+        // region 我的点赞 like
+        // endregion
+
+        // region 我的评论 comments
         // endregion
     },
     watch: {

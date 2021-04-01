@@ -48,8 +48,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
+    public GoodsVO detailOfOnShelf(Long goodsTbId) {
+        return this.baseMapper.findOnShelfGoodsDetailByTbId(goodsTbId);
+    }
+
+    @Override
     public GoodsVO detail(Long goodsTbId) {
-        return this.baseMapper.findGoodsDetail(goodsTbId);
+        return this.baseMapper.findGoodsDetailByTbId(goodsTbId);
     }
 
     @Override
@@ -158,6 +163,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                             .setMessageContent("你好")
                             .setMessageTypeCode((short) -1)
                             .setSenderSysUserTbId(buyerSysUserTbId)
+                            .setReadBuyer(true)
             );
         }
     }

@@ -77,14 +77,6 @@ public class GoodsController {
     }
 
     /**
-     * 通过TBID获取对应商品详情
-     */
-    @GetMapping("/{goodsTbId}")
-    public Res getDetailsByTbId(@PathVariable("goodsTbId") Long goodsTbId) {
-        return Res.ok(iGoodsService.detail(goodsTbId));
-    }
-
-    /**
      * 通过TBID跳转对应商品详情页面
      *
      * @param goodsTbId 商品TBID
@@ -94,7 +86,7 @@ public class GoodsController {
     public ModelAndView detailPage(@PathVariable("goodsTbId") Long goodsTbId) {
         iGoodsService.view(goodsTbId);
         Map<String, Object> detailMap = new HashMap<>();
-        detailMap.put("goodsDetail", iGoodsService.detail(goodsTbId));
+        detailMap.put("goodsDetail", iGoodsService.detailOfOnShelf(goodsTbId));
         detailMap.put("currentLoginUser", iSysUserService.isLogin() ? iSysUserService.currentUser() : null);
         return new ModelAndView("goods/detail", "detail", detailMap);
     }
@@ -112,22 +104,12 @@ public class GoodsController {
     }
 
     /**
-     * 私聊列表
-     *
-     * @return ModelAndView
-     */
-    @GetMapping("/chatList.html")
-    public ModelAndView chat() {
-        return new ModelAndView("goods/chatList", "chats", iGoodsService.chats());
-    }
-
-    /**
      * 私聊页面
      *
      * @param goodsTbId 商品TBID
      * @return ModelAndView
      */
-    @GetMapping("/doChat/{goodsTbId}")
+    @GetMapping("/doChat/{goodsTbId}.html")
     public ModelAndView doChat(@PathVariable("goodsTbId") Long goodsTbId) {
         return new ModelAndView("goods/doChat", "chat", iGoodsService.chat(goodsTbId));
     }

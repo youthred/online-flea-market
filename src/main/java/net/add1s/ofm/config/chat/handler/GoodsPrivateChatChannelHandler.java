@@ -62,7 +62,7 @@ public class GoodsPrivateChatChannelHandler extends SimpleChannelInboundHandler<
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame textWebSocketFrame) throws Exception {
-        // 接受到的消息
+        // 接收到的消息
         NettyChatMessage nettyChatMessage = JSON.parseObject(textWebSocketFrame.text(), NettyChatMessage.class);
         nettyChatMessage.getChatMessageDTO().setCreateTime(LocalDateTime.now());
         if (nettyChatMessage.getChatMessageDTO().isUserGoodsChannelConnectBind()) {

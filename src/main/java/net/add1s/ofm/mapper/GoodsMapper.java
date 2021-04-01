@@ -10,7 +10,21 @@ import java.util.List;
 
 public interface GoodsMapper extends BaseMapper<Goods> {
 
-    GoodsVO findGoodsDetail(@Param("goodsTbId") Long goodsTbId);
+    /**
+     * 获取已上架商品详情
+     *
+     * @param goodsTbId 商品TBID
+     * @return GoodsVO
+     */
+    GoodsVO findOnShelfGoodsDetailByTbId(@Param("goodsTbId") Long goodsTbId);
+
+    /**
+     * 获取商品详情（不论是否下架）
+     *
+     * @param goodsTbId 商品TBID
+     * @return GoodsVO
+     */
+    GoodsVO findGoodsDetailByTbId(@Param("goodsTbId") Long goodsTbId);
 
     List<GoodsVO> findByDesc(@Param("q") String q);
 

@@ -32,10 +32,14 @@
             <result column="sellerTbId" property="tbId"/>
         </association>
     </resultMap>
-    <select id="findGoodsDetail" resultMap="findGoodsDetailMap">
+    <select id="findOnShelfGoodsDetailByTbId" resultMap="findGoodsDetailMap">
         <include refid="selectGoodsDetail"/>
         WHERE goods.`tb_id` = #{goodsTbId}
         AND goods.`off_shelf` = 0
+    </select>
+    <select id="findGoodsDetailByTbId" resultMap="findGoodsDetailMap">
+        <include refid="selectGoodsDetail"/>
+        WHERE goods.`tb_id` = #{goodsTbId}
     </select>
 
     <select id="findByDesc" resultType="net.add1s.ofm.pojo.vo.business.GoodsVO">

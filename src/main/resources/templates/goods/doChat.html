@@ -131,8 +131,10 @@
                     'buyerSysUserTbId': doChatVueApp.chat.chatMessages[0].buyerSysUserTbId,
                     'sellerSysUserTbId': doChatVueApp.chat.chatMessages[0].sellerSysUserTbId,
                     'messageContent': msg,
-                    'messageTypeCode': 1,   // 暂时只支持文本类消息
+                    'messageTypeCode': messageTypeCode,   // 暂时只支持文本类消息
                     'senderSysUserTbId': currentLoginUser.tbId,
+                    'readBuyer': doChatVueApp.chat.currentTransactionRole === 'BUYER',
+                    'readSeller': doChatVueApp.chat.currentTransactionRole === 'SELLER',
                     'userGoodsChannelConnectBind': userGoodsChannelConnectBind
                 }
             }

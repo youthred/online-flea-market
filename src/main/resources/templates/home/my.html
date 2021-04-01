@@ -25,7 +25,29 @@
         <div class="col-9 col-sm-10 col-md-11">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-posted" role="tabpanel" aria-labelledby="v-pills-posted-tab">
-                    <button class="btn btn-light float-right">发布闲置</button>
+                    <button class="btn btn-light float-right" data-toggle="modal" data-target="#postGoodsModal">发布闲置</button>
+                    <div id="postGoodsModal"
+                         class="modal fade"
+                         data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="chatModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">发布闲置</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" @click="postGoods">确认发布</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="pt-3 pb-1">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioOnShelf" value="0" v-model="request.posted.offShelf">
@@ -84,7 +106,28 @@
                 </div>
                 <div class="tab-pane fade overflow-auto" id="v-pills-sold" role="tabpanel" aria-labelledby="v-pills-sold-tab">2</div>
                 <div class="tab-pane fade overflow-auto" id="v-pills-got" role="tabpanel" aria-labelledby="v-pills-got-tab">3</div>
-                <div class="tab-pane fade overflow-auto" id="v-pills-privateChat" role="tabpanel" aria-labelledby="v-pills-privateChat-tab">4</div>
+                <div class="tab-pane fade overflow-auto" id="v-pills-privateChat" role="tabpanel" aria-labelledby="v-pills-privateChat-tab">
+                    <div v-if="Array.isNotEmpty(response.privateChat.chats)">
+                        <div class="list-group list-group-flush">
+                            <a v-for="chat in response.privateChat.chats" :href="`/goods/doChat/${chat.goods.tbId}.html`"
+                                    class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">{{chat.goods.seller.nickname}}g</p>
+                                    <small>{{chat.intervals}}</small>
+                                </div>
+                                <small v-if="chat.lastMessage.messageTypeCode === 1 || chat.lastMessage.messageTypeCode === -1" class="mb-1">{{chat.lastMessage.messageContent}}</small>
+                                <small v-else class="mb-1">[点击查看]</small>
+                                <span v-if="chat.unread > 0"
+                                      class="badge badge-danger badge-pill float-right">{{chat.unread}}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="text-center">
+                            <h1 class="text-muted">暂无私聊信息</h1>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane fade overflow-auto" id="v-pills-like" role="tabpanel" aria-labelledby="v-pills-like-tab">5</div>
                 <div class="tab-pane fade overflow-auto" id="v-pills-comments" role="tabpanel" aria-labelledby="v-pills-comments-tab">6</div>
             </div>

@@ -11,7 +11,15 @@ import java.util.List;
 public interface IGoodsService extends IService<Goods> {
 
     /**
-     * 商品详情
+     * 已上架商品详情
+     *
+     * @param goodsTbId 商品TBID
+     * @return GoodsVO
+     */
+    GoodsVO detailOfOnShelf(Long goodsTbId);
+
+    /**
+     * 商品详情（不论是否下架）
      *
      * @param goodsTbId 商品TBID
      * @return GoodsVO
