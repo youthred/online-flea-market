@@ -1,10 +1,11 @@
 package net.add1s.ofm.config.init;
 
+import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.add1s.ofm.cache.SimpleCacheManager;
 import net.add1s.ofm.config.chat.GoodsPrivateChatNettyServer;
 import net.add1s.ofm.config.chat.GroupSexNettyServer;
-import net.add1s.ofm.service.IChinaCityLevel4Service;
+import net.add1s.ofm.service.IChinaCityService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,35 +16,34 @@ import org.springframework.stereotype.Service;
 public class InitService implements ApplicationRunner {
 
     private final GroupSexNettyServer groupSexNettyServer;
-    public final IChinaCityLevel4Service iChinaCityLevel4Service;
+    public final IChinaCityService iChinaCityService;
     public final GoodsPrivateChatNettyServer goodsPrivateChatNettyServer;
 
     public InitService(GroupSexNettyServer groupSexNettyServer,
-                       IChinaCityLevel4Service iChinaCityLevel4Service,
+                       IChinaCityService iChinaCityService,
                        GoodsPrivateChatNettyServer goodsPrivateChatNettyServer) {
         this.groupSexNettyServer = groupSexNettyServer;
-        this.iChinaCityLevel4Service = iChinaCityLevel4Service;
+        this.iChinaCityService = iChinaCityService;
         this.goodsPrivateChatNettyServer = goodsPrivateChatNettyServer;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("系统初始化中...");
-        new Thread(() -> {
+        ThreadUtil.execute(() -> {
             try {
                 groupSexNettyServer.run();
             } catch (Exception e) {
                 log.error(ExceptionUtils.getStackTrace(e));
             }
-        }).start();
-        new Thread(() -> {
+        });
+        ThreadUtil.execute(() -> {
             try {
                 goodsPrivateChatNettyServer.run();
             } catch (Exception e) {
                 log.error(ExceptionUtils.getStackTrace(e));
             }
-        }).start();
-        SimpleCacheManager.cityTree = iChinaCityLevel4Service.generateCityTree();
-        log.info("系统初始化完成。");
+        });
+        ThreadUtil.execute(() -> SimpleCacheManager.cityTreeDeep2 = iChinaCityService.generateCityTreeDeep2());
+        ThreadUtil.execute(() -> SimpleCacheManager.cityTreeDeep3 = iChinaCityService.generateCityTreeDeep3());
     }
 }

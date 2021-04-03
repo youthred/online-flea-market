@@ -28,7 +28,7 @@ public class GoodsVO implements Serializable {
         this.desc = goods.getDesc();
         this.pics = goods.getPics();
         this.views = goods.getViews();
-        this.locationTbId = goods.getLocationTbId();
+        this.cityId = goods.getCityId();
         this.sellerSysUserTbId = goods.getSellerSysUserTbId();
         this.offShelf = goods.getOffShelf();
     }
@@ -42,7 +42,7 @@ public class GoodsVO implements Serializable {
     private String desc;
     private String pics;
     private Long views;
-    private Long locationTbId;
+    private Long cityId;
     private Long sellerSysUserTbId;
     private Boolean offShelf;
 

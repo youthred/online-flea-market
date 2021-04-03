@@ -5,6 +5,14 @@
       xmlns:v-on="http://www.w3.org/1999/xhtml"
       xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: header('我的')"></head>
+<style type="text/css">
+    .item {
+        cursor: pointer;
+    }
+    .bold {
+        font-weight: bold;
+    }
+</style>
 <body>
 <div class="sticky-top">
     <span th:replace="common/nav :: nav_userHome('my')"></span>
@@ -39,21 +47,32 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="post" action="/">
+                                    <div>
                                         <div class="form-group">
                                             <label for="goodsDesc" class="col-form-label">商品描述</label>
-                                            <textarea name="desc" class="form-control" id="goodsDesc"></textarea>
+                                            <textarea v-model="request.posted.newGoods.desc" class="form-control" id="goodsDesc" rows="3"></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="goodsPics">商品图片URL</label>
-                                            <input name="pics" type="text" class="form-control" id="goodsPics" placeholder="以英文逗号分隔，第一个为主图">
+                                            <input v-model="request.posted.newGoods.pics" type="text" class="form-control" id="goodsPics" placeholder="以英文逗号分隔，第一个为主图">
                                         </div>
                                         <div class="form-group">
                                             <label for="goodsPrice">出价(&yen;)</label>
-                                            <input name="price" type="number" min="0" step="0.01" class="form-control" id="goodsPrice">
+                                            <input v-model="request.posted.newGoods.price" type="number" min="0" step="0.01" class="form-control" id="goodsPrice">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>发布地: <b>{{response.posted.cityName}}</b></label>
+                                            <!-- city tree root -->
+                                            <ul>
+                                                <city-tree
+                                                        class="item"
+                                                        :item="response.posted.cityTree.data"
+                                                        @make-folder="makeFolder"
+                                                ></city-tree>
+                                            </ul>
                                         </div>
                                         <button type="button" class="btn btn-primary" @click="postGoods">确认发布</button>
-                                    </form>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>

@@ -54,10 +54,10 @@ public class Goods implements Serializable {
     private Long views;
 
     /**
-     * 发布地点TBID
+     * 发布地城市ID
      */
-    @TableField("`location_tb_id`")
-    private Long locationTbId;
+    @TableField("`city_id`")
+    private Long cityId;
 
     /**
      * 卖家TBID

@@ -6,5 +6,6 @@ import java.util.List;
 
 public class SimpleCacheManager {
 
-    public static List<Tree<String>> cityTree;
+    public static List<Tree<String>> cityTreeDeep2;
+    public static List<Tree<String>> cityTreeDeep3;
 }

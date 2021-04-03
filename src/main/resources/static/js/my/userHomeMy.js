@@ -1,9 +1,17 @@
-Vue.createApp({
+let userHomeMyVueApp = Vue.createApp({
     data() {
         return {
             response: {
                 posted: {           // 我发布的
-                    postedPage: {}
+                    postedPage: {},
+                    cityTree: {
+                        data: {
+                            name: "请选择",
+                            radioDisabled: true,
+                            children: []
+                        }
+                    },
+                    cityName: '未选择'
                 },
                 sold: {             // 我卖出的
                 },
@@ -32,6 +40,12 @@ Vue.createApp({
                                 type: "eq"
                             }
                         ]
+                    },
+                    newGoods: {
+                        desc: '',
+                        pics: '',
+                        price: 0,
+                        cityId: ''
                     }
                 },
                 sold: {},
@@ -47,14 +61,18 @@ Vue.createApp({
     },
     methods: {
         init() {
+            // posted
             this.setPostedPage()
+            this.setCityTree()
+
+            // privateChat
             this.setPrivateChats()
         },
         // region 我发布的 posted
         setPostedPage() {
             axios.post('/home/my/posted/page', this.request.posted.postedRequest).then(res => {
                 if (res.data.success) {
-                    this.response.posted.postedPage = res.data.data;
+                    this.response.posted.postedPage = res.data.data
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -92,6 +110,17 @@ Vue.createApp({
                 Swal.fire('', err.toString(), 'error')
             })
         },
+        setCityTree() {
+            axios.get('/city/treeDeep2').then(res => {
+                if (res.data.success) {
+                    this.response.posted.cityTree.data.children = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
         // endregion
 
         // region 我卖出的 sold
@@ -104,8 +133,7 @@ Vue.createApp({
         setPrivateChats() {
             axios.get('/home/my/privateChat/chats').then(res => {
                 if (res.data.success) {
-                    this.response.privateChat.chats = res.data.data;
-                    console.log(this.response.privateChat.chats)
+                    this.response.privateChat.chats = res.data.data
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -128,4 +156,61 @@ Vue.createApp({
             this.setPostedPage()
         }
     }
-}).mount('#userHomeMyVueApp')
+})
+
+userHomeMyVueApp.component("city-tree", {
+    template: `
+        <li>
+            <div class="form-check form-check-inline">
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    name="cityId"
+                    :id="item.id"
+                    :value="item.id"
+                    @click="cityRadioBind(item)"
+                    :disabled="item.radioDisabled">
+                <label class="form-check-label" :for="item.id"
+                    :class="{bold: isFolder}"
+                    @click="toggle">
+                    {{item.name}}
+                    <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
+                </label>
+            </div>
+            <ul v-show="isOpen" v-if="isFolder">
+                <city-tree
+                    class="item"
+                    v-for="(child, index) in item.children"
+                    :key="index"
+                    :item="child"
+                ></city-tree>
+            </ul>
+        </li>
+    `,
+    props: {
+        item: Object
+    },
+    data: function() {
+        return {
+            isOpen: false
+        }
+    },
+    computed: {
+        isFolder: function() {
+            return this.item.children && this.item.children.length
+        }
+    },
+    methods: {
+        toggle: function() {
+            if (this.isFolder) {
+                this.isOpen = !this.isOpen
+            }
+        },
+        cityRadioBind: function (node) {
+            vm.request.posted.newGoods.cityId = node.id
+            vm.response.posted.cityName = node.extName
+        }
+    }
+})
+
+let vm = userHomeMyVueApp.mount('#userHomeMyVueApp')

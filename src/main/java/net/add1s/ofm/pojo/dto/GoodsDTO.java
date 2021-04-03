@@ -29,7 +29,7 @@ public class GoodsDTO implements Serializable {
     @Min(0)
     private double price;
     @NotNull
-    private Long locationTbId;
+    private Long cityId;
     private Long sellerSysUserTbId;
     private boolean offShelf;
 
@@ -41,7 +41,7 @@ public class GoodsDTO implements Serializable {
                 .setDesc(this.desc)
                 .setPics(this.pics)
                 .setPrice(this.price)
-                .setLocationTbId(this.locationTbId)
+                .setCityId(this.cityId)
                 .setSellerSysUserTbId(this.sellerSysUserTbId)
                 .setOffShelf(this.offShelf);
     }

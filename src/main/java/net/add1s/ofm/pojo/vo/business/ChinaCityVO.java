@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-public class ChinaCityLevel4VO implements Serializable {
+public class ChinaCityVO implements Serializable {
 
     private static final long serialVersionUID = -991114627915373642L;
 

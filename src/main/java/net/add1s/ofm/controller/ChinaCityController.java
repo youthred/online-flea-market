@@ -14,12 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChinaCityController {
 
     /**
+     * 中国城市省市区
+     *
+     * @return Res
+     */
+    @GetMapping("/treeDeep2")
+    public Res chinaCityTreeDeep2() {
+        return Res.ok(SimpleCacheManager.cityTreeDeep2);
+    }
+
+    /**
      * 中国城市四级树
      *
      * @return Res
      */
-    @GetMapping("/tree")
-    public Res chinaCityTree() {
-        return Res.ok(SimpleCacheManager.cityTree);
+    @GetMapping("/treeDeep3")
+    public Res chinaCityTreeDeep3() {
+        return Res.ok(SimpleCacheManager.cityTreeDeep3);
     }
 }

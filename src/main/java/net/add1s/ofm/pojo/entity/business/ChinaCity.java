@@ -14,8 +14,8 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-@TableName("t_china_city_level4")
-public class ChinaCityLevel4 implements Serializable {
+@TableName("t_china_city")
+public class ChinaCity implements Serializable {
 
     private static final long serialVersionUID = 8683045414452921591L;
 
