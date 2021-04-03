@@ -30,14 +30,6 @@ public interface IGoodsService extends IService<Goods> {
     GoodsVO detail(Long goodsTbId);
 
     /**
-     * 搜索全部二手商品
-     *
-     * @param q 搜索条件
-     * @return list GoodsVO
-     */
-    List<GoodsVO> search(String q);
-
-    /**
      * 商品分页（仅已上架）
      *
      * @param mbpPage MbpPage
@@ -94,4 +86,11 @@ public interface IGoodsService extends IService<Goods> {
      * @param goodsDTO GoodsDTO
      */
     void saveNewGoods(GoodsDTO goodsDTO);
+
+    /**
+     * 更新商品
+     *
+     * @param goodsDTO GoodsDTO
+     */
+    void updateGoods(GoodsDTO goodsDTO);
 }

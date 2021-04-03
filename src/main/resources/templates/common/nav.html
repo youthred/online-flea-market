@@ -16,17 +16,6 @@
     <a class="navbar-brand" href="/"><img src="/static/img/favicon.ico" class="rounded img-fluid"
                                           style="height: 30px" alt="logo"></a>
 
-    <!--搜索表单-->
-    <form class="form-inline" action="/goods/search" id="indexSearchVueApp">
-        <div class="input-group">
-            <input name="q" v-model.trim="searchQ" class="form-control border-success rounded-pill mr-2" type="search" placeholder="搜索全部"
-                   aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-outline-success rounded-pill" type="submit" :disabled="disabled">Search</button>
-            </div>
-        </div>
-    </form>
-
     <!--在这个button（data-target="#navbarSupportedContent"）之后的元素（id="navbarSupportedContent"）在小屏幕上会自动折叠-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nscCommon"
             aria-controls="nscCommon" aria-expanded="false" aria-label="Toggle navigation">

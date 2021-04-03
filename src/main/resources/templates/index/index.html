@@ -11,12 +11,13 @@
 
     <div class="container">
         <div id="goodsIndexVueApp" class="pt-3">
-            <label>
-                <select class="custom-select" id="goodsTypesSelector" required
-                        v-model.number="goodsPageRequest.queryOptions[0].value" @change="onGoodsTypeChange">
-                    <option :value="goodsType.code" v-for="goodsType in goodsTypeOptions">{{goodsType.desc}}</option>
-                </select>
-            </label>
+            <div class="input-group justify-content-center">
+                <input name="q" v-model.trim="searchInput" class="form-control border-success rounded-pill mr-2" type="text"
+                       aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success rounded-pill" @click="search">Search</button>
+                </div>
+            </div>
             <div v-if="Array.isNotEmpty(goodsPage.records)">
                 <div class="card-columns pt-2" id="goodsPage">
                     <div class="card mb-3" v-for="goods in goodsPage.records">

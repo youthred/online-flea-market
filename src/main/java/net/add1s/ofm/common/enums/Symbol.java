@@ -43,6 +43,7 @@ public enum Symbol {
     VERTICAL_BAR("|"),
     TILDE("~"),
     SPACE(" "),
+    EMPTY_STRING(""),
     ;
 
     private final String value;

@@ -6,7 +6,6 @@ import net.add1s.ofm.pojo.dto.GoodsDTO;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.service.IGoodsService;
-import net.add1s.ofm.service.IParameterService;
 import net.add1s.ofm.service.ISysUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,26 +22,12 @@ import java.util.Map;
 public class GoodsController {
 
     private final IGoodsService iGoodsService;
-    private final IParameterService iParameterService;
     private final ISysUserService iSysUserService;
 
     public GoodsController(IGoodsService iGoodsService,
-                           IParameterService iParameterService,
                            ISysUserService iSysUserService) {
         this.iGoodsService = iGoodsService;
-        this.iParameterService = iParameterService;
         this.iSysUserService = iSysUserService;
-    }
-
-    /**
-     * 搜索所有商品
-     *
-     * @param q 搜索输入
-     * @return ModelAndView
-     */
-    @GetMapping("/search")
-    public ModelAndView search(@RequestParam("q") String q) {
-        return new ModelAndView("goods/search", "searchRes", iGoodsService.search(q));
     }
 
     /**
@@ -94,9 +79,27 @@ public class GoodsController {
         return new ModelAndView("goods/doChat", "chat", iGoodsService.chat(goodsTbId));
     }
 
+    /**
+     * 新增闲置
+     *
+     * @param goodsDTO GoodsDTO
+     * @return Res
+     */
     @PostMapping("/save")
     public Res saveNewGoods(@RequestBody @Validated GoodsDTO goodsDTO) {
         iGoodsService.saveNewGoods(goodsDTO);
+        return Res.ok();
+    }
+
+    /**
+     * 更新商品
+     *
+     * @param goodsDTO GoodsDTO
+     * @return Res
+     */
+    @PutMapping("/update")
+    public Res updateGoods(@RequestBody @Validated GoodsDTO goodsDTO) {
+        iGoodsService.updateGoods(goodsDTO);
         return Res.ok();
     }
 }

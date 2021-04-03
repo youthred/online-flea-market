@@ -26,8 +26,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      */
     GoodsVO findGoodsDetailByTbId(@Param("goodsTbId") Long goodsTbId);
 
-    List<GoodsVO> findByDesc(@Param("q") String q);
-
     void viewsAdd(@Param("goodsTbId") Long goodsTbId);
 
     List<GoodsChatVO> findChatList(@Param("currentUserTbId") Long currentUserTbId);

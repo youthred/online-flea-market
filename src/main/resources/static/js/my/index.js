@@ -1,7 +1,6 @@
 const goodsApp = Vue.createApp({
     data() {
         return {
-            goodsTypeOptions: [],
             goodsPage: {},
             goodsPageRequest: {
                 page: {
@@ -10,31 +9,19 @@ const goodsApp = Vue.createApp({
                 },
                 queryOptions: [
                     {
-                        key: "goodsTypeCode",
-                        value: -1,
-                        type: "eq"
+                        key: "desc",
+                        value: '',
+                        type: "like"
                     }
                 ]
-            }
+            },
+            searchInput: ''
         }
     },
+    mounted() {
+        this.setGoodsPage()
+    },
     methods: {
-        init() {
-            axios.get('/goods/goodsTypes').then(res => {
-                if (res.data.success) {
-                    let goodsTypes = res.data.data;
-                    if (goodsTypes.length > 0) {
-                        this.goodsPageRequest.queryOptions[0].value = goodsTypes[0].code
-                        this.goodsTypeOptions = goodsTypes;
-                        this.setGoodsPage()
-                    }
-                } else {
-                    Swal.fire('', res.data.message, 'error')
-                }
-            }).catch(err => {
-                Swal.fire('', err.toString(), 'error')
-            })
-        },
         setGoodsPage() {
             axios.post('/goods/page', this.goodsPageRequest).then(res => {
                 if (res.data.success) {
@@ -46,10 +33,6 @@ const goodsApp = Vue.createApp({
                 Swal.fire('', err.toString(), 'error')
             })
         },
-        onGoodsTypeChange() {
-            this.goodsPageRequest.page.current = 1
-            this.setGoodsPage()
-        },
         prev() {
             this.goodsPageRequest.page.current --;
             this.setGoodsPage()
@@ -57,7 +40,15 @@ const goodsApp = Vue.createApp({
         next() {
             this.goodsPageRequest.page.current ++;
             this.setGoodsPage()
+        },
+        search() {
+            // this.goodsPageRequest.queryOptions.push({
+            //     key: "desc",
+            //     value: this.searchInput,
+            //     type: "like"
+            // })
+            this.goodsPageRequest.queryOptions[0].value = this.searchInput
+            this.setGoodsPage()
         }
     }
 }).mount('#goodsIndexVueApp')
-goodsApp.init()

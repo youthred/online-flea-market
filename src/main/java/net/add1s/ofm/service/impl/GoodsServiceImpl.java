@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import net.add1s.ofm.common.enums.QueryTypeEnum;
 import net.add1s.ofm.common.enums.Symbol;
 import net.add1s.ofm.common.enums.SysRoleEnum;
 import net.add1s.ofm.common.exception.BusinessException;
@@ -23,14 +24,12 @@ import net.add1s.ofm.service.IGoodsReportService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.util.SqlUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -62,19 +61,19 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public List<GoodsVO> search(String q) {
-        // " +": 匹配所有连续空格，replace为一个空格
-        String[] searches = SqlUtil.escapeLike(q.trim()).replaceAll(" +", " ").split(Symbol.SPACE.getValue());
-        List<String> searchesTrimmed = Arrays.stream(searches).distinct().map(String::trim).collect(Collectors.toList());
-        String like = StringUtils.join(searchesTrimmed, Symbol.PERCENT.getValue());
-        return this.baseMapper.findByDesc(like);
-    }
-
-    @Override
     public IPage<Goods> goodsPage(MbpPage<Goods> mbpPage) {
+        boolean remove = mbpPage.getQueryOptions().removeIf(queryOption -> "desc".equals(queryOption.getKey()) && Symbol.EMPTY_STRING.getValue().equals(queryOption.getValue().toString()));
+        if (!remove) {
+            mbpPage.getQueryOptions().forEach(queryOption -> {
+                if ("desc".equals(queryOption.getKey())) {
+                    queryOption.setValue(SqlUtil.spaceToPresent(queryOption.getValue().toString()));
+                    queryOption.setType(QueryTypeEnum.like);
+                }
+            });
+        }
         Page<Goods> page = this.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getOffShelf, false));
         page.convert(GoodsVO::new);
-        return null;
+        return page;
     }
 
     @Override
@@ -158,6 +157,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     public void saveNewGoods(GoodsDTO goodsDTO) {
+        goodsDTO.setCreateTime(LocalDateTime.now())
+                .setSellerSysUserTbId(iSysUserService.currentUser().getTbId())
+                .setOffShelf(false);
+        this.save(goodsDTO.toEntity());
+    }
+
+    @Override
+    public void updateGoods(GoodsDTO goodsDTO) {
+        // todo
     }
 
     /**
