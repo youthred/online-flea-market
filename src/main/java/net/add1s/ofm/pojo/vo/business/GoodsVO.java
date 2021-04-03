@@ -28,7 +28,6 @@ public class GoodsVO implements Serializable {
         this.desc = goods.getDesc();
         this.pics = goods.getPics();
         this.views = goods.getViews();
-        this.goodsTypeCode = goods.getGoodsTypeCode();
         this.locationTbId = goods.getLocationTbId();
         this.sellerSysUserTbId = goods.getSellerSysUserTbId();
         this.offShelf = goods.getOffShelf();
@@ -39,18 +38,16 @@ public class GoodsVO implements Serializable {
     private Long tbId;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private String price;
+    private Double price;
     private String desc;
     private String pics;
     private Long views;
-    private Short goodsTypeCode;
     private Long locationTbId;
     private Long sellerSysUserTbId;
     private Boolean offShelf;
 
     private String[] picArr;
     private String mainPicUrl;
-    private String goodsTypeDesc;
     private String cityName;
     private String cityExtName;
 

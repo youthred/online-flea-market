@@ -1,11 +1,15 @@
 package net.add1s.ofm.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.common.enums.Symbol;
 import net.add1s.ofm.common.enums.SysRoleEnum;
 import net.add1s.ofm.common.exception.BusinessException;
+import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.mapper.GoodsMapper;
+import net.add1s.ofm.pojo.dto.GoodsDTO;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.ChatMessage;
 import net.add1s.ofm.pojo.entity.business.Goods;
@@ -64,6 +68,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         List<String> searchesTrimmed = Arrays.stream(searches).distinct().map(String::trim).collect(Collectors.toList());
         String like = StringUtils.join(searchesTrimmed, Symbol.PERCENT.getValue());
         return this.baseMapper.findByDesc(like);
+    }
+
+    @Override
+    public IPage<Goods> goodsPage(MbpPage<Goods> mbpPage) {
+        Page<Goods> page = this.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getOffShelf, false));
+        page.convert(GoodsVO::new);
+        return null;
     }
 
     @Override
@@ -143,6 +154,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         } else {
             throw new BusinessException("权限不足，禁止操作其他用户的商品");
         }
+    }
+
+    @Override
+    public void saveNewGoods(GoodsDTO goodsDTO) {
     }
 
     /**

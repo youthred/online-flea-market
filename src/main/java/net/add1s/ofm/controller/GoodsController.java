@@ -1,8 +1,8 @@
 package net.add1s.ofm.controller;
 
-import net.add1s.ofm.cache.SimpleCacheManager;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
+import net.add1s.ofm.pojo.dto.GoodsDTO;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.service.IGoodsService;
@@ -46,16 +46,6 @@ public class GoodsController {
     }
 
     /**
-     * 中国城市四级树
-     *
-     * @return Res
-     */
-    @GetMapping("/chinaCityTree")
-    public Res chinaCityTree() {
-        return Res.ok(SimpleCacheManager.cityTree);
-    }
-
-    /**
      * 分页
      *
      * @param mbpPage 分页及查询参数
@@ -63,17 +53,7 @@ public class GoodsController {
      */
     @PostMapping("/page")
     public Res page(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getOffShelf, false)));
-    }
-
-    /**
-     * 商品类型
-     *
-     * @return Res
-     */
-    @GetMapping("/goodsTypes")
-    public Res goodsTypes() {
-        return Res.ok(iParameterService.goodsTypes());
+        return Res.ok(iGoodsService.goodsPage(mbpPage));
     }
 
     /**
@@ -112,5 +92,11 @@ public class GoodsController {
     @GetMapping("/doChat/{goodsTbId}.html")
     public ModelAndView doChat(@PathVariable("goodsTbId") Long goodsTbId) {
         return new ModelAndView("goods/doChat", "chat", iGoodsService.chat(goodsTbId));
+    }
+
+    @PostMapping("/save")
+    public Res saveNewGoods(@RequestBody @Validated GoodsDTO goodsDTO) {
+        iGoodsService.saveNewGoods(goodsDTO);
+        return Res.ok();
     }
 }

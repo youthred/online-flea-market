@@ -1,6 +1,9 @@
 package net.add1s.ofm.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import net.add1s.ofm.common.page.MbpPage;
+import net.add1s.ofm.pojo.dto.GoodsDTO;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
@@ -33,6 +36,14 @@ public interface IGoodsService extends IService<Goods> {
      * @return list GoodsVO
      */
     List<GoodsVO> search(String q);
+
+    /**
+     * 商品分页（仅已上架）
+     *
+     * @param mbpPage MbpPage
+     * @return goods page
+     */
+    IPage<Goods> goodsPage(MbpPage<Goods> mbpPage);
 
     /**
      * 浏览量+1
@@ -76,4 +87,11 @@ public interface IGoodsService extends IService<Goods> {
      * @param goodsTbId 商品TBID
      */
     void onShelf(Long goodsTbId);
+
+    /**
+     * 新增闲置
+     *
+     * @param goodsDTO GoodsDTO
+     */
+    void saveNewGoods(GoodsDTO goodsDTO);
 }

@@ -9,19 +9,16 @@
             goods.`desc`,
             goods.`pics`,
             goods.`views`,
-            goods.`goods_type_code`,
             goods.`location_tb_id`,
             goods.`seller_sys_user_tb_id`,
             goods.`off_shelf`,
             goods.`create_time`,
             goods.`update_time`,
-            param.`desc` AS goodsTypeDesc,
             city.`name` cityName,
             city.`ext_name` cityExtName,
             suser.nickname,
             suser.tb_id sellerTbId
         FROM t_goods goods
-        LEFT JOIN t_parameter param ON param.group_name = 'GOODS_TYPE' AND param.`code` = goods.goods_type_code
         LEFT JOIN t_sys_user suser ON suser.tb_id = goods.seller_sys_user_tb_id
         LEFT JOIN t_china_city_level4 city ON city.tb_id = goods.location_tb_id
     </sql>
