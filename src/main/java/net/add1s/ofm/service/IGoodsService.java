@@ -19,7 +19,7 @@ public interface IGoodsService extends IService<Goods> {
      * @param goodsTbId 商品TBID
      * @return GoodsVO
      */
-    GoodsVO detailOfOnShelf(Long goodsTbId);
+    GoodsVO detailOfOnShelfAndUnDeleted(Long goodsTbId);
 
     /**
      * 商品详情（不论是否下架）
@@ -93,4 +93,11 @@ public interface IGoodsService extends IService<Goods> {
      * @param goodsDTO GoodsDTO
      */
     void updateGoods(GoodsDTO goodsDTO);
+
+    /**
+     * 删除商品，更新为[下架、已删除]
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void deleteGoods(Long goodsTbId);
 }

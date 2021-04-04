@@ -51,8 +51,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public GoodsVO detailOfOnShelf(Long goodsTbId) {
-        return this.baseMapper.findOnShelfGoodsDetailByTbId(goodsTbId);
+    public GoodsVO detailOfOnShelfAndUnDeleted(Long goodsTbId) {
+        return this.baseMapper.findOnShelfAndUnDeletedGoodsDetailByTbId(goodsTbId);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 }
             });
         }
-        Page<Goods> page = this.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getOffShelf, false));
+        Page<Goods> page = this.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getOffShelf, false).eq(Goods::getDeleted, false));
         page.convert(GoodsVO::new);
         return page;
     }
@@ -132,7 +132,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 .collect(Collectors.toList());
         chatMessageVOS.forEach(chatMessageVO -> chatMessageVO.setIsFromCurrentUser(currentUser.getTbId()));
         return new GoodsChatVO()
-                .setGoods(this.detail(goodsTbId))
+                .setGoods(this.detail(goodsTbId))   // 不管是否下架或删除
                 .setChatMessages(chatMessageVOS)
                 .setCurrentTransactionRole(currentUser.getTbId());
     }
@@ -166,6 +166,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public void updateGoods(GoodsDTO goodsDTO) {
         // todo
+    }
+
+    @Override
+    public void deleteGoods(Long goodsTbId) {
+        if (isAllowedToOperateGoods(goodsTbId)) {
+            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getDeleted, true).eq(Goods::getTbId, goodsTbId));
+        } else {
+            throw new BusinessException("权限不足，禁止操作其他用户的商品");
+        }
     }
 
     /**

@@ -11,8 +11,6 @@ public interface IUserHomeService {
 
     // region 我发布的 posted
     IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage);
-    void offShelf(Long goodsTbId);
-    void onShelf(Long goodsTbId);
     // endregion
 
     // region 我卖出的 sold

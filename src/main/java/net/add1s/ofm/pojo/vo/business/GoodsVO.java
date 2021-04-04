@@ -31,6 +31,7 @@ public class GoodsVO implements Serializable {
         this.cityId = goods.getCityId();
         this.sellerSysUserTbId = goods.getSellerSysUserTbId();
         this.offShelf = goods.getOffShelf();
+        this.deleted = goods.getDeleted();
     }
 
     private static final long serialVersionUID = 1035024677737233143L;
@@ -45,6 +46,7 @@ public class GoodsVO implements Serializable {
     private Long cityId;
     private Long sellerSysUserTbId;
     private Boolean offShelf;
+    private Boolean deleted;
 
     private String[] picArr;
     private String mainPicUrl;

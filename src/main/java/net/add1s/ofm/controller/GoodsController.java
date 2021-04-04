@@ -51,7 +51,7 @@ public class GoodsController {
     public ModelAndView detailPage(@PathVariable("goodsTbId") Long goodsTbId) {
         iGoodsService.view(goodsTbId);
         Map<String, Object> detailMap = new HashMap<>();
-        detailMap.put("goodsDetail", iGoodsService.detailOfOnShelf(goodsTbId));
+        detailMap.put("goodsDetail", iGoodsService.detailOfOnShelfAndUnDeleted(goodsTbId));
         detailMap.put("currentLoginUser", iSysUserService.isLogin() ? iSysUserService.currentUser() : null);
         return new ModelAndView("goods/detail", "detail", detailMap);
     }
@@ -80,6 +80,30 @@ public class GoodsController {
     }
 
     /**
+     * 下架商品
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @PutMapping("/offShelf/{goodsTbId}")
+    public Res offShelf(@PathVariable("goodsTbId") Long goodsTbId) {
+        iGoodsService.offShelf(goodsTbId);
+        return Res.ok();
+    }
+
+    /**
+     * 重新发布商品
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @PutMapping("/onShelf/{goodsTbId}")
+    public Res onShelf(@PathVariable("goodsTbId") Long goodsTbId) {
+        iGoodsService.onShelf(goodsTbId);
+        return Res.ok();
+    }
+
+    /**
      * 新增闲置
      *
      * @param goodsDTO GoodsDTO
@@ -100,6 +124,18 @@ public class GoodsController {
     @PutMapping("/update")
     public Res updateGoods(@RequestBody @Validated GoodsDTO goodsDTO) {
         iGoodsService.updateGoods(goodsDTO);
+        return Res.ok();
+    }
+
+    /**
+     * 删除商品，更新为[下架、已删除]
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @DeleteMapping("/delete/{goodsTbId}")
+    public Res deleteGoods(@PathVariable("goodsTbId") Long goodsTbId) {
+        iGoodsService.deleteGoods(goodsTbId);
         return Res.ok();
     }
 }

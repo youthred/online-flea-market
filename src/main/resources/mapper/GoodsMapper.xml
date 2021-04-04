@@ -12,6 +12,7 @@
             goods.`city_id`,
             goods.`seller_sys_user_tb_id`,
             goods.`off_shelf`,
+            goods.`deleted`,
             goods.`create_time`,
             goods.`update_time`,
             city.`name` cityName,
@@ -29,10 +30,11 @@
             <result column="sellerTbId" property="tbId"/>
         </association>
     </resultMap>
-    <select id="findOnShelfGoodsDetailByTbId" resultMap="findGoodsDetailMap">
+    <select id="findOnShelfAndUnDeletedGoodsDetailByTbId" resultMap="findGoodsDetailMap">
         <include refid="selectGoodsDetail"/>
         WHERE goods.`tb_id` = #{goodsTbId}
         AND goods.`off_shelf` = 0
+        AND goods.`deleted` = 0
     </select>
     <select id="findGoodsDetailByTbId" resultMap="findGoodsDetailMap">
         <include refid="selectGoodsDetail"/>

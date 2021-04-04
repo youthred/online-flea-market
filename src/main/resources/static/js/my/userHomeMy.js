@@ -38,6 +38,11 @@ let userHomeMyVueApp = Vue.createApp({
                                 key: "offShelf",
                                 value: 0,
                                 type: "eq"
+                            },
+                            {
+                                key: "deleted",
+                                value: false,
+                                type: "eq"
                             }
                         ]
                     },
@@ -89,7 +94,7 @@ let userHomeMyVueApp = Vue.createApp({
             this.setPostedPage()
         },
         offShelf(goodsTbId) {
-            axios.put(`/home/my/posted/offShelf/${goodsTbId}`).then(res => {
+            axios.put(`/goods/offShelf/${goodsTbId}`).then(res => {
                 if (res.data.success) {
                     this.setPostedPage()
                 } else {
@@ -100,9 +105,31 @@ let userHomeMyVueApp = Vue.createApp({
             })
         },
         onShelf(goodsTbId) {
-            axios.put(`/home/my/posted/onShelf/${goodsTbId}`).then(res => {
+            axios.put(`/goods/onShelf/${goodsTbId}`).then(res => {
                 if (res.data.success) {
                     this.setPostedPage()
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        updateGoods(goods) {
+            axios.put('/goods/update', goods).then(res => {
+                if (res.data.success) {
+                    Swal.fire('', '修改成功', 'success')
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        deleteGoods(goodsTbId) {
+            axios.delete('/goods/delete/goodsTbId').then(res => {
+                if (res.data.success) {
+                    Swal.fire('', '删除成功', 'success')
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -114,6 +141,17 @@ let userHomeMyVueApp = Vue.createApp({
             axios.get('/city/treeDeep2').then(res => {
                 if (res.data.success) {
                     this.response.posted.cityTree.data.children = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        postNewGoods() {
+            axios.post('/goods/save', this.request.posted.newGoods).then(res => {
+                if (res.data.success) {
+                    Swal.fire('', '新增成功', 'success')
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }

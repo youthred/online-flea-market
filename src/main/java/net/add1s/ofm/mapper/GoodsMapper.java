@@ -16,7 +16,7 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      * @param goodsTbId 商品TBID
      * @return GoodsVO
      */
-    GoodsVO findOnShelfGoodsDetailByTbId(@Param("goodsTbId") Long goodsTbId);
+    GoodsVO findOnShelfAndUnDeletedGoodsDetailByTbId(@Param("goodsTbId") Long goodsTbId);
 
     /**
      * 获取商品详情（不论是否下架）

@@ -32,6 +32,7 @@ public class GoodsDTO implements Serializable {
     private Long cityId;
     private Long sellerSysUserTbId;
     private boolean offShelf;
+    private Boolean deleted;
 
     public Goods toEntity() {
         return new Goods()
@@ -43,6 +44,7 @@ public class GoodsDTO implements Serializable {
                 .setPrice(this.price)
                 .setCityId(this.cityId)
                 .setSellerSysUserTbId(this.sellerSysUserTbId)
-                .setOffShelf(this.offShelf);
+                .setOffShelf(this.offShelf)
+                .setDeleted(this.deleted);
     }
 }

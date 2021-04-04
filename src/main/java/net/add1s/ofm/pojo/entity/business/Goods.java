@@ -66,8 +66,14 @@ public class Goods implements Serializable {
     private Long sellerSysUserTbId;
 
     /**
-     * 是否下架
+     * 是否已下架
      */
     @TableField("`off_shelf`")
     private Boolean offShelf;
+
+    /**
+     * 是否已删除
+     */
+    @TableField("`deleted`")
+    private Boolean deleted;
 }
