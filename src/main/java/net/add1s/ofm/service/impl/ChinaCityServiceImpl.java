@@ -67,4 +67,9 @@ public class ChinaCityServiceImpl extends ServiceImpl<ChinaCityMapper, ChinaCity
                 }
         );
     }
+
+    @Override
+    public ChinaCity getCityInfoById(Long id) {
+        return this.getOne(Wrappers.lambdaQuery(ChinaCity.class).eq(ChinaCity::getId, id));
+    }
 }

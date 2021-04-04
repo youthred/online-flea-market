@@ -1,5 +1,6 @@
 package net.add1s.ofm.pojo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import net.add1s.ofm.pojo.entity.business.Goods;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Accessors(chain = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GoodsDTO implements Serializable {
 
     private static final long serialVersionUID = -3350624601743812820L;

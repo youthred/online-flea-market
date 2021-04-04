@@ -140,7 +140,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public void offShelf(Long goodsTbId) {
         if (isAllowedToOperateGoods(goodsTbId)) {
-            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).eq(Goods::getTbId, goodsTbId));
+            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
         } else {
             throw new BusinessException("权限不足，禁止操作其他用户的商品");
         }
@@ -149,7 +149,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public void onShelf(Long goodsTbId) {
         if (isAllowedToOperateGoods(goodsTbId)) {
-            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).eq(Goods::getTbId, goodsTbId));
+            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
         } else {
             throw new BusinessException("权限不足，禁止操作其他用户的商品");
         }
@@ -158,14 +158,29 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public void saveNewGoods(GoodsDTO goodsDTO) {
         goodsDTO.setCreateTime(LocalDateTime.now())
+                .setUpdateTime(LocalDateTime.now())
                 .setSellerSysUserTbId(iSysUserService.currentUser().getTbId())
-                .setOffShelf(false);
+                .setOffShelf(false)
+                .setDeleted(false);
         this.save(goodsDTO.toEntity());
     }
 
     @Override
     public void updateGoods(GoodsDTO goodsDTO) {
-        // todo
+        if (isAllowedToOperateGoods(goodsDTO.getTbId())) {
+            Goods goods = goodsDTO.setUpdateTime(LocalDateTime.now()).toEntity();
+            this.update(
+                    Wrappers.lambdaUpdate(Goods.class)
+                            .eq(Goods::getTbId, goods.getTbId())
+                            .set(Goods::getDesc, goods.getDesc())
+                            .set(Goods::getPics, goods.getPics())
+                            .set(Goods::getPrice, goods.getPrice())
+                            .set(Goods::getCityId, goods.getCityId())
+                            .set(Goods::getUpdateTime, goods.getUpdateTime())
+            );
+        } else {
+            throw new BusinessException("权限不足，禁止操作其他用户的商品");
+        }
     }
 
     @Override

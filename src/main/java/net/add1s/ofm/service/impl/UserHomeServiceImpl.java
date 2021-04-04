@@ -30,7 +30,7 @@ public class UserHomeServiceImpl implements IUserHomeService {
     // region 我发布的 posted
     @Override
     public IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage) {
-        Page<Goods> page = iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getSellerSysUserTbId, iSysUserService.currentUser().getTbId()));
+        Page<Goods> page = iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getSellerSysUserTbId, iSysUserService.currentUser().getTbId()).eq(Goods::getDeleted, false));
         page.convert(GoodsVO::new);
         return page;
     }

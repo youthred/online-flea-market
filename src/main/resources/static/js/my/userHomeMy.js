@@ -10,8 +10,7 @@ let userHomeMyVueApp = Vue.createApp({
                             radioDisabled: true,
                             children: []
                         }
-                    },
-                    cityName: '未选择'
+                    }
                 },
                 sold: {             // 我卖出的
                 },
@@ -31,26 +30,23 @@ let userHomeMyVueApp = Vue.createApp({
                     postedRequest: {
                         page: {
                             current: 1,
-                            size: 5
+                            size: 10
                         },
                         queryOptions: [
                             {
                                 key: "offShelf",
                                 value: 0,
                                 type: "eq"
-                            },
-                            {
-                                key: "deleted",
-                                value: false,
-                                type: "eq"
                             }
                         ]
                     },
-                    newGoods: {
+                    saveOrUpdateGoods: {
+                        tbId: '',
                         desc: '',
                         pics: '',
-                        price: 0,
-                        cityId: ''
+                        price: '',
+                        cityId: '',
+                        cityName: '未选择'
                     }
                 },
                 sold: {},
@@ -115,10 +111,67 @@ let userHomeMyVueApp = Vue.createApp({
                 Swal.fire('', err.toString(), 'error')
             })
         },
-        updateGoods(goods) {
-            axios.put('/goods/update', goods).then(res => {
+        // 商品新增/修改请求体重新设置为默认值
+        defaultSaveOrUpdateGoods() {
+            this.request.posted.saveOrUpdateGoods.tbId = ''
+            this.request.posted.saveOrUpdateGoods.cityId = ''
+            this.request.posted.saveOrUpdateGoods.desc = ''
+            this.request.posted.saveOrUpdateGoods.pics = ''
+            this.request.posted.saveOrUpdateGoods.price = ''
+            this.request.posted.saveOrUpdateGoods.cityName = '未选择'
+            this.cancelCityTreeRadioChecked()
+        },
+        // 设置商品新增/修改请求体
+        setSaveOrUpdateGoods(goods) {
+            this.request.posted.saveOrUpdateGoods.tbId = goods.tbId
+            this.request.posted.saveOrUpdateGoods.desc = goods.desc
+            this.request.posted.saveOrUpdateGoods.price = goods.price
+            this.request.posted.saveOrUpdateGoods.pics = goods.pics
+            this.request.posted.saveOrUpdateGoods.cityId = goods.cityId
+            this.request.posted.saveOrUpdateGoods.cityName = goods.cityName
+        },
+        // 取消cityTree已选中
+        cancelCityTreeRadioChecked() {
+            $('input:radio[name=cityId]:checked').prop('checked',false)
+        },
+        postNewGoods() {
+            axios.post('/goods/save', this.request.posted.saveOrUpdateGoods).then(res => {
+                if (res.data.success) {
+                    Swal.fire('', '新增成功', 'success')
+                    $('#saveOrUpdateGoodsModal').modal('hide')
+                    this.defaultSaveOrUpdateGoods()
+                    this.setPostedPage()
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        async showUpdateGoodsModal(goods) {
+            // this.defaultSaveOrUpdateGoods()
+            // 同步执行，等待cityName赋值完成后再执行下一步
+            await axios.get(`/city/${goods.cityId}`).then(res => {
+                if (res.data.success) {
+                    goods.cityName = res.data.data.name
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+            this.setSaveOrUpdateGoods(goods)
+            // cityTree选中
+            this.cancelCityTreeRadioChecked()
+            $(`#${goods.cityId}`).prop('checked', true)
+            $('#saveOrUpdateGoodsModal').modal('show')
+        },
+        updateGoods() {
+            axios.put('/goods/update', this.request.posted.saveOrUpdateGoods).then(res => {
                 if (res.data.success) {
                     Swal.fire('', '修改成功', 'success')
+                    $('#saveOrUpdateGoodsModal').modal('hide')
+                    this.setPostedPage()
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -127,9 +180,10 @@ let userHomeMyVueApp = Vue.createApp({
             })
         },
         deleteGoods(goodsTbId) {
-            axios.delete('/goods/delete/goodsTbId').then(res => {
+            axios.delete(`/goods/delete/${goodsTbId}`).then(res => {
                 if (res.data.success) {
                     Swal.fire('', '删除成功', 'success')
+                    this.setPostedPage()
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -141,17 +195,6 @@ let userHomeMyVueApp = Vue.createApp({
             axios.get('/city/treeDeep2').then(res => {
                 if (res.data.success) {
                     this.response.posted.cityTree.data.children = res.data.data
-                } else {
-                    Swal.fire('', res.data.message, 'error')
-                }
-            }).catch(err => {
-                Swal.fire('', err.toString(), 'error')
-            })
-        },
-        postNewGoods() {
-            axios.post('/goods/save', this.request.posted.newGoods).then(res => {
-                if (res.data.success) {
-                    Swal.fire('', '新增成功', 'success')
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -245,8 +288,8 @@ userHomeMyVueApp.component("city-tree", {
             }
         },
         cityRadioBind: function (node) {
-            vm.request.posted.newGoods.cityId = node.id
-            vm.response.posted.cityName = node.extName
+            vm.request.posted.saveOrUpdateGoods.cityId = node.id
+            vm.request.posted.saveOrUpdateGoods.cityName = node.name
         }
     }
 })

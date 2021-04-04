@@ -21,4 +21,6 @@ public interface IChinaCityService extends IService<ChinaCity> {
      * @return city tree
      */
     List<Tree<String>> generateCityTreeDeep3();
+
+    ChinaCity getCityInfoById(Long id);
 }
