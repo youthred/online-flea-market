@@ -1,4 +1,4 @@
-package net.add1s.ofm.config.chat.channel;
+package net.add1s.ofm.config.netty.channel;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

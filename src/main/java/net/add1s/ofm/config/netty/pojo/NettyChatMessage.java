@@ -1,4 +1,4 @@
-package net.add1s.ofm.config.chat.pojo;
+package net.add1s.ofm.config.netty.pojo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

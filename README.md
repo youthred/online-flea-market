@@ -8,7 +8,7 @@
 - 后台语言：Java_11.0.8
 - 前台语言：HTML, JavaScript, VUE
 - 数据库：MySQL_8.0.22
-- IDE：IntelliJ IDEA 2020.3.3 (Ultimate Edition)
+- IDE：IntelliJ IDEA 2021.1 (Ultimate Edition)
 - 数据库操作工具：Navicat Premium 15
 - 测试服务器：CentOS_7
 - 测试地址：[http://youthred.cn:82/](http://youthred.cn:82/)

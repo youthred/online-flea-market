@@ -1,4 +1,4 @@
-package net.add1s.ofm.config.chat;
+package net.add1s.ofm.config.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,7 +13,7 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import lombok.extern.slf4j.Slf4j;
-import net.add1s.ofm.config.chat.handler.GroupSexChatChannelHandler;
+import net.add1s.ofm.config.netty.handler.GroupSexChatChannelHandler;
 import net.add1s.ofm.config.props.ChatProps;
 import org.springframework.stereotype.Component;
 

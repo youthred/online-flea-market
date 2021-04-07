@@ -1,4 +1,4 @@
-package net.add1s.ofm.config.chat.handler;
+package net.add1s.ofm.config.netty.handler;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandler;
@@ -9,9 +9,9 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
-import net.add1s.ofm.config.chat.channel.GoodsChatChannel;
-import net.add1s.ofm.config.chat.channel.UserChannel;
-import net.add1s.ofm.config.chat.pojo.NettyChatMessage;
+import net.add1s.ofm.config.netty.channel.GoodsChatChannel;
+import net.add1s.ofm.config.netty.channel.UserChannel;
+import net.add1s.ofm.config.netty.pojo.NettyChatMessage;
 import net.add1s.ofm.pojo.dto.ChatMessageDTO;
 import net.add1s.ofm.service.IChatMessageService;
 import org.apache.commons.lang3.exception.ExceptionUtils;

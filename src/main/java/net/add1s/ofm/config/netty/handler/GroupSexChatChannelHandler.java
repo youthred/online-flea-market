@@ -1,4 +1,4 @@
-package net.add1s.ofm.config.chat.handler;
+package net.add1s.ofm.config.netty.handler;
 
 import cn.hutool.core.util.StrUtil;
 import io.netty.channel.ChannelHandler;
