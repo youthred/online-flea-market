@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.common.enums.QueryTypeEnum;
 import net.add1s.ofm.common.enums.Symbol;
-import net.add1s.ofm.common.enums.SysRoleEnum;
 import net.add1s.ofm.common.exception.BusinessException;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.mapper.GoodsMapper;
@@ -24,7 +23,6 @@ import net.add1s.ofm.service.IGoodsReportService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.util.SqlUtil;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -223,7 +221,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      */
     private boolean isAllowedToOperateGoods(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
-        return currentUser.getAuthorities().contains(new SimpleGrantedAuthority(SysRoleEnum.ADMIN.forRolePrefix()))
-                || this.getById(goodsTbId).getSellerSysUserTbId().equals(currentUser.getTbId());
+        return currentUser.isAdmin() || this.getById(goodsTbId).getSellerSysUserTbId().equals(currentUser.getTbId());
     }
 }

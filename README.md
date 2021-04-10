@@ -3,6 +3,7 @@
 > 可在线私聊的WEB跳蚤市场
 
 ## 使用技术
+
 - 架构：SpringBoot
 - 技术点：SpringBoot, SpringSecurity, MyBatisPlus, Netty
 - 后台语言：Java_11.0.8
@@ -14,6 +15,7 @@
 - 测试地址：[http://youthred.cn:82/](http://youthred.cn:82/)
 
 ## 模块及功能点
+
 - 登录
     - [x] Session/Cookie
     - [x] JSON AJAX响应
@@ -41,9 +43,10 @@
             - [ ] 发布审核
             - [ ] 举报审核
         - 用户管理
-            - [ ] 启用/禁用
-            - [ ] 角色增减
+            - 用户
+                - [ ] 启用/禁用
+                - [ ] 角色增减
         - 系统权限管理
-            - [ ] 角色管理
-            - [ ] 权限管理
+            - [ ] 角色
+            - [ ] 接口权限
             

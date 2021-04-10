@@ -13,6 +13,7 @@ public class MyUserDetails implements UserDetails {
 
     private Long tbId;
     private String nickname;
+    private boolean isAdmin;
 
     private String username;
     private String password;

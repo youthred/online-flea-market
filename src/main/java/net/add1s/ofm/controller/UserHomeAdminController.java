@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author pj.w@qq.com
  */
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/home/admin")
+public class UserHomeAdminController {
 }

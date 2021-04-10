@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:v-on="http://www.w3.org/1999/xhtml"
       xmlns:v-bind="http://www.w3.org/1999/xhtml">
-<head th:replace="common/header :: header('我的')"></head>
+<head th:replace="common/header :: header('后台 - 我的')"></head>
 <style type="text/css">
     .item {
         cursor: pointer;
@@ -21,10 +21,10 @@
 <div id="userHomeMyVueApp">
     <div class="row pt-3">
         <div class="col-3 col-sm-2 col-md-1">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" id="v-pills-posted-tab" data-toggle="pill" href="#v-pills-posted" role="tab" aria-controls="v-pills-posted" aria-selected="true">我发布的</a>
-<!--                <a class="nav-link" id="v-pills-sold-tab" data-toggle="pill" href="#v-pills-sold" role="tab" aria-controls="v-pills-sold" aria-selected="false">我卖出的</a>-->
-<!--                <a class="nav-link" id="v-pills-got-tab" data-toggle="pill" href="#v-pills-got" role="tab" aria-controls="v-pills-got" aria-selected="false">我买到的</a>-->
+                <a class="nav-link" id="v-pills-sold-tab" data-toggle="pill" href="#v-pills-sold" role="tab" aria-controls="v-pills-sold" aria-selected="false">我卖出的</a>
+                <a class="nav-link" id="v-pills-got-tab" data-toggle="pill" href="#v-pills-got" role="tab" aria-controls="v-pills-got" aria-selected="false">我买到的</a>
                 <a class="nav-link" id="v-pills-privateChat-tab" data-toggle="pill" href="#v-pills-privateChat" role="tab" aria-controls="v-pills-privateChat" aria-selected="false">我的私聊</a>
 <!--                <a class="nav-link" id="v-pills-like-tab" data-toggle="pill" href="#v-pills-like" role="tab" aria-controls="v-pills-like" aria-selected="false">我的点赞</a>-->
 <!--                <a class="nav-link" id="v-pills-comments-tab" data-toggle="pill" href="#v-pills-comments" role="tab" aria-controls="v-pills-comments" aria-selected="false">我的评论</a>-->
@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="newGoodsPics">商品图片URL</label>
-                                            <input v-model="request.posted.saveOrUpdateGoods.pics" type="text" class="form-control" id="newGoodsPics" placeholder="以英文逗号分隔，第一个为主图">
+                                            <input v-model="request.posted.saveOrUpdateGoods.pics" type="text" class="form-control" id="newGoodsPics" placeholder="以竖条符号“|”(Shift+\)分隔，第一个为主图">
                                         </div>
                                         <div class="form-group">
                                             <label for="newGoodsPrice">出价(&yen;)</label>

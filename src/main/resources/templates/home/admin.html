@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: header('后台 - 系统管理')"></head>
+<body>
+<div class="sticky-top">
+    <span th:replace="common/nav :: nav_userHome('admin')"></span>
+</div><!-- nav end -->
+<div class="container-fluid">
+    <div id="userHomeAdminVueApp">
+        <div class="row pt-3">
+            <div class="col-3 col-sm-2 col-md-1">
+                <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical">
+                    <span class="text-muted text-left mt-2 mb-2"><small>商品管理</small></span>
+                    <a class="nav-link active" id="v-pills-goodsReportReview-tab"
+                       data-toggle="pill" href="#v-pills-goodsReportReview" role="tab"
+                       aria-controls="v-pills-goodsReportReview" aria-selected="true">举报审核</a>
+<!--                    <a class="nav-link" id="v-pills-goodsPostReview-tab"-->
+<!--                       data-toggle="pill" href="#v-pills-goodsPostReview" role="tab"-->
+<!--                       aria-controls="v-pills-goodsPostReview" aria-selected="false">发布审核</a>-->
+                    <span class="text-muted text-left mt-2 mb-2"><small>用户管理</small></span>
+                    <a class="nav-link" id="v-pills-user-tab"
+                       data-toggle="pill" href="#v-pills-user" role="tab"
+                       aria-controls="v-pills-user" aria-selected="false">用户</a>
+                    <span class="text-muted text-left mt-2 mb-2"><small>系统权限管理</small></span>
+                    <a class="nav-link" id="v-pills-sysAuthRoleRole-tab"
+                       data-toggle="pill" href="#v-pills-sysAuthRole" role="tab"
+                       aria-controls="v-pills-sysAuthRole" aria-selected="false">角色</a>
+                    <a class="nav-link" id="v-pills-sysAuthPermission-tab"
+                       data-toggle="pill" href="#v-pills-sysAuthPermission" role="tab"
+                       aria-controls="v-pills-sysAuthPermission" aria-selected="false">接口权限</a>
+                </div>
+            </div>
+            <div class="col-9 col-sm-10 col-md-11">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <!-- 商品管理 -->
+                    <div class="tab-pane fade show active" id="v-pills-goodsReportReview" role="tabpanel"
+                         aria-labelledby="v-pills-goodsReportReview-tab">1
+                    </div>
+                    <!--                    <div class="tab-pane fade" id="v-pills-goodsPostReview" role="tabpanel"-->
+                    <!--                         aria-labelledby="v-pills-goodsPostReview-tab">11-->
+                    <!--                    </div>-->
+
+                    <!-- 用户管理 -->
+                    <div class="tab-pane fade" id="v-pills-user" role="tabpanel"
+                         aria-labelledby="v-pills-user-tab">2
+                    </div>
+
+                    <!-- 系统权限管理 -->
+                    <div class="tab-pane fade" id="v-pills-sysAuthRole" role="tabpanel"
+                         aria-labelledby="v-pills-sysAuthRole-tab">3
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-sysAuthPermission" role="tabpanel"
+                         aria-labelledby="v-pills-sysAuthPermission-tab">4
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<span th:replace="common/footer"></span>
+<script src="/static/js/my/userHomeAdmin.js"></script>
+</body>
+</html>

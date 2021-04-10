@@ -18,4 +18,9 @@ public class UserHomeMvPageController {
     public ModelAndView myPage() {
         return new ModelAndView("home/my");
     }
+
+    @GetMapping("/admin.html")
+    public ModelAndView adminPage() {
+        return new ModelAndView("home/admin");
+    }
 }

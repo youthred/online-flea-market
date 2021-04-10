@@ -3,6 +3,7 @@ package net.add1s.ofm.config.auth.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import net.add1s.ofm.common.content.AuthContent;
+import net.add1s.ofm.common.enums.SysRoleEnum;
 import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
 import net.add1s.ofm.service.ISysPermissionService;
@@ -56,15 +57,18 @@ public class MyUserDetailsService implements UserDetailsService {
         // 再添加角色(带"ROLE_"前缀的特殊权限)
         authorities.addAll(roleCodes.stream().map(roleCode -> StringUtils.join(AuthContent.ROLE_PREFIX, roleCode)).collect(Collectors.toList()));
 
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
         return new MyUserDetails()
                 .setTbId(sysUser.getTbId())
                 .setNickname(sysUser.getNickname())
+                .setAdmin(simpleGrantedAuthorities.contains(new SimpleGrantedAuthority(SysRoleEnum.ADMIN.forRolePrefix())))
                 .setUsername(sysUser.getUsername())
                 .setPassword(sysUser.getPassword())
                 .setAccountNonExpired(true)
                 .setAccountNonLocked(true)
                 .setCredentialsNonExpired(true)
                 .setEnabled(sysUser.getEnabled())
-                .setAuthorities(authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+                .setAuthorities(simpleGrantedAuthorities);
     }
 }
