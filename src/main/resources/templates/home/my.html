@@ -9,6 +9,7 @@
     .item {
         cursor: pointer;
     }
+
     .bold {
         font-weight: bold;
     }
@@ -18,166 +19,216 @@
     <span th:replace="common/nav :: nav_userHome('my')"></span>
 </div><!-- nav end -->
 <div class="container-fluid">
-<div id="userHomeMyVueApp">
-    <div class="row pt-3">
-        <div class="col-3 col-sm-2 col-md-1">
-            <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-posted-tab" data-toggle="pill" href="#v-pills-posted" role="tab" aria-controls="v-pills-posted" aria-selected="true">我发布的</a>
-                <a class="nav-link" id="v-pills-sold-tab" data-toggle="pill" href="#v-pills-sold" role="tab" aria-controls="v-pills-sold" aria-selected="false">我卖出的</a>
-                <a class="nav-link" id="v-pills-got-tab" data-toggle="pill" href="#v-pills-got" role="tab" aria-controls="v-pills-got" aria-selected="false">我买到的</a>
-                <a class="nav-link" id="v-pills-privateChat-tab" data-toggle="pill" href="#v-pills-privateChat" role="tab" aria-controls="v-pills-privateChat" aria-selected="false">我的私聊</a>
-<!--                <a class="nav-link" id="v-pills-like-tab" data-toggle="pill" href="#v-pills-like" role="tab" aria-controls="v-pills-like" aria-selected="false">我的点赞</a>-->
-<!--                <a class="nav-link" id="v-pills-comments-tab" data-toggle="pill" href="#v-pills-comments" role="tab" aria-controls="v-pills-comments" aria-selected="false">我的评论</a>-->
+    <div id="userHomeMyVueApp">
+        <div class="row pt-3">
+            <div class="col-3 col-sm-2 col-md-1">
+                <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-posted-tab" data-toggle="pill" href="#v-pills-posted"
+                       role="tab" aria-controls="v-pills-posted" aria-selected="true">我发布的</a>
+                    <a class="nav-link" id="v-pills-sold-tab" data-toggle="pill" href="#v-pills-sold" role="tab"
+                       aria-controls="v-pills-sold" aria-selected="false">我卖出的</a>
+                    <a class="nav-link" id="v-pills-got-tab" data-toggle="pill" href="#v-pills-got" role="tab"
+                       aria-controls="v-pills-got" aria-selected="false">我买到的</a>
+                    <a class="nav-link" id="v-pills-privateChat-tab" data-toggle="pill" href="#v-pills-privateChat"
+                       role="tab" aria-controls="v-pills-privateChat" aria-selected="false">我的私聊</a>
+                    <!--                <a class="nav-link" id="v-pills-like-tab" data-toggle="pill" href="#v-pills-like" role="tab" aria-controls="v-pills-like" aria-selected="false">我的点赞</a>-->
+                    <!--                <a class="nav-link" id="v-pills-comments-tab" data-toggle="pill" href="#v-pills-comments" role="tab" aria-controls="v-pills-comments" aria-selected="false">我的评论</a>-->
+                </div>
             </div>
-        </div>
-        <div class="col-9 col-sm-10 col-md-11">
-            <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-posted" role="tabpanel" aria-labelledby="v-pills-posted-tab">
-                    <button class="btn btn-light float-right" data-toggle="modal" data-target="#saveOrUpdateGoodsModal" @click="defaultSaveOrUpdateGoods">发布闲置</button>
-                    <!-- 商品新增或修改模态框 -->
-                    <div id="saveOrUpdateGoodsModal"
-                         class="modal fade"
-                         data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="chatModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">发布闲置</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div>
-                                        <div class="form-group">
-                                            <label for="newGoodsDesc" class="col-form-label">商品描述</label>
-                                            <textarea v-model="request.posted.saveOrUpdateGoods.desc" class="form-control" id="newGoodsDesc" rows="3"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="newGoodsPics">商品图片URL</label>
-                                            <input v-model="request.posted.saveOrUpdateGoods.pics" type="text" class="form-control" id="newGoodsPics" placeholder="以竖条符号“|”(Shift+\)分隔，第一个为主图">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="newGoodsPrice">出价(&yen;)</label>
-                                            <input v-model="request.posted.saveOrUpdateGoods.price" type="number" min="0" step="0.01" class="form-control" id="newGoodsPrice">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>发布地: <b>{{request.posted.saveOrUpdateGoods.cityName}}</b></label>
-                                            <!-- city tree root -->
-                                            <div id="cityTreeRoot">
-                                                <ul>
-                                                    <city-tree
-                                                            class="item"
-                                                            :item="response.posted.cityTree.data"
-                                                            @make-folder="makeFolder"
-                                                    ></city-tree>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <button v-if="String.isBlank(request.posted.saveOrUpdateGoods.tbId) || request.posted.saveOrUpdateGoods.tbId === null" type="button" class="btn btn-success" @click="postNewGoods">确认发布</button>
-                                        <button v-else type="button" class="btn btn-warning text-white" @click="updateGoods">确认修改</button>
+            <div class="col-9 col-sm-10 col-md-11">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-posted" role="tabpanel"
+                         aria-labelledby="v-pills-posted-tab">
+                        <button class="btn btn-light float-right" data-toggle="modal"
+                                data-target="#saveOrUpdateGoodsModal" @click="defaultSaveOrUpdateGoods">发布闲置
+                        </button>
+                        <!-- 商品新增或修改模态框 -->
+                        <div id="saveOrUpdateGoodsModal"
+                             class="modal fade"
+                             data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="chatModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">发布闲置</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <div class="modal-body">
+                                        <div>
+                                            <div class="form-group">
+                                                <label for="newGoodsDesc" class="col-form-label">商品描述</label>
+                                                <textarea v-model="request.posted.saveOrUpdateGoods.desc"
+                                                          class="form-control" id="newGoodsDesc" rows="3"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newGoodsPics">商品图片URL</label>
+                                                <input v-model="request.posted.saveOrUpdateGoods.pics" type="text"
+                                                       class="form-control" id="newGoodsPics"
+                                                       placeholder="以竖条符号“|”(Shift+\)分隔，第一个为主图">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newGoodsPrice">出价(&yen;)</label>
+                                                <input v-model="request.posted.saveOrUpdateGoods.price" type="number"
+                                                       min="0" step="0.01" class="form-control" id="newGoodsPrice">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>发布地: <b>{{request.posted.saveOrUpdateGoods.cityName}}</b></label>
+                                                <!-- city tree root -->
+                                                <div id="cityTreeRoot">
+                                                    <ul>
+                                                        <city-tree
+                                                                class="item"
+                                                                :item="response.posted.cityTree.data"
+                                                                @make-folder="makeFolder"
+                                                        ></city-tree>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <button v-if="String.isBlank(request.posted.saveOrUpdateGoods.tbId) || request.posted.saveOrUpdateGoods.tbId === null"
+                                                    type="button" class="btn btn-success" @click="postNewGoods">确认发布
+                                            </button>
+                                            <button v-else type="button" class="btn btn-warning text-white"
+                                                    @click="updateGoods">确认修改
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="pt-3 pb-1">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioOnShelf" value="0" v-model="request.posted.offShelf">
-                            <label class="form-check-label" for="inlineRadioOnShelf">已发布</label>
+                        <div class="pt-3 pb-1">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                       id="inlineRadioOnShelf" value="0" v-model="request.posted.offShelf">
+                                <label class="form-check-label" for="inlineRadioOnShelf">已发布</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                       id="inlineRadioOffShelf" value="1" v-model="request.posted.offShelf">
+                                <label class="form-check-label" for="inlineRadioOffShelf">已下架</label>
+                            </div>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioOffShelf" value="1" v-model="request.posted.offShelf">
-                            <label class="form-check-label" for="inlineRadioOffShelf">已下架</label>
+                        <div class="overflow-auto">
+                            <table class="table table-hover table-borderless">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">主图</th>
+                                    <th scope="col">描述</th>
+                                    <th scope="col">定价(&yen;)</th>
+                                    <th scope="col">浏览量</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody v-if="Array.isNotEmpty(response.posted.postedPage.records)">
+                                <tr v-for="goods in response.posted.postedPage.records">
+                                    <th scope="row">{{goods.tbId}}</th>
+                                    <td><img :src="goods.mainPicUrl" class="img-fluid rounded img-thumbnail"
+                                             style="height: 30px"></td>
+                                    <td><span class="d-inline-block text-truncate" style="max-width: 450px;">{{goods.desc}}</span>
+                                    </td>
+                                    <td>{{goods.price}}</td>
+                                    <td>{{goods.views}}</td>
+                                    <td v-if="request.posted.offShelf === '1'">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-warning text-white"
+                                               @click="showUpdateGoodsModal(goods)">修改</a>
+                                            <a class="btn btn-sm btn-dark text-white"
+                                               @click="onShelf(goods.tbId)">重新发布</a>
+                                            <a class="btn btn-sm btn-danger text-white"
+                                               @click="deleteGoods(goods.tbId)">删除</a>
+                                        </div>
+                                    </td>
+                                    <td v-else>
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-warning text-white"
+                                               @click="showUpdateGoodsModal(goods)">修改</a>
+                                            <a class="btn btn-sm btn-dark text-white"
+                                               @click="offShelf(goods.tbId)">下架</a>
+                                            <a class="btn btn-sm btn-danger text-white"
+                                               @click="deleteGoods(goods.tbId)">删除</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
+                        <nav aria-label="page nav">
+                            <ul class="pagination justify-content-center">
+                                <!--prev-->
+                                <li v-if="request.posted.postedRequest.page.current == 1"
+                                    class="page-item btn disabled"><i
+                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                                <li v-if="request.posted.postedRequest.page.current > 1" class="page-item btn"
+                                    @click="postedPagePrev"><i
+                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                                <!--pageIndex of pages-->
+                                <li class="page-item page-link">{{request.posted.postedRequest.page.current}} /
+                                    {{response.posted.postedPage.pages}}
+                                </li>
+                                <!--next-->
+                                <li v-if="request.posted.postedRequest.page.current == response.posted.postedPage.pages || response.posted.postedPage.total === 0"
+                                    class="page-item btn disabled"><i class="fa fa-angle-double-right"
+                                                                      aria-hidden="true"></i></li>
+                                <li v-if="request.posted.postedRequest.page.current < response.posted.postedPage.pages"
+                                    class="page-item btn" @click="postedPageNext"><i
+                                        class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                            </ul>
+                        </nav>
                     </div>
-                    <div class="overflow-auto">
-                        <table class="table table-hover table-borderless">
-                            <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">主图</th>
-                                <th scope="col">描述</th>
-                                <th scope="col">定价(&yen;)</th>
-                                <th scope="col">浏览量</th>
-                                <th scope="col">操作</th>
-                            </tr>
-                            </thead>
-                            <tbody v-if="Array.isNotEmpty(response.posted.postedPage.records)">
-                            <tr v-for="goods in response.posted.postedPage.records">
-                                <th scope="row">{{goods.tbId}}</th>
-                                <td><img :src="goods.mainPicUrl" class="img-fluid rounded img-thumbnail" style="height: 30px"></td>
-                                <td><span class="d-inline-block text-truncate" style="max-width: 450px;">{{goods.desc}}</span></td>
-                                <td>{{goods.price}}</td>
-                                <td>{{goods.views}}</td>
-                                <td v-if="request.posted.offShelf === '1'">
-                                    <div class="btn-group">
-                                        <a class="btn btn-sm btn-warning text-white" @click="showUpdateGoodsModal(goods)">修改</a>
-                                        <a class="btn btn-sm btn-dark text-white" @click="onShelf(goods.tbId)">重新发布</a>
-                                        <a class="btn btn-sm btn-danger text-white" @click="deleteGoods(goods.tbId)">删除</a>
+                    <div class="tab-pane fade overflow-auto" id="v-pills-sold" role="tabpanel"
+                         aria-labelledby="v-pills-sold-tab">2
+                    </div>
+                    <div class="tab-pane fade overflow-auto" id="v-pills-got" role="tabpanel"
+                         aria-labelledby="v-pills-got-tab">3
+                    </div>
+                    <div class="tab-pane fade overflow-auto" id="v-pills-privateChat" role="tabpanel"
+                         aria-labelledby="v-pills-privateChat-tab">
+                        <div v-if="Array.isNotEmpty(response.privateChat.chats)">
+                            <div class="list-group list-group-flush">
+                                <a v-for="chat in response.privateChat.chats"
+                                   :href="`/goods/doChat/${chat.goods.tbId}.html`"
+                                   class="list-group-item list-group-item-action">
+                                    <div class="media">
+                                        <img :src="`${chat.goods.mainPicUrl}?rd=${Math.random()}`"
+                                             style="width: 50px; height: 50px;"
+                                             class="pr-3">
+                                        <div class="media-body">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <p class="mb-1">{{chat.goods.seller.nickname}}</p>
+                                                <small>{{chat.intervals}}</small>
+                                            </div>
+                                            <small v-if="chat.lastMessage.messageTypeCode === 1 || chat.lastMessage.messageTypeCode === -1"
+                                                   class="mb-1">{{chat.lastMessage.messageContent}}</small>
+                                            <small v-else class="mb-1">[点击查看]</small>
+                                            <span v-if="chat.unread > 0"
+                                                  class="badge badge-danger badge-pill float-right">{{chat.unread}}</span>
+                                        </div>
                                     </div>
-                                </td>
-                                <td v-else>
-                                    <div class="btn-group">
-                                        <a class="btn btn-sm btn-warning text-white" @click="showUpdateGoodsModal(goods)">修改</a>
-                                        <a class="btn btn-sm btn-dark text-white" @click="offShelf(goods.tbId)">下架</a>
-                                        <a class="btn btn-sm btn-danger text-white" @click="deleteGoods(goods.tbId)">删除</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <nav aria-label="page nav">
-                        <ul class="pagination justify-content-center">
-                            <!--prev-->
-                            <li v-if="request.posted.postedRequest.page.current == 1" class="page-item btn disabled"><i
-                                    class="fa fa-angle-double-left" aria-hidden="true"></i></li>
-                            <li v-if="request.posted.postedRequest.page.current > 1" class="page-item btn" @click="postedPagePrev"><i
-                                    class="fa fa-angle-double-left" aria-hidden="true"></i></li>
-                            <!--pageIndex of pages-->
-                            <li class="page-item page-link">{{request.posted.postedRequest.page.current}} / {{response.posted.postedPage.pages}}</li>
-                            <!--next-->
-                            <li v-if="request.posted.postedRequest.page.current == response.posted.postedPage.pages || response.posted.postedPage.total === 0"
-                                class="page-item btn disabled"><i class="fa fa-angle-double-right" aria-hidden="true"></i></li>
-                            <li v-if="request.posted.postedRequest.page.current < response.posted.postedPage.pages" class="page-item btn" @click="postedPageNext"><i
-                                    class="fa fa-angle-double-right" aria-hidden="true"></i></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="tab-pane fade overflow-auto" id="v-pills-sold" role="tabpanel" aria-labelledby="v-pills-sold-tab">2</div>
-                <div class="tab-pane fade overflow-auto" id="v-pills-got" role="tabpanel" aria-labelledby="v-pills-got-tab">3</div>
-                <div class="tab-pane fade overflow-auto" id="v-pills-privateChat" role="tabpanel" aria-labelledby="v-pills-privateChat-tab">
-                    <div v-if="Array.isNotEmpty(response.privateChat.chats)">
-                        <div class="list-group list-group-flush">
-                            <a v-for="chat in response.privateChat.chats" :href="`/goods/doChat/${chat.goods.tbId}.html`"
-                                    class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <p class="mb-1">{{chat.goods.seller.nickname}}g</p>
-                                    <small>{{chat.intervals}}</small>
-                                </div>
-                                <small v-if="chat.lastMessage.messageTypeCode === 1 || chat.lastMessage.messageTypeCode === -1" class="mb-1">{{chat.lastMessage.messageContent}}</small>
-                                <small v-else class="mb-1">[点击查看]</small>
-                                <span v-if="chat.unread > 0"
-                                      class="badge badge-danger badge-pill float-right">{{chat.unread}}</span>
-                            </a>
+                                </a>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="text-center">
+                                <h1 class="text-muted">暂无私聊信息</h1>
+                            </div>
                         </div>
                     </div>
-                    <div v-else>
-                        <div class="text-center">
-                            <h1 class="text-muted">暂无私聊信息</h1>
-                        </div>
+                    <div class="tab-pane fade overflow-auto" id="v-pills-like" role="tabpanel"
+                         aria-labelledby="v-pills-like-tab">5
+                    </div>
+                    <div class="tab-pane fade overflow-auto" id="v-pills-comments" role="tabpanel"
+                         aria-labelledby="v-pills-comments-tab">6
                     </div>
                 </div>
-                <div class="tab-pane fade overflow-auto" id="v-pills-like" role="tabpanel" aria-labelledby="v-pills-like-tab">5</div>
-                <div class="tab-pane fade overflow-auto" id="v-pills-comments" role="tabpanel" aria-labelledby="v-pills-comments-tab">6</div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <span th:replace="common/footer"></span>
 <script src="/static/js/my/userHomeMy.js"></script>
