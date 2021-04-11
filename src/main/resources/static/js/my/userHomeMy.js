@@ -69,6 +69,7 @@ let userHomeMyVueApp = Vue.createApp({
             // privateChat
             this.setPrivateChats()
         },
+
         // region 我发布的 posted
         setPostedPage() {
             axios.post('/home/my/posted/page', this.request.posted.postedRequest).then(res => {
@@ -205,6 +206,7 @@ let userHomeMyVueApp = Vue.createApp({
         // endregion
 
         // region 我卖出的 sold
+
         // endregion
 
         // region 我买到的 got

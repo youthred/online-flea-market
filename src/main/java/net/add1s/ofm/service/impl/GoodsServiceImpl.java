@@ -221,20 +221,30 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     public void buy(Long goodsTbId) {
-        MyUserDetails currentUser = iSysUserService.currentUser();
-        if (currentUser.getTbId().equals(this.getById(goodsTbId).getSellerSysUserTbId())) {
-            throw new BusinessException("当前用户为该商品卖家，无法购买");
+        Goods targetGoods = this.getById(goodsTbId);
+        if (Objects.nonNull(targetGoods)) {
+            if (iGoodsOrderService.count(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getGoodsTbId, targetGoods.getTbId())) == 0) {
+                MyUserDetails currentUser = iSysUserService.currentUser();
+                if (currentUser.getTbId().equals(targetGoods.getSellerSysUserTbId())) {
+                    throw new BusinessException("当前用户为该商品卖家，无法购买");
+                }
+                GoodsOrder goodsOrder = new GoodsOrder()
+                        .setCreateTime(LocalDateTime.now())
+                        .setGoodsTbId(goodsTbId)
+                        .setOrdered(true)
+                        .setPaid(true)
+                        .setSellerSysUserTbId(targetGoods.getSellerSysUserTbId())
+                        .setBuyerSysUserTbId(currentUser.getTbId())
+                        .setCompleteTime(LocalDateTime.now())
+                        .setDone(true);
+                iGoodsOrderService.save(goodsOrder);
+                this.offShelf(goodsTbId, false);
+            } else {
+                throw new BusinessException("商品已被购买");
+            }
+        } else {
+            throw new BusinessException("商品不存在");
         }
-        GoodsOrder goodsOrder = new GoodsOrder()
-                .setCreateTime(LocalDateTime.now())
-                .setGoodsTbId(goodsTbId)
-                .setOrdered(true)
-                .setPaid(true)
-                .setBuyerSysUserTbId(currentUser.getTbId())
-                .setCompleteTime(LocalDateTime.now())
-                .setDone(true);
-        iGoodsOrderService.save(goodsOrder);
-        this.offShelf(goodsTbId, false);
     }
 
     /**

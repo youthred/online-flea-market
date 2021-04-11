@@ -62,7 +62,13 @@ public class GoodsOrder implements Serializable {
     private Boolean paid;
 
     /**
-     * 买家TBID
+     * 卖家用户TBID
+     */
+    @TableField("`seller_sys_user_tb_id`")
+    private Long sellerSysUserTbId;
+
+    /**
+     * 买家用户TBID
      */
     @TableField("`buyer_sys_user_tb_id`")
     private Long buyerSysUserTbId;
