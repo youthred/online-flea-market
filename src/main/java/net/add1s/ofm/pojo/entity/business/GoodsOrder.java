@@ -38,6 +38,12 @@ public class GoodsOrder implements Serializable {
     private LocalDateTime completeTime;
 
     /**
+     * 订单是否已完成
+     */
+    @TableField("`done`")
+    private Boolean done;
+
+    /**
      * 商品TBID
      */
     @TableField("`goods_tb_id`")

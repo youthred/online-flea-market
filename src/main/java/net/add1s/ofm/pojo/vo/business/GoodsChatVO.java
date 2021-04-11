@@ -42,6 +42,10 @@ public class GoodsChatVO implements Serializable {
      * 未读消息
      */
     private long unread;
+    /**
+     * 是否已买
+     */
+    private boolean bought;
 
     /**
      * 当前用户交易角色

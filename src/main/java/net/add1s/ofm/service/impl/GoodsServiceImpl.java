@@ -14,15 +14,13 @@ import net.add1s.ofm.pojo.dto.GoodsDTO;
 import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.ChatMessage;
 import net.add1s.ofm.pojo.entity.business.Goods;
+import net.add1s.ofm.pojo.entity.business.GoodsOrder;
 import net.add1s.ofm.pojo.entity.business.GoodsReport;
 import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.vo.business.ChatMessageVO;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
-import net.add1s.ofm.service.IChatMessageService;
-import net.add1s.ofm.service.IGoodsReportService;
-import net.add1s.ofm.service.IGoodsService;
-import net.add1s.ofm.service.ISysUserService;
+import net.add1s.ofm.service.*;
 import net.add1s.ofm.util.SqlUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,13 +38,16 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private final IGoodsReportService iGoodsReportService;
     private final ISysUserService iSysUserService;
     private final IChatMessageService iChatMessageService;
+    private final IGoodsOrderService iGoodsOrderService;
 
     public GoodsServiceImpl(IGoodsReportService iGoodsReportService,
                             ISysUserService iSysUserService,
-                            IChatMessageService iChatMessageService) {
+                            IChatMessageService iChatMessageService,
+                            IGoodsOrderService iGoodsOrderService) {
         this.iGoodsReportService = iGoodsReportService;
         this.iSysUserService = iSysUserService;
         this.iChatMessageService = iChatMessageService;
+        this.iGoodsOrderService = iGoodsOrderService;
     }
 
     @Override
@@ -134,7 +135,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         GoodsChatVO goodsChatVO = new GoodsChatVO()
                 .setGoods(this.detail(goodsTbId))   // 不管是否下架或删除
                 .setChatMessages(chatMessageVOS)
-                .setCurrentTransactionRole(currentUser.getTbId());
+                .setCurrentTransactionRole(currentUser.getTbId())
+                .setBought(iGoodsOrderService.count(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getGoodsTbId, goodsTbId).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId())) > 0);
         // 未读消息变已读
         if (TransactionRoleEnum.SELLER.equals(goodsChatVO.getCurrentTransactionRole())) {
             // 当前用户为卖家，则修改当前商品的[卖家已读]为true
@@ -155,20 +157,28 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public void offShelf(Long goodsTbId) {
-        if (isAllowedToOperateGoods(goodsTbId)) {
-            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+    public void offShelf(Long goodsTbId, boolean checkAuth) {
+        if (checkAuth) {
+            if (isAllowedToOperateGoods(goodsTbId)) {
+                this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+            } else {
+                throw new BusinessException("权限不足，禁止操作其他用户的商品");
+            }
         } else {
-            throw new BusinessException("权限不足，禁止操作其他用户的商品");
+            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
         }
     }
 
     @Override
-    public void onShelf(Long goodsTbId) {
-        if (isAllowedToOperateGoods(goodsTbId)) {
-            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+    public void onShelf(Long goodsTbId, boolean checkAuth) {
+        if (checkAuth) {
+            if (isAllowedToOperateGoods(goodsTbId)) {
+                this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+            } else {
+                throw new BusinessException("权限不足，禁止操作其他用户的商品");
+            }
         } else {
-            throw new BusinessException("权限不足，禁止操作其他用户的商品");
+            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
         }
     }
 
@@ -209,8 +219,26 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
     }
 
+    @Override
+    public void buy(Long goodsTbId) {
+        MyUserDetails currentUser = iSysUserService.currentUser();
+        if (currentUser.getTbId().equals(this.getById(goodsTbId).getSellerSysUserTbId())) {
+            throw new BusinessException("当前用户为该商品卖家，无法购买");
+        }
+        GoodsOrder goodsOrder = new GoodsOrder()
+                .setCreateTime(LocalDateTime.now())
+                .setGoodsTbId(goodsTbId)
+                .setOrdered(true)
+                .setPaid(true)
+                .setBuyerSysUserTbId(currentUser.getTbId())
+                .setCompleteTime(LocalDateTime.now())
+                .setDone(true);
+        iGoodsOrderService.save(goodsOrder);
+        this.offShelf(goodsTbId, false);
+    }
+
     /**
-     * 第一次私聊默认消息
+     * 第一次私聊发送默认消息
      *
      * @param buyerSysUserTbId 卖家用户TBID
      * @param goodsTbId        商品TBID

@@ -9,16 +9,20 @@
 
 <div class="container">
     <div id="doChatVueApp">
-        <div class="row pt-3">
-            <div class="col-4 col-sm-3 col-md-2">
+        <div class="media pt-3">
+            <a :href="`/goods/${chat.goods.tbId}.html`">
                 <img v-if="String.isNotBlank(chat.goods.mainPicUrl)"
                      :src="`${chat.goods.mainPicUrl}?rd=${Math.random()}`"
-                     class="img-fluid rounded">
-            </div>
-            <div class="col-8 col-sm-9 col-md-10">
-                <a class="btn btn-primary float-right" :href="`/goods/${chat.goods.tbId}.html`">查看商品页</a>
-                <p><strong>{{chat.goods.seller.nickname}}</strong></p>
-                <p><small class="text-muted">发布于{{chat.goods.cityName}}</small></p>
+                     class="img-fluid rounded align-self-center mr-3"
+                     style="width: 70px; height: 70px;">
+            </a>
+            <div class="media-body">
+                <div class="d-flex w-100 justify-content-between">
+                    <span class="font-weight-bold text-danger">&yen;{{chat.goods.price}}</span>
+                    <button v-if="chat.bought" class="btn btn-light btn-sm disabled" disabled>已买</button>
+                    <button v-else @click="buyNow(chat.goods.tbId)" class="btn btn-warning text-white btn-sm">立即购买</button>
+                </div>
+                <p><small class="text-muted">由 {{chat.goods.seller.nickname}} 发布于 {{chat.goods.cityName}}</small></p>
             </div>
         </div>
         <form onsubmit="return false" class="pt-3">
@@ -63,7 +67,28 @@
             let $rt = $('#resText')
             $rt.scrollTop($rt[0].scrollHeight)
         },
-        methods: {}
+        methods: {
+            buyNow(goodsTbId) {
+                axios.put(`/goods/buy/${goodsTbId}`).then(res => {
+                    if (res.data.success) {
+                        Swal.fire({
+                            title: '',
+                            text: "购买成功",
+                            type: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload()
+                            }
+                        })
+                    } else {
+                        Swal.fire('', res.data.message, 'error')
+                    }
+                }).catch(err => {
+                    Swal.fire('', err.toString(), 'error')
+                })
+            }
+        }
     }).mount('#doChatVueApp')
 
     let socket

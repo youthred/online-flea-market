@@ -70,15 +70,17 @@ public interface IGoodsService extends IService<Goods> {
      * 下架商品
      *
      * @param goodsTbId 商品TBID
+     * @param checkAuth 是否检查权限
      */
-    void offShelf(Long goodsTbId);
+    void offShelf(Long goodsTbId, boolean checkAuth);
 
     /**
      * 重新上架商品
      *
      * @param goodsTbId 商品TBID
+     * @param checkAuth 是否检查权限
      */
-    void onShelf(Long goodsTbId);
+    void onShelf(Long goodsTbId, boolean checkAuth);
 
     /**
      * 新增闲置
@@ -100,4 +102,11 @@ public interface IGoodsService extends IService<Goods> {
      * @param goodsTbId 商品TBID
      */
     void deleteGoods(Long goodsTbId);
+
+    /**
+     * 商品购买
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void buy(Long goodsTbId);
 }

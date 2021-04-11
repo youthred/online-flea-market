@@ -87,7 +87,7 @@ public class GoodsController {
      */
     @PutMapping("/offShelf/{goodsTbId}")
     public Res offShelf(@PathVariable("goodsTbId") Long goodsTbId) {
-        iGoodsService.offShelf(goodsTbId);
+        iGoodsService.offShelf(goodsTbId, true);
         return Res.ok();
     }
 
@@ -99,7 +99,7 @@ public class GoodsController {
      */
     @PutMapping("/onShelf/{goodsTbId}")
     public Res onShelf(@PathVariable("goodsTbId") Long goodsTbId) {
-        iGoodsService.onShelf(goodsTbId);
+        iGoodsService.onShelf(goodsTbId, true);
         return Res.ok();
     }
 
@@ -136,6 +136,19 @@ public class GoodsController {
     @DeleteMapping("/delete/{goodsTbId}")
     public Res deleteGoods(@PathVariable("goodsTbId") Long goodsTbId) {
         iGoodsService.deleteGoods(goodsTbId);
+        return Res.ok();
+    }
+
+    /**
+     * 商品购买
+     * 避免@Service里事务注解@Transactional与synchronized同步锁关键字冲突失效，所以在表现层加锁
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @PutMapping("/buy/{goodsTbId}")
+    public synchronized Res buy(@PathVariable("goodsTbId") Long goodsTbId) {
+        iGoodsService.buy(goodsTbId);
         return Res.ok();
     }
 }
