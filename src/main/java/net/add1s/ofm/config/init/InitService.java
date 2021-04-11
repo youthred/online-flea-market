@@ -43,6 +43,7 @@ public class InitService implements ApplicationRunner {
                 log.error(ExceptionUtils.getStackTrace(e));
             }
         });
+        ThreadUtil.execute(() -> SimpleCacheManager.cityTreeDeep1 = iChinaCityService.generateCityTreeDeep1());
         ThreadUtil.execute(() -> SimpleCacheManager.cityTreeDeep2 = iChinaCityService.generateCityTreeDeep2());
         ThreadUtil.execute(() -> SimpleCacheManager.cityTreeDeep3 = iChinaCityService.generateCityTreeDeep3());
     }

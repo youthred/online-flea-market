@@ -19,8 +19,34 @@ import java.util.List;
 public class ChinaCityServiceImpl extends ServiceImpl<ChinaCityMapper, ChinaCity> implements IChinaCityService {
 
     @Override
+    public List<Tree<String>> generateCityTreeDeep1() {
+        List<ChinaCity> chinaCities = CollUtil.newArrayList(this.list(Wrappers.lambdaQuery(ChinaCity.class).le(ChinaCity::getDeep, 1)));
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        treeNodeConfig.setIdKey("id");
+        treeNodeConfig.setParentIdKey("pid");
+        treeNodeConfig.setDeep(2);
+        return TreeUtil.build(
+                chinaCities,
+                "0",
+                treeNodeConfig,
+                (treeNode, tree) -> {
+                    tree.setId(treeNode.getId().toString());
+                    tree.setParentId(treeNode.getPid().toString());
+                    tree.setName(treeNode.getName());
+                    tree.putExtra("deep", treeNode.getDeep());
+                    tree.putExtra("pinyinPrefix", treeNode.getPinyinPrefix());
+                    tree.putExtra("pinyin", treeNode.getPinyin());
+                    tree.putExtra("extId", treeNode.getExtId());
+                    tree.putExtra("extName", treeNode.getExtName());
+                    // for vue tree
+                    tree.putExtra("radioDisabled", treeNode.getDeep() != 1);   // 仅最后一级可选
+                }
+        );
+    }
+
+    @Override
     public List<Tree<String>> generateCityTreeDeep2() {
-        List<ChinaCity> chinaCities = CollUtil.newArrayList(this.list(Wrappers.lambdaQuery(ChinaCity.class).lt(ChinaCity::getDeep, 3)));
+        List<ChinaCity> chinaCities = CollUtil.newArrayList(this.list(Wrappers.lambdaQuery(ChinaCity.class).lt(ChinaCity::getDeep, 2)));
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         treeNodeConfig.setIdKey("id");
         treeNodeConfig.setParentIdKey("pid");

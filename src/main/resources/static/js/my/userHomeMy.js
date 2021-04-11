@@ -192,7 +192,7 @@ let userHomeMyVueApp = Vue.createApp({
             })
         },
         setCityTree() {
-            axios.get('/city/treeDeep2').then(res => {
+            axios.get('/city/treeDeep1').then(res => {
                 if (res.data.success) {
                     this.response.posted.cityTree.data.children = res.data.data
                 } else {

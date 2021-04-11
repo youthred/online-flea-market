@@ -12,7 +12,7 @@
 - IDE：IntelliJ IDEA 2021.1 (Ultimate Edition)
 - 数据库操作工具：Navicat Premium 15
 - 测试服务器：CentOS_7
-- 测试地址：[http://youthred.cn:82/](http://youthred.cn:82/)
+- 测试地址：[http://youthred.cn:81/](http://youthred.cn:81/)
 
 ## 模块及功能点
 
@@ -36,6 +36,7 @@
         - [x] 商品展示
         - [x] 举报
         - [x] “我想要”私聊（Netty）
+        - [ ] 点赞
         - [ ] 评论
 - 后台管理
     - 商品管理

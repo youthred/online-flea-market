@@ -22,6 +22,16 @@ public class ChinaCityController {
     }
 
     /**
+     * 中国城市省市
+     *
+     * @return Res
+     */
+    @GetMapping("/treeDeep1")
+    public Res chinaCityTreeDeep1() {
+        return Res.ok(SimpleCacheManager.cityTreeDeep1);
+    }
+
+    /**
      * 中国城市省市区
      *
      * @return Res

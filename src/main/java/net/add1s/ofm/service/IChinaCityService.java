@@ -9,6 +9,13 @@ import java.util.List;
 public interface IChinaCityService extends IService<ChinaCity> {
 
     /**
+     * 省市
+     *
+     * @return city tree
+     */
+    List<Tree<String>> generateCityTreeDeep1();
+
+    /**
      * 省市区
      *
      * @return city tree

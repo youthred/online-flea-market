@@ -87,15 +87,15 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <button v-if="String.isBlank(request.posted.saveOrUpdateGoods.tbId) || request.posted.saveOrUpdateGoods.tbId === null"
-                                                    type="button" class="btn btn-success" @click="postNewGoods">确认发布
-                                            </button>
-                                            <button v-else type="button" class="btn btn-warning text-white"
-                                                    @click="updateGoods">确认修改
                                             </button>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
+                                        <button v-if="String.isBlank(request.posted.saveOrUpdateGoods.tbId) || request.posted.saveOrUpdateGoods.tbId === null"
+                                                type="button" class="btn btn-success" @click="postNewGoods">确认发布
+                                        </button>
+                                        <button v-else type="button" class="btn btn-warning text-white"
+                                                @click="updateGoods">确认修改
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                                     </div>
                                 </div>
