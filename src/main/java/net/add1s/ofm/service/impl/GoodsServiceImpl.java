@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.common.enums.QueryTypeEnum;
 import net.add1s.ofm.common.enums.Symbol;
+import net.add1s.ofm.common.enums.TransactionRoleEnum;
 import net.add1s.ofm.common.exception.BusinessException;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.mapper.GoodsMapper;
@@ -114,25 +115,43 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public GoodsChatVO chat(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
-        List<ChatMessage> existChatMessages = iChatMessageService.list(
+        // 查询当前用户当前商品的历史私聊记录
+        List<ChatMessage> historyChatMessages = iChatMessageService.list(
                 Wrappers.lambdaQuery(ChatMessage.class)
                         .eq(ChatMessage::getGoodsTbId, goodsTbId)
                         .and(chatMessageLambdaQueryWrapper -> chatMessageLambdaQueryWrapper
                                 .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
                                 .or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()))
         );
-        if (CollectionUtils.isEmpty(existChatMessages)) {
+        if (CollectionUtils.isEmpty(historyChatMessages)) {
             firstChat(currentUser.getTbId(), goodsTbId);
         }
-        List<ChatMessageVO> chatMessageVOS = existChatMessages
+        List<ChatMessageVO> chatMessageVOS = historyChatMessages
                 .stream()
                 .map(ChatMessageVO::new)
                 .collect(Collectors.toList());
         chatMessageVOS.forEach(chatMessageVO -> chatMessageVO.setIsFromCurrentUser(currentUser.getTbId()));
-        return new GoodsChatVO()
+        GoodsChatVO goodsChatVO = new GoodsChatVO()
                 .setGoods(this.detail(goodsTbId))   // 不管是否下架或删除
                 .setChatMessages(chatMessageVOS)
                 .setCurrentTransactionRole(currentUser.getTbId());
+        // 未读消息变已读
+        if (TransactionRoleEnum.SELLER.equals(goodsChatVO.getCurrentTransactionRole())) {
+            // 当前用户为卖家，则修改当前商品的[卖家已读]为true
+            iChatMessageService.update(Wrappers.lambdaUpdate(ChatMessage.class)
+                    .eq(ChatMessage::getGoodsTbId, goodsTbId)
+                    .eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId())
+                    .set(ChatMessage::isReadSeller, true)
+            );
+        } else {
+            // 当前用户为买家
+            iChatMessageService.update(Wrappers.lambdaUpdate(ChatMessage.class)
+                    .eq(ChatMessage::getGoodsTbId, goodsTbId)
+                    .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
+                    .set(ChatMessage::isReadBuyer, true)
+            );
+        }
+        return goodsChatVO;
     }
 
     @Override
