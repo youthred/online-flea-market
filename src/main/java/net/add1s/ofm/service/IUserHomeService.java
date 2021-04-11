@@ -14,9 +14,11 @@ public interface IUserHomeService {
     // endregion
 
     // region 我卖出的 sold
+    IPage<Goods> mySoldPage(MbpPage<Goods> mbpPage);
     // endregion
 
-    // region 我买到的 got
+    // region 我买到的 bought
+    IPage<Goods> myBoughtPage(MbpPage<Goods> mbpPage);
     // endregion
 
     // region 我的私聊 privateChat

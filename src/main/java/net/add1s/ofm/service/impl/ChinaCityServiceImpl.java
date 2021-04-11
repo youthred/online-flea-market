@@ -46,7 +46,7 @@ public class ChinaCityServiceImpl extends ServiceImpl<ChinaCityMapper, ChinaCity
 
     @Override
     public List<Tree<String>> generateCityTreeDeep2() {
-        List<ChinaCity> chinaCities = CollUtil.newArrayList(this.list(Wrappers.lambdaQuery(ChinaCity.class).lt(ChinaCity::getDeep, 2)));
+        List<ChinaCity> chinaCities = CollUtil.newArrayList(this.list(Wrappers.lambdaQuery(ChinaCity.class).le(ChinaCity::getDeep, 2)));
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         treeNodeConfig.setIdKey("id");
         treeNodeConfig.setParentIdKey("pid");

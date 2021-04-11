@@ -6,8 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.entity.business.GoodsOrder;
+import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
+import net.add1s.ofm.pojo.vo.business.BoughtVO;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
+import net.add1s.ofm.pojo.vo.business.SoldVO;
 import net.add1s.ofm.service.IGoodsOrderService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
@@ -51,9 +54,25 @@ public class UserHomeServiceImpl implements IUserHomeService {
     // endregion
 
     // region 我卖出的 sold
+    @Override
+    public IPage<Goods> mySoldPage(MbpPage<Goods> mbpPage) {
+        MyUserDetails currentUser = iSysUserService.currentUser();
+        List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getSellerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
+        Page<Goods> page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
+        page.convert(goods -> new SoldVO(goods, iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
+        return page;
+    }
     // endregion
 
-    // region 我买到的 got
+    // region 我买到的 bought
+    @Override
+    public IPage<Goods> myBoughtPage(MbpPage<Goods> mbpPage) {
+        MyUserDetails currentUser = iSysUserService.currentUser();
+        List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
+        Page<Goods> page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
+        page.convert(goods -> new BoughtVO(goods, iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getSellerSysUserTbId())));
+        return page;
+    }
     // endregion
 
     // region 我的私聊 privateChat

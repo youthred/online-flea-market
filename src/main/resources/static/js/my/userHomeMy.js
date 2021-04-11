@@ -13,8 +13,9 @@ let userHomeMyVueApp = Vue.createApp({
                     }
                 },
                 sold: {             // 我卖出的
+                    soldPage: {}
                 },
-                got: {              // 我买到的
+                bought: {              // 我买到的
                 },
                 privateChat: {      // 我的私聊
                     chats: []
@@ -49,8 +50,15 @@ let userHomeMyVueApp = Vue.createApp({
                         cityName: '未选择'
                     }
                 },
-                sold: {},
-                got: {},
+                sold: {
+                    soldPage: {
+                        page: {
+                            current: 1,
+                            size: 10
+                        }
+                    }
+                },
+                bought: {},
                 privateChat: {},
                 like: {},
                 comments: {}
@@ -65,6 +73,9 @@ let userHomeMyVueApp = Vue.createApp({
             // posted
             this.setPostedPage()
             this.setCityTree()
+
+            // sold
+            this.setSoldPage()
 
             // privateChat
             this.setPrivateChats()
@@ -206,10 +217,40 @@ let userHomeMyVueApp = Vue.createApp({
         // endregion
 
         // region 我卖出的 sold
-
+        setSoldPage() {
+            axios.post('/home/my/sold/page', this.request.sold.soldPage).then(res => {
+                if (res.data.success) {
+                    this.response.sold.soldPage = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        soldPagePrev() {
+            this.request.sold.soldPage.page.current --
+            this.setSoldPage()
+        },
+        soldPageNext() {
+            this.request.sold.soldPage.page.current ++
+            this.setSoldPage()
+        },
+        /**
+         * 商品快照
+         */
+        soldGoodsSnapshot(goods) {
+            console.log(goods)
+        },
+        /**
+         * 买家信息
+         */
+        buyerInfo(buyer) {
+            console.log(buyer)
+        },
         // endregion
 
-        // region 我买到的 got
+        // region 我买到的 bought
         // endregion
 
         // region 我的私聊 privateChat

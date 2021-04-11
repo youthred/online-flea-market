@@ -23,9 +23,8 @@ public class UserHomeMyController {
     }
 
     // region 我发布的 posted
-
     /**
-     * 我发布的
+     * 我发布的 - 分页
      *
      * @return Res
      */
@@ -33,13 +32,30 @@ public class UserHomeMyController {
     public Res myPostedPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
         return Res.ok(iUserHomeService.myPostedPage(mbpPage));
     }
-
     // endregion
 
     // region 我卖出的 sold
+    /**
+     * 我卖出的 - 分页
+     *
+     * @return Res
+     */
+    @PostMapping("/sold/page")
+    public Res mySoldPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
+        return Res.ok(iUserHomeService.mySoldPage(mbpPage));
+    }
     // endregion
 
-    // region 我买到的 got
+    // region 我买到的 bought
+    /**
+     * 我买到的 - 分页
+     *
+     * @return Res
+     */
+    @PostMapping("/bought/page")
+    public Res myBoughtPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
+        return Res.ok(iUserHomeService.myBoughtPage(mbpPage));
+    }
     // endregion
 
     // region 我的私聊 privateChat

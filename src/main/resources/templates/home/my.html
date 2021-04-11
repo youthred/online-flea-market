@@ -28,8 +28,8 @@
                        role="tab" aria-controls="v-pills-posted" aria-selected="true">我发布的</a>
                     <a class="nav-link" id="v-pills-sold-tab" data-toggle="pill" href="#v-pills-sold" role="tab"
                        aria-controls="v-pills-sold" aria-selected="false">我卖出的</a>
-                    <a class="nav-link" id="v-pills-got-tab" data-toggle="pill" href="#v-pills-got" role="tab"
-                       aria-controls="v-pills-got" aria-selected="false">我买到的</a>
+                    <a class="nav-link" id="v-pills-bought-tab" data-toggle="pill" href="#v-pills-bought" role="tab"
+                       aria-controls="v-pills-bought" aria-selected="false">我买到的</a>
                     <a class="nav-link" id="v-pills-privateChat-tab" data-toggle="pill" href="#v-pills-privateChat"
                        role="tab" aria-controls="v-pills-privateChat" aria-selected="false">我的私聊</a>
                     <!--                <a class="nav-link" id="v-pills-like-tab" data-toggle="pill" href="#v-pills-like" role="tab" aria-controls="v-pills-like" aria-selected="false">我的点赞</a>-->
@@ -147,6 +147,8 @@
                                     </td>
                                     <td v-else>
                                         <div class="btn-group">
+                                            <a class="btn btn-sm btn-primary text-white"
+                                               :href="`/goods/${goods.tbId}.html`">查看</a>
                                             <a class="btn btn-sm btn-warning text-white"
                                                @click="showUpdateGoodsModal(goods)">修改</a>
                                             <a class="btn btn-sm btn-dark text-white"
@@ -183,10 +185,61 @@
                         </nav>
                     </div>
                     <div class="tab-pane fade overflow-auto" id="v-pills-sold" role="tabpanel"
-                         aria-labelledby="v-pills-sold-tab">2
+                         aria-labelledby="v-pills-sold-tab">
+                        <div class="overflow-auto">
+                            <table class="table table-hover table-borderless">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">主图</th>
+                                    <th scope="col">描述</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody v-if="Array.isNotEmpty(response.sold.soldPage.records)">
+                                <tr v-for="sold in response.sold.soldPage.records">
+                                    <th scope="row">{{sold.goods.tbId}}</th>
+                                    <td><img :src="sold.goods.mainPicUrl" class="img-fluid rounded img-thumbnail"
+                                             style="height: 30px"></td>
+                                    <td><span class="d-inline-block text-truncate" style="max-width: 450px;">{{sold.goods.desc}}</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-info text-white"
+                                               @click="soldGoodsSnapshot(sold.goods)">商品快照</a>
+                                            <a class="btn btn-sm btn-info text-white"
+                                               @click="buyerInfo(sold.buyer)">买家信息</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="page nav">
+                            <ul class="pagination justify-content-center">
+                                <!--prev-->
+                                <li v-if="request.sold.soldPage.page.current == 1"
+                                    class="page-item btn disabled"><i
+                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                                <li v-if="request.sold.soldPage.page.current > 1" class="page-item btn"
+                                    @click="soldPagePrev"><i
+                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                                <!--pageIndex of pages-->
+                                <li class="page-item page-link">{{request.sold.soldPage.page.current}} /
+                                    {{response.sold.soldPage.pages}}
+                                </li>
+                                <!--next-->
+                                <li v-if="request.sold.soldPage.page.current == response.sold.soldPage.pages || response.sold.soldPage.total === 0"
+                                    class="page-item btn disabled"><i class="fa fa-angle-double-right"
+                                                                      aria-hidden="true"></i></li>
+                                <li v-if="request.sold.soldPage.page.current < response.sold.soldPage.pages"
+                                    class="page-item btn" @click="soldPageNext"><i
+                                        class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                            </ul>
+                        </nav>
                     </div>
-                    <div class="tab-pane fade overflow-auto" id="v-pills-got" role="tabpanel"
-                         aria-labelledby="v-pills-got-tab">3
+                    <div class="tab-pane fade overflow-auto" id="v-pills-bought" role="tabpanel"
+                         aria-labelledby="v-pills-bought-tab">3
                     </div>
                     <div class="tab-pane fade overflow-auto" id="v-pills-privateChat" role="tabpanel"
                          aria-labelledby="v-pills-privateChat-tab">
