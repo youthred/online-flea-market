@@ -19,8 +19,10 @@
             <div class="media-body">
                 <div class="d-flex w-100 justify-content-between">
                     <span class="font-weight-bold text-danger">&yen;{{chat.goods.price}}</span>
-                    <button v-if="chat.bought" class="btn btn-light btn-sm disabled" disabled>已买</button>
-                    <button v-else @click="buyNow(chat.goods.tbId)" class="btn btn-warning text-white btn-sm">立即购买</button>
+                    <div v-if="'BUYER' === chat.currentTransactionRole">
+                        <button v-if="chat.bought" class="btn btn-light btn-sm disabled" disabled>已买</button>
+                        <button v-else @click="buyNow(chat.goods.tbId)" class="btn btn-warning text-white btn-sm">立即购买</button>
+                    </div>
                 </div>
                 <p><small class="text-muted">由 {{chat.goods.seller.nickname}} 发布于 {{chat.goods.cityName}}</small></p>
             </div>

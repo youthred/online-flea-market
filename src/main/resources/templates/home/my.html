@@ -203,6 +203,8 @@
                                                @click="soldGoodsSnapshot(sold.goods)">商品快照</a>
                                             <a class="btn btn-sm btn-info text-white"
                                                @click="buyerInfo(sold.buyer)">买家信息</a>
+                                            <a class="btn btn-sm btn-info text-white"
+                                               :href="`/goods/doChat/${sold.goods.tbId}.html`">联系买家</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -266,6 +268,28 @@
                     </div>
                     <div class="tab-pane fade overflow-auto" id="v-pills-comments" role="tabpanel"
                          aria-labelledby="v-pills-comments-tab">6
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品快照 Modal -->
+            <div id="soldGoodsSnapshotModal"
+                 class="modal fade"
+                 data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="soldGoodsSnapshotModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">商品快照</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
                     </div>
                 </div>
             </div>
