@@ -12,7 +12,7 @@
         <div class="media pt-3">
             <a :href="`/goods/${chat.goods.tbId}.html`">
                 <img v-if="String.isNotBlank(chat.goods.mainPicUrl)"
-                     :src="`${chat.goods.mainPicUrl}?rd=${Math.random()}`"
+                     :src="chat.goods.mainPicUrl"
                      class="img-fluid rounded align-self-center mr-3"
                      style="width: 70px; height: 70px;">
             </a>

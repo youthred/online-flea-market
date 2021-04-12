@@ -21,7 +21,8 @@
             <div v-if="Array.isNotEmpty(goodsPage.records)">
                 <div class="card-columns pt-2" id="goodsPage">
                     <div class="card mb-3" v-for="goods in goodsPage.records">
-                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="`${goods.picArr[0]}?rd=${Math.random()}`" class="card-img-top">
+<!--                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="`${goods.picArr[0]}?rd=${Math.random()}`" class="card-img-top">-->
+                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.mainPicUrl" class="card-img-top">
                         <div class="card-body">
                             <p>
                                 <strong class="card-title text-danger">&yen;{{goods.price}}</strong>

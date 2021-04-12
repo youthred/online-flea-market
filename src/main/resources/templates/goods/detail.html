@@ -38,7 +38,7 @@
                 <div class="card-columns">
                     <div v-if="Array.isNotEmpty(goodsDetail.picArr)">
                         <div class="card mb-3" v-for="pic in goodsDetail.picArr">
-                            <img class="rounded card-img" :src="`${pic}?rd=${Math.random()}`">
+                            <img class="rounded card-img" :src="pic">
                         </div>
                     </div>
                 </div>
