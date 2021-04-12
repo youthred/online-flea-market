@@ -1,5 +1,6 @@
 package net.add1s.ofm.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,7 +25,6 @@ import net.add1s.ofm.service.*;
 import net.add1s.ofm.util.SqlUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -116,17 +116,17 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public GoodsChatVO chat(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
+        LambdaQueryWrapper<ChatMessage> historyChatLambdaWrapper = Wrappers.lambdaQuery(ChatMessage.class)
+                .eq(ChatMessage::getGoodsTbId, goodsTbId)
+                .and(chatMessageLambdaQueryWrapper -> chatMessageLambdaQueryWrapper
+                        .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
+                        .or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()));
         // 查询当前用户当前商品的历史私聊记录
-        List<ChatMessage> historyChatMessages = iChatMessageService.list(
-                Wrappers.lambdaQuery(ChatMessage.class)
-                        .eq(ChatMessage::getGoodsTbId, goodsTbId)
-                        .and(chatMessageLambdaQueryWrapper -> chatMessageLambdaQueryWrapper
-                                .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
-                                .or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()))
-        );
-        if (CollectionUtils.isEmpty(historyChatMessages)) {
+        int historyChatCount = iChatMessageService.count(historyChatLambdaWrapper);
+        if (historyChatCount == 0) {
             firstChat(currentUser.getTbId(), goodsTbId);
         }
+        List<ChatMessage> historyChatMessages = iChatMessageService.list(historyChatLambdaWrapper);
         List<ChatMessageVO> chatMessageVOS = historyChatMessages
                 .stream()
                 .map(ChatMessageVO::new)
