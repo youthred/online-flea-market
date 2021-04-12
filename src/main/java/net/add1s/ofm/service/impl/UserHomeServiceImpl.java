@@ -56,10 +56,13 @@ public class UserHomeServiceImpl implements IUserHomeService {
     // region 我卖出的 sold
     @Override
     public IPage<Goods> mySoldPage(MbpPage<Goods> mbpPage) {
+        Page<Goods> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
         List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getSellerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
-        Page<Goods> page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
-        page.convert(goods -> new SoldVO(goods, iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
+        if (!CollectionUtils.isEmpty(doneOrderSoled)) {
+            page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
+            page.convert(goods -> new SoldVO(goods, iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
+        }
         return page;
     }
     // endregion
@@ -67,10 +70,13 @@ public class UserHomeServiceImpl implements IUserHomeService {
     // region 我买到的 bought
     @Override
     public IPage<Goods> myBoughtPage(MbpPage<Goods> mbpPage) {
+        Page<Goods> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
-        List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
-        Page<Goods> page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
-        page.convert(goods -> new BoughtVO(goods, iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getSellerSysUserTbId())));
+        List<GoodsOrder> doneOrderBought = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
+        if (!CollectionUtils.isEmpty(doneOrderBought)) {
+            page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderBought.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
+            page.convert(goods -> new BoughtVO(goods, iSysUserService.getById(doneOrderBought.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getSellerSysUserTbId())));
+        }
         return page;
     }
     // endregion

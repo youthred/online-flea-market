@@ -164,9 +164,6 @@
                         <nav aria-label="page nav">
                             <ul class="pagination justify-content-center">
                                 <!--prev-->
-                                <li v-if="request.posted.postedRequest.page.current == 1"
-                                    class="page-item btn disabled"><i
-                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
                                 <li v-if="request.posted.postedRequest.page.current > 1" class="page-item btn"
                                     @click="postedPagePrev"><i
                                         class="fa fa-angle-double-left" aria-hidden="true"></i></li>
@@ -175,9 +172,6 @@
                                     {{response.posted.postedPage.pages}}
                                 </li>
                                 <!--next-->
-                                <li v-if="request.posted.postedRequest.page.current == response.posted.postedPage.pages || response.posted.postedPage.total === 0"
-                                    class="page-item btn disabled"><i class="fa fa-angle-double-right"
-                                                                      aria-hidden="true"></i></li>
                                 <li v-if="request.posted.postedRequest.page.current < response.posted.postedPage.pages"
                                     class="page-item btn" @click="postedPageNext"><i
                                         class="fa fa-angle-double-right" aria-hidden="true"></i></li>
@@ -218,9 +212,6 @@
                         <nav aria-label="page nav">
                             <ul class="pagination justify-content-center">
                                 <!--prev-->
-                                <li v-if="request.sold.soldPage.page.current == 1"
-                                    class="page-item btn disabled"><i
-                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
                                 <li v-if="request.sold.soldPage.page.current > 1" class="page-item btn"
                                     @click="soldPagePrev"><i
                                         class="fa fa-angle-double-left" aria-hidden="true"></i></li>
@@ -229,9 +220,6 @@
                                     {{response.sold.soldPage.pages}}
                                 </li>
                                 <!--next-->
-                                <li v-if="request.sold.soldPage.page.current == response.sold.soldPage.pages || response.sold.soldPage.total === 0"
-                                    class="page-item btn disabled"><i class="fa fa-angle-double-right"
-                                                                      aria-hidden="true"></i></li>
                                 <li v-if="request.sold.soldPage.page.current < response.sold.soldPage.pages"
                                     class="page-item btn" @click="soldPageNext"><i
                                         class="fa fa-angle-double-right" aria-hidden="true"></i></li>
