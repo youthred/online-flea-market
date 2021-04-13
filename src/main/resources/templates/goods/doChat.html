@@ -20,7 +20,10 @@
                 <div class="d-flex w-100 justify-content-between">
                     <span class="font-weight-bold text-danger">&yen;{{chat.goods.price}}</span>
                     <div v-if="'BUYER' === chat.currentTransactionRole">
-                        <button v-if="chat.bought" class="btn btn-light btn-sm disabled" disabled>已买</button>
+                        <div v-if="chat.sold">
+                            <button v-if="chat.boughtByCurrentUser" class="btn btn-light btn-sm disabled" disabled>已买</button>
+                            <button v-else class="btn btn-light btn-sm disabled" disabled>已卖</button>
+                        </div>
                         <button v-else @click="buyNow(chat.goods.tbId)" class="btn btn-warning text-white btn-sm">立即购买</button>
                     </div>
                 </div>

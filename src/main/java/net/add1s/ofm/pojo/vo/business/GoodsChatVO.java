@@ -43,10 +43,13 @@ public class GoodsChatVO implements Serializable {
      */
     private long unread;
     /**
-     * 是否已买
+     * 是否已被卖
      */
-    private boolean bought;
-
+    private boolean sold;
+    /**
+     * 是否当前用户买到
+     */
+    private boolean boughtByCurrentUser;
     /**
      * 当前用户交易角色
      */

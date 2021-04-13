@@ -11,19 +11,21 @@
 </div><!-- nav end -->
 <div class="container">
     <div id="verifyVueApp">
-        <div v-if="verifyResult.success">
-            <div class="jumbotron pt-3">
-                <h1 class="display-4"><i class="far fa-check-circle text-success"></i> 激活成功</h1>
-                <hr class="my-4">
-                <a class="btn btn-primary btn-lg" href="/login.html" role="button">现在登录</a>
+        <div class="pt-3">
+            <div v-if="verifyResult.success">
+                <div class="jumbotron pt-3">
+                    <h1 class="display-4"><i class="far fa-check-circle text-success"></i> 激活成功</h1>
+                    <hr class="my-4">
+                    <a class="btn btn-primary btn-lg" href="/login.html" role="button">现在登录</a>
+                </div>
             </div>
-        </div>
-        <div v-else>
-            <div class="jumbotron">
-                <h1 class="display-4"><i class="far fa-times-circle text-danger"></i> 激活失败</h1>
-                <p class="lead">{{verifyResult.message}}</p>
-                <hr class="my-4">
-                <button class="btn btn-dark btn-lg" href="#" @click="contactAdmin">联系管理员</button>
+            <div v-else>
+                <div class="jumbotron">
+                    <h1 class="display-4"><i class="far fa-times-circle text-danger"></i> 激活失败</h1>
+                    <p class="lead">{{verifyResult.message}}</p>
+                    <hr class="my-4">
+                    <button class="btn btn-dark btn-lg" href="#" @click="contactAdmin">联系管理员</button>
+                </div>
             </div>
         </div>
     </div>
