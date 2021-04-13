@@ -26,7 +26,6 @@ public class GoodsDTO implements Serializable {
     private LocalDateTime updateTime;
     @NotBlank
     private String desc;
-    @NotBlank
     private String pics;
     @Min(0)
     private double price;

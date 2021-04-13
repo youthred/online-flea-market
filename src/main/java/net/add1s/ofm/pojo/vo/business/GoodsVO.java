@@ -70,7 +70,7 @@ public class GoodsVO implements Serializable {
         if (ArrayUtils.isNotEmpty(picArr) && StringUtils.isNotBlank(picArr[0])) {
             return picArr[0];
         } else {
-            return null;
+            return "/static/img/goods/default_goods_main.png";
         }
     }
 }

@@ -22,12 +22,14 @@
                 <div class="card-columns pt-2" id="goodsPage">
                     <div class="card mb-3" v-for="goods in goodsPage.records">
 <!--                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="`${goods.picArr[0]}?rd=${Math.random()}`" class="card-img-top">-->
-                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.mainPicUrl" class="card-img-top">
+                        <a :href="`/goods/${goods.tbId}.html`">
+                            <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.mainPicUrl" class="card-img-top">
+                        </a>
                         <div class="card-body">
                             <p>
                                 <strong class="card-title text-danger">&yen;{{goods.price}}</strong>
-                                <a class="card-link float-right" :href="`/goods/${goods.tbId}.html`"><i
-                                        class="fa fa-info-circle"></i></a>
+<!--                                <a class="card-link float-right" :href="`/goods/${goods.tbId}.html`"><i-->
+<!--                                        class="fa fa-info-circle"></i></a>-->
                             </p>
                             <p v-if="String.isNotBlank(goods.desc)" class="card-text">{{goods.desc}}</p>
                             <p class="card-text">
