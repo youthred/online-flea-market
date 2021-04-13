@@ -273,13 +273,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     /**
-     * 当前用户是否允许操作某一商品，仅超级管理员和商品卖家允许操作
+     * 当前用户是否允许操作某一商品，仅未卖商品时的超级管理员或商品卖家允许操作
      *
      * @param goodsTbId 商品TBID
      * @return 是否允许
      */
     private boolean isAllowedToOperateGoods(Long goodsTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
-        return currentUser.isAdmin() || this.getById(goodsTbId).getSellerSysUserTbId().equals(currentUser.getTbId());
+        // 未出售 且 ( 超级管理员 或 商品卖家 ) 才允许操作
+        return iGoodsOrderService.count(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getGoodsTbId, goodsTbId)) == 0
+                && (currentUser.isAdmin() || this.getById(goodsTbId).getSellerSysUserTbId().equals(currentUser.getTbId()));
     }
 }
