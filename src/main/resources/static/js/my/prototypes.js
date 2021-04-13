@@ -28,3 +28,13 @@ String.isBlank = function (str) {
 Array.isNotEmpty = function (arr) {
     return arr != null && arr.length > 0
 }
+Array.isEmpty = function (arr) {
+    return !this.isNotEmpty(arr)
+}
+
+Object.isEmpty = function (obj) {
+    return Object.keys(obj).length === 0
+}
+Object.isNotEmpty = function (obj) {
+    return !this.isEmpty(obj)
+}

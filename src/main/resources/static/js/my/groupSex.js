@@ -50,7 +50,7 @@ function send(msg) {
  */
 $(function () {
     $msgInput.bind('input propertychange', function () {
-        if (isBlank($msgInput.val())) {
+        if (String.isBlank($msgInput.val())) {
             $sendMsgBtn.attr('disabled', 'disabled')
         } else {
             $sendMsgBtn.removeAttr('disabled')

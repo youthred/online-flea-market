@@ -7,10 +7,9 @@ import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.entity.business.GoodsOrder;
 import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
-import net.add1s.ofm.pojo.vo.business.BoughtVO;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
-import net.add1s.ofm.pojo.vo.business.SoldVO;
+import net.add1s.ofm.pojo.vo.business.SoldOrBoughtVO;
 import net.add1s.ofm.service.IGoodsOrderService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
@@ -61,7 +60,7 @@ public class UserHomeServiceImpl implements IUserHomeService {
         List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getSellerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
         if (!CollectionUtils.isEmpty(doneOrderSoled)) {
             page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
-            page.convert(goods -> new SoldVO(goods, iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
+            page.convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId()), iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
         }
         return page;
     }
@@ -75,7 +74,7 @@ public class UserHomeServiceImpl implements IUserHomeService {
         List<GoodsOrder> doneOrderBought = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
         if (!CollectionUtils.isEmpty(doneOrderBought)) {
             page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderBought.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
-            page.convert(goods -> new BoughtVO(goods, iSysUserService.getById(doneOrderBought.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getSellerSysUserTbId())));
+            page.convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId())));
         }
         return page;
     }

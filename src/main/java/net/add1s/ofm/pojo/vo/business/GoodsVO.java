@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import net.add1s.ofm.common.enums.Symbol;
 import net.add1s.ofm.pojo.entity.business.Goods;
+import net.add1s.ofm.pojo.entity.sys.SysUser;
 import net.add1s.ofm.pojo.vo.sys.SysUserVO;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,11 @@ public class GoodsVO implements Serializable {
         this.sellerSysUserTbId = goods.getSellerSysUserTbId();
         this.offShelf = goods.getOffShelf();
         this.deleted = goods.getDeleted();
+    }
+
+    public GoodsVO(Goods goods, SysUser seller) {
+        this(goods);
+        this.seller = new SysUserVO(seller);
     }
 
     private static final long serialVersionUID = 1035024677737233143L;

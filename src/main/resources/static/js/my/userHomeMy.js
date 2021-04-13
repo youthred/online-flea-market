@@ -1,6 +1,11 @@
 let userHomeMyVueApp = Vue.createApp({
     data() {
         return {
+            common: {
+                soldOrBought: {
+                    goodsSnapshot: {}
+                }
+            },
             response: {
                 posted: {           // 我发布的
                     postedPage: {},
@@ -80,6 +85,17 @@ let userHomeMyVueApp = Vue.createApp({
             // privateChat
             this.setPrivateChats()
         },
+
+        // regine common
+        /**
+         * 商品快照
+         */
+        soldOrBoughtGoodsSnapshot(goods) {
+            console.log(goods)
+            this.common.soldOrBought.goodsSnapshot = goods
+            $('#soldOrBoughtGoodsSnapshotModal').modal('show')
+        },
+        // endregion
 
         // region 我发布的 posted
         setPostedPage() {
@@ -235,12 +251,6 @@ let userHomeMyVueApp = Vue.createApp({
         soldPageNext() {
             this.request.sold.soldPage.page.current ++
             this.setSoldPage()
-        },
-        /**
-         * 商品快照
-         */
-        soldGoodsSnapshot(goods) {
-            console.log(goods)
         },
         /**
          * 买家信息
