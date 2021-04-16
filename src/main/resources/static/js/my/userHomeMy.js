@@ -4,6 +4,10 @@ let userHomeMyVueApp = Vue.createApp({
             common: {
                 soldOrBought: {
                     goodsSnapshot: {}
+                },
+                buyerOrSeller: {
+                    isBuyer: true,
+                    info: {}
                 }
             },
             response: {
@@ -21,6 +25,7 @@ let userHomeMyVueApp = Vue.createApp({
                     soldPage: {}
                 },
                 bought: {              // 我买到的
+                    boughtPage: {}
                 },
                 privateChat: {      // 我的私聊
                     chats: []
@@ -63,7 +68,14 @@ let userHomeMyVueApp = Vue.createApp({
                         }
                     }
                 },
-                bought: {},
+                bought: {
+                    boughtPage: {
+                        page: {
+                            current: 1,
+                            size: 10
+                        }
+                    }
+                },
                 privateChat: {},
                 like: {},
                 comments: {}
@@ -82,6 +94,9 @@ let userHomeMyVueApp = Vue.createApp({
             // sold
             this.setSoldPage()
 
+            // bought
+            this.setBoughtPage()
+
             // privateChat
             this.setPrivateChats()
         },
@@ -91,7 +106,6 @@ let userHomeMyVueApp = Vue.createApp({
          * 商品快照
          */
         soldOrBoughtGoodsSnapshot(goods) {
-            console.log(goods)
             this.common.soldOrBought.goodsSnapshot = goods
             $('#soldOrBoughtGoodsSnapshotModal').modal('show')
         },
@@ -256,11 +270,40 @@ let userHomeMyVueApp = Vue.createApp({
          * 买家信息
          */
         buyerInfo(buyer) {
-            console.log(buyer)
+            this.common.buyerOrSeller.isBuyer = true
+            this.common.buyerOrSeller.info = buyer
+            $('#buyerOrSellerModal').modal('show')
         },
         // endregion
 
         // region 我买到的 bought
+        setBoughtPage() {
+            axios.post('/home/my/bought/page', this.request.sold.soldPage).then(res => {
+                if (res.data.success) {
+                    this.response.bought.boughtPage = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        boughtPagePrev() {
+            this.request.bought.boughtPage.page.current --
+            this.setBoughtPage()
+        },
+        boughtPageNext() {
+            this.request.bought.boughtPage.page.current ++
+            this.setBoughtPage()
+        },
+        /**
+         * 卖家信息
+         */
+        sellerInfo(seller) {
+            this.common.buyerOrSeller.isBuyer = false
+            this.common.buyerOrSeller.info = seller
+            $('#buyerOrSellerModal').modal('show')
+        },
         // endregion
 
         // region 我的私聊 privateChat

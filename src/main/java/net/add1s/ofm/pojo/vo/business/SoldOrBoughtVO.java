@@ -24,7 +24,6 @@ public class SoldOrBoughtVO implements Serializable {
 
     public SoldOrBoughtVO(Goods goods, SysUser seller) {
         this.goods = new GoodsVO(goods, seller);
-        this.buyer = new SysUserVO(seller);
     }
 
     public SoldOrBoughtVO(Goods goods, SysUser seller, SysUser buyer) {
