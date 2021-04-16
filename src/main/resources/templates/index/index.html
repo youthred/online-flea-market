@@ -10,60 +10,75 @@
     </div><!-- nav end -->
 
     <div class="container">
-        <div id="goodsIndexVueApp" class="pt-3">
-            <div class="input-group justify-content-center">
-                <input name="q" v-model.trim="searchInput" class="form-control border-success rounded-pill mr-2" type="text"
+        <div id="goodsIndexVueApp" class="pt-5">
+            <!--            <div class="input-group justify-content-center">-->
+            <!--                <input name="q" v-model.trim="searchInput" class="form-control border-success rounded-pill mr-2"-->
+            <!--                       type="text" search-btn-addon="search-btn-addon"-->
+            <!--                       aria-label="Search">-->
+            <!--                <div class="input-group-append">-->
+            <!--                    <button class="btn btn-outline-success rounded-pill" @click="search" id="search-btn-addon">Search-->
+            <!--                    </button>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <div class="input-group w-50 m-auto">
+                <input name="q" v-model.trim="searchInput" class="form-control border-success"
+                       type="text" aria-describedby="search-btn-addon"
                        aria-label="Search">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-success rounded-pill" @click="search">Search</button>
+                    <button class="btn btn-outline-success" @click="search" id="search-btn-addon">Search
+                    </button>
                 </div>
             </div>
-            <div v-if="Array.isNotEmpty(goodsPage.records)">
-                <div class="card-columns pt-2" id="goodsPage">
-                    <div class="card mb-3" v-for="goods in goodsPage.records">
-<!--                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="`${goods.picArr[0]}?rd=${Math.random()}`" class="card-img-top">-->
-                        <a :href="`/goods/${goods.tbId}.html`">
-                            <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.mainPicUrl" class="card-img-top">
-                        </a>
-                        <div class="card-body">
-                            <p>
-                                <strong class="card-title text-danger">&yen;{{goods.price}}</strong>
-<!--                                <a class="card-link float-right" :href="`/goods/${goods.tbId}.html`"><i-->
-<!--                                        class="fa fa-info-circle"></i></a>-->
-                            </p>
-                            <p v-if="String.isNotBlank(goods.desc)" class="card-text">{{goods.desc}}</p>
-                            <p class="card-text">
-                                <small class="text-muted">
-                                    <span>最后更新于 {{goods.updateTime}}</span>
-                                    <span class="float-right">浏览 {{goods.views}}</span>
-                                </small>
-                            </p>
+            <div class="pt-5">
+                <div v-if="Array.isNotEmpty(goodsPage.records)">
+                    <div class="card-columns" id="goodsPage">
+                        <div class="card mb-3" v-for="goods in goodsPage.records">
+                            <!--                        <img v-if="Array.isNotEmpty(goods.picArr)" :src="`${goods.picArr[0]}?rd=${Math.random()}`" class="card-img-top">-->
+                            <a :href="`/goods/${goods.tbId}.html`">
+                                <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.mainPicUrl" class="card-img-top">
+                            </a>
+                            <div class="card-body">
+                                <p>
+                                    <strong class="card-title text-danger">&yen;{{goods.price}}</strong>
+                                    <!--                                <a class="card-link float-right" :href="`/goods/${goods.tbId}.html`"><i-->
+                                    <!--                                        class="fa fa-info-circle"></i></a>-->
+                                </p>
+                                <p v-if="String.isNotBlank(goods.desc)" class="card-text">{{goods.desc}}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <span>最后更新于 {{goods.updateTime}}</span>
+                                        <span class="float-right">浏览 {{goods.views}}</span>
+                                    </small>
+                                </p>
+                            </div>
+                            <!--                    <div class="card-footer">-->
+                            <!--                        <small class="text-muted">{{goods.updateTime}}</small>-->
+                            <!--                    </div>-->
                         </div>
-                        <!--                    <div class="card-footer">-->
-                        <!--                        <small class="text-muted">{{goods.updateTime}}</small>-->
-                        <!--                    </div>-->
                     </div>
+                    <nav aria-label="page nav">
+                        <ul class="pagination justify-content-center">
+                            <!--prev-->
+                            <!--                        <li v-if="goodsPageRequest.page.current == 1" class="page-item btn disabled"><i-->
+                            <!--                                class="fa fa-angle-double-left" aria-hidden="true"></i></li>-->
+                            <li v-if="goodsPageRequest.page.current > 1" class="page-item btn" @click="prev"><i
+                                    class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                            <!--pageIndex of pages-->
+                            <li class="page-item page-link">{{goodsPageRequest.page.current}} / {{goodsPage.pages}}</li>
+                            <!--next-->
+                            <!--                        <li v-if="goodsPageRequest.page.current == goodsPage.pages || goodsPage.total === 0"-->
+                            <!--                            class="page-item btn disabled"><i class="fa fa-angle-double-right" aria-hidden="true"></i></li>-->
+                            <li v-if="goodsPageRequest.page.current < goodsPage.pages" class="page-item btn"
+                                @click="next">
+                                <i
+                                        class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                        </ul>
+                    </nav>
                 </div>
-                <nav aria-label="page nav">
-                    <ul class="pagination justify-content-center">
-                        <!--prev-->
-<!--                        <li v-if="goodsPageRequest.page.current == 1" class="page-item btn disabled"><i-->
-<!--                                class="fa fa-angle-double-left" aria-hidden="true"></i></li>-->
-                        <li v-if="goodsPageRequest.page.current > 1" class="page-item btn" @click="prev"><i
-                                class="fa fa-angle-double-left" aria-hidden="true"></i></li>
-                        <!--pageIndex of pages-->
-                        <li class="page-item page-link">{{goodsPageRequest.page.current}} / {{goodsPage.pages}}</li>
-                        <!--next-->
-<!--                        <li v-if="goodsPageRequest.page.current == goodsPage.pages || goodsPage.total === 0"-->
-<!--                            class="page-item btn disabled"><i class="fa fa-angle-double-right" aria-hidden="true"></i></li>-->
-                        <li v-if="goodsPageRequest.page.current < goodsPage.pages" class="page-item btn" @click="next"><i
-                                class="fa fa-angle-double-right" aria-hidden="true"></i></li>
-                    </ul>
-                </nav>
-            </div>
-            <div v-else>
-                <div class="text-center">
-                    <h1 class="text-muted">Nothing</h1>
+                <div v-else>
+                    <div class="text-center">
+                        <h1 class="text-muted">Nothing</h1>
+                    </div>
                 </div>
             </div>
         </div>

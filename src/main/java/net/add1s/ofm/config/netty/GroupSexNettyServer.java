@@ -47,7 +47,7 @@ public class GroupSexNettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            log.info("新连接：{}", ch.localAddress());
+//                            log.info("新连接：{}", ch.localAddress());
                             ch.pipeline().addLast(new HttpServerCodec());
                             ch.pipeline().addLast(new ChunkedWriteHandler());
                             ch.pipeline().addLast(new HttpObjectAggregator(8192));

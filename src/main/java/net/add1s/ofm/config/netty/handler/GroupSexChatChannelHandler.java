@@ -20,13 +20,13 @@ public class GroupSexChatChannelHandler extends SimpleChannelInboundHandler<Text
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("与客户端建立连接，通道开启：{}", ctx.channel());
+//        log.info("与客户端建立连接，通道开启：{}", ctx.channel());
         CHANNEL_GROUP.add(ctx.channel());
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("与客户端断开连接，通道关闭：{}", ctx.channel());
+//        log.info("与客户端断开连接，通道关闭：{}", ctx.channel());
         CHANNEL_GROUP.remove(ctx.channel());
     }
 
