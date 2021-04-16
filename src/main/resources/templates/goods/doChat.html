@@ -9,7 +9,9 @@
 
 <div class="container">
     <div id="doChatVueApp">
-        <div class="media pt-3">
+        <h3 class="text-center pt-3">{{chat.goods.seller.nickname}}</h3>
+        <hr class="my-4">
+        <div class="media">
             <a :href="`/goods/${chat.goods.tbId}.html`">
                 <img v-if="String.isNotBlank(chat.goods.mainPicUrl)"
                      :src="chat.goods.mainPicUrl"
@@ -119,13 +121,13 @@
                     scrollChatDivToNewest()
                 };
                 socket.onopen = function (event) {
-                    $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i>${new Date().defaultFormat()}</small></p>`)
+                    $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i> ${new Date().defaultFormat()}</small></p>`)
                     scrollChatDivToNewest()
                     // 连接上后发送一条消息给服务端进行用户-商品-通道的定位绑定
                     send('用户-商品-通道绑定消息', 1, true)
                 };
                 socket.onclose = function (event) {
-                    $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i>${new Date().defaultFormat()}</small></p>`)
+                    $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i> ${new Date().defaultFormat()}</small></p>`)
                     scrollChatDivToNewest()
                 };
             } else {

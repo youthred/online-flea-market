@@ -14,11 +14,11 @@ axios.get('/netty/groupSexNettyHost').then(res => {
                 scrollChatDivToNewest()
             };
             socket.onopen = function (event) {
-                $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i>${new Date().defaultFormat()}</small></p>`)
+                $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-link"></i> ${new Date().defaultFormat()}</small></p>`)
                 scrollChatDivToNewest()
             };
             socket.onclose = function (event) {
-                $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i>${new Date().defaultFormat()}</small></p>`)
+                $resText.append(`<p class="text-muted text-center"><small><i class="fas fa-unlink"></i> ${new Date().defaultFormat()}</small></p>`)
                 scrollChatDivToNewest()
             };
         } else {
