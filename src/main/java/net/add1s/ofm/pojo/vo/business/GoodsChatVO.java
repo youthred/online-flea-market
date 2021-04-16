@@ -5,6 +5,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import net.add1s.ofm.common.enums.TransactionRoleEnum;
+import net.add1s.ofm.pojo.vo.sys.SysUserVO;
 import net.add1s.ofm.util.IntervalsUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,6 +55,10 @@ public class GoodsChatVO implements Serializable {
      * 当前用户交易角色
      */
     private TransactionRoleEnum currentTransactionRole;
+    /**
+     * 对方
+     */
+    private SysUserVO otherParty;
 
     public String getIntervals() {
         if (Objects.nonNull(this.lastMessage)) {

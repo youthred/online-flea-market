@@ -21,6 +21,7 @@ import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.vo.business.ChatMessageVO;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
+import net.add1s.ofm.pojo.vo.sys.SysUserVO;
 import net.add1s.ofm.service.*;
 import net.add1s.ofm.util.SqlUtil;
 import org.springframework.stereotype.Service;
@@ -140,7 +141,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 .setCurrentTransactionRole(currentUser.getTbId())
                 .setSold(isSold)
                 .setBoughtByCurrentUser(isSold && sold.getBuyerSysUserTbId().equals(currentUser.getTbId()));
-        // 未读消息变已读
         if (TransactionRoleEnum.SELLER.equals(goodsChatVO.getCurrentTransactionRole())) {
             // 当前用户为卖家，则修改当前商品的[卖家已读]为true
             iChatMessageService.update(Wrappers.lambdaUpdate(ChatMessage.class)
@@ -148,6 +148,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                     .eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId())
                     .set(ChatMessage::isReadSeller, true)
             );
+            // 对方为买家
+            goodsChatVO.setOtherParty(new SysUserVO(iSysUserService.getById(goodsChatVO.getChatMessages().get(0).getBuyerSysUserTbId())));
         } else {
             // 当前用户为买家
             iChatMessageService.update(Wrappers.lambdaUpdate(ChatMessage.class)
@@ -155,6 +157,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                     .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
                     .set(ChatMessage::isReadBuyer, true)
             );
+            // 对方为卖家
+            goodsChatVO.setOtherParty(new SysUserVO(iSysUserService.getById(goodsChatVO.getChatMessages().get(0).getSellerSysUserTbId())));
         }
         return goodsChatVO;
     }

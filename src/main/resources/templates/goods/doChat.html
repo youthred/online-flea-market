@@ -4,14 +4,14 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:v-on="http://www.w3.org/1999/xhtml"
       xmlns:v-bind="http://www.w3.org/1999/xhtml">
-<head th:replace="common/header :: header('与' + ${chat.goods.seller.nickname} + '的私聊')"></head>
+<head th:replace="common/header :: header('与' + ${chat.otherParty.nickname} + '的私聊')"></head>
 <body>
 <div class="sticky-top">
     <span th:replace="common/nav :: nav_common('common')"></span>
 </div><!-- nav end -->
 <div class="container">
     <div id="doChatVueApp">
-        <h3 class="text-center pt-3">{{chat.goods.seller.nickname}}</h3>
+        <h3 class="text-center pt-3">{{chat.otherParty.nickname}}</h3>
         <hr class="my-4">
         <div class="media">
             <a :href="`/goods/${chat.goods.tbId}.html`">
