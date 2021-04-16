@@ -133,12 +133,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 .collect(Collectors.toList());
         chatMessageVOS.forEach(chatMessageVO -> chatMessageVO.setIsFromCurrentUser(currentUser.getTbId()));
         GoodsOrder sold = iGoodsOrderService.getOne(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getGoodsTbId, goodsTbId));
+        boolean isSold = Objects.nonNull(sold);
         GoodsChatVO goodsChatVO = new GoodsChatVO()
                 .setGoods(this.detail(goodsTbId))   // 不管是否下架或删除
                 .setChatMessages(chatMessageVOS)
                 .setCurrentTransactionRole(currentUser.getTbId())
-                .setSold(Objects.nonNull(sold))
-                .setBoughtByCurrentUser(sold.getBuyerSysUserTbId().equals(currentUser.getTbId()));
+                .setSold(isSold)
+                .setBoughtByCurrentUser(isSold && sold.getBuyerSysUserTbId().equals(currentUser.getTbId()));
         // 未读消息变已读
         if (TransactionRoleEnum.SELLER.equals(goodsChatVO.getCurrentTransactionRole())) {
             // 当前用户为卖家，则修改当前商品的[卖家已读]为true
