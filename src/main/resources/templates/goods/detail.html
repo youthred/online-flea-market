@@ -3,7 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="common/header :: header('Goods-' + ${detail.goodsDetail == null ? 'NULL' : detail.goodsDetail.tbId})"></head>
-<body class="bg-light">
+<body>
+<div class="sticky-top">
+    <span th:replace="common/nav :: nav_common('common')"></span>
+</div><!-- nav end -->
 <div class="container">
     <div id="goodsDetailVueApp">
         <div v-if="goodsDetail != null">
