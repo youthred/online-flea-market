@@ -14,9 +14,9 @@ import net.add1s.ofm.service.IGoodsOrderService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.service.IUserHomeService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +43,7 @@ public class UserHomeServiceImpl implements IUserHomeService {
         Page<Goods> page = iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getSellerSysUserTbId, iSysUserService.currentUser().getTbId()).eq(Goods::getDeleted, false));
         // 已完成的订单商品TBID
         List<Long> doneOrderGoodsTbIds = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).select(GoodsOrder::getGoodsTbId).eq(GoodsOrder::getDone, true)).stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList());
-        if (!CollectionUtils.isEmpty(doneOrderGoodsTbIds)) {
+        if (CollectionUtils.isNotEmpty(doneOrderGoodsTbIds)) {
             // 排除已卖出的
             page.getRecords().removeIf(goods -> doneOrderGoodsTbIds.contains(goods.getTbId()));
         }
@@ -58,7 +58,7 @@ public class UserHomeServiceImpl implements IUserHomeService {
         Page<Goods> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
         List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getSellerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
-        if (!CollectionUtils.isEmpty(doneOrderSoled)) {
+        if (CollectionUtils.isNotEmpty(doneOrderSoled)) {
             page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
             page.convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId()), iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
         }
@@ -72,7 +72,7 @@ public class UserHomeServiceImpl implements IUserHomeService {
         Page<Goods> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
         List<GoodsOrder> doneOrderBought = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
-        if (!CollectionUtils.isEmpty(doneOrderBought)) {
+        if (CollectionUtils.isNotEmpty(doneOrderBought)) {
             page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderBought.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
             page.convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId())));
         }
