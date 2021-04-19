@@ -6,11 +6,13 @@
       xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: header('GROUP SEX')"></head>
 <body>
-
+<div class="sticky-top">
+    <span th:replace="common/nav :: nav_common('common')"></span>
+</div><!-- nav end -->
 <div class="container">
-    <br>
-    <h1>击剑大厅</h1>
-    <form onsubmit="return false">
+    <h1 class="text-center mt-3">击剑大厅</h1>
+    <hr class="my-4">
+    <form class="mt-3" onsubmit="return false">
         <div class="form-group overflow-auto" style="height: 500px" id="resText"></div>
         <div class="form-group">
             <label for="msgInput"></label><input type="text" id="msgInput" name="msg" class="form-control">
