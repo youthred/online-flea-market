@@ -7,7 +7,7 @@ import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 
 import java.util.List;
 
-public interface IUserHomeService {
+public interface IUserHomeMyService {
 
     // region 我发布的 posted
     IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage);

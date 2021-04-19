@@ -13,7 +13,7 @@ import net.add1s.ofm.pojo.vo.business.SoldOrBoughtVO;
 import net.add1s.ofm.service.IGoodsOrderService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
-import net.add1s.ofm.service.IUserHomeService;
+import net.add1s.ofm.service.IUserHomeMyService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,15 +23,15 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserHomeServiceImpl implements IUserHomeService {
+public class UserHomeMyServiceImpl implements IUserHomeMyService {
 
     private final ISysUserService iSysUserService;
     private final IGoodsService iGoodsService;
     private final IGoodsOrderService iGoodsOrderService;
 
-    public UserHomeServiceImpl(ISysUserService iSysUserService,
-                               IGoodsService iGoodsService,
-                               IGoodsOrderService iGoodsOrderService) {
+    public UserHomeMyServiceImpl(ISysUserService iSysUserService,
+                                 IGoodsService iGoodsService,
+                                 IGoodsOrderService iGoodsOrderService) {
         this.iSysUserService = iSysUserService;
         this.iGoodsService = iGoodsService;
         this.iGoodsOrderService = iGoodsOrderService;

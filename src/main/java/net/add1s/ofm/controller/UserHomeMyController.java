@@ -3,7 +3,7 @@ package net.add1s.ofm.controller;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.pojo.entity.business.Goods;
-import net.add1s.ofm.service.IUserHomeService;
+import net.add1s.ofm.service.IUserHomeMyService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/home/my")
 public class UserHomeMyController {
 
-    private final IUserHomeService iUserHomeService;
+    private final IUserHomeMyService iUserHomeMyService;
 
-    public UserHomeMyController(IUserHomeService iUserHomeService) {
-        this.iUserHomeService = iUserHomeService;
+    public UserHomeMyController(IUserHomeMyService iUserHomeMyService) {
+        this.iUserHomeMyService = iUserHomeMyService;
     }
 
     // region 我发布的 posted
@@ -30,7 +30,7 @@ public class UserHomeMyController {
      */
     @PostMapping("/posted/page")
     public Res myPostedPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iUserHomeService.myPostedPage(mbpPage));
+        return Res.ok(iUserHomeMyService.myPostedPage(mbpPage));
     }
     // endregion
 
@@ -42,7 +42,7 @@ public class UserHomeMyController {
      */
     @PostMapping("/sold/page")
     public Res mySoldPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iUserHomeService.mySoldPage(mbpPage));
+        return Res.ok(iUserHomeMyService.mySoldPage(mbpPage));
     }
     // endregion
 
@@ -54,7 +54,7 @@ public class UserHomeMyController {
      */
     @PostMapping("/bought/page")
     public Res myBoughtPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iUserHomeService.myBoughtPage(mbpPage));
+        return Res.ok(iUserHomeMyService.myBoughtPage(mbpPage));
     }
     // endregion
 
@@ -67,7 +67,7 @@ public class UserHomeMyController {
      */
     @GetMapping("/privateChat/chats")
     public Res chat() {
-        return Res.ok(iUserHomeService.chats());
+        return Res.ok(iUserHomeMyService.chats());
     }
 
     // endregion

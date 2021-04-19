@@ -49,8 +49,8 @@ public class GoodsReport implements Serializable {
     /**
      * 审查人TBID
      */
-    @TableField("`sys_user_tb_id`")
-    private Long sysUserTbId;
+    @TableField("`reviewer_sys_user_tb_id`")
+    private Long reviewerSysUserTbId;
 
     @TableField("`review_time`")
     private LocalDateTime reviewTime;
