@@ -11,7 +11,7 @@
 </div><!-- nav end -->
 <div class="container">
     <div id="doChatVueApp">
-        <h3 class="text-center pt-3">{{chat.otherParty.nickname}}</h3>
+        <h3 class="text-center mt-3">{{chat.otherParty.nickname}}</h3>
         <hr class="my-4">
         <div class="media">
             <a :href="`/goods/${chat.goods.tbId}.html`">
@@ -34,7 +34,7 @@
                 <p><small class="text-muted">由 {{chat.goods.seller.nickname}} 发布于 {{chat.goods.cityName}}</small></p>
             </div>
         </div>
-        <form onsubmit="return false" class="pt-3">
+        <form onsubmit="return false" class="mt-3">
             <div class="form-group overflow-auto" style="height: 500px" id="resText">
                 <span v-if="Array.isNotEmpty(chat.chatMessages)">
                     <span v-for="msg in chat.chatMessages">

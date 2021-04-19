@@ -10,7 +10,7 @@
     </div><!-- nav end -->
 
     <div class="container">
-        <div id="goodsIndexVueApp" class="pt-5">
+        <div id="goodsIndexVueApp" class="mt-5">
             <div class="input-group w-50 m-auto">
                 <input name="q" v-model.trim="searchInput" class="form-control border-success"
                        type="text" aria-describedby="search-btn-addon"
@@ -20,7 +20,7 @@
                     </button>
                 </div>
             </div>
-            <div class="pt-5">
+            <div class="mt-5">
                 <div v-if="Array.isNotEmpty(goodsPage.records)">
                     <div class="card-columns" id="goodsPage">
                         <div class="card mb-3" v-for="goods in goodsPage.records">
