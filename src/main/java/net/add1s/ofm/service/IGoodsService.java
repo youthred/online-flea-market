@@ -109,5 +109,36 @@ public interface IGoodsService extends IService<Goods> {
      *
      * @param goodsTbId 商品TBID
      */
-    void buy(Long goodsTbId);
+    void buy(Long goodsTbId);/**
+
+     * 当前用户是否允许操作某一商品，仅未卖商品时的超级管理员或商品卖家允许操作
+     *
+     * @param goodsTbId 商品TBID
+     * @return 是否允许
+     */
+    boolean isAllowedToOperateGoods(Long goodsTbId);
+
+    /**
+     * 执行下架操作
+     * 若当前用户非管理员，请务必先进行权限验证(isAllowedToOperateGoods)
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void doOffShelf(Long goodsTbId);
+
+    /**
+     * 执行上架操作
+     * 若当前用户非管理员，请务必先进行权限验证(isAllowedToOperateGoods)
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void doOnShelf(Long goodsTbId);
+
+    /**
+     * 执行删除操作
+     * 若当前用户非管理员，请务必先进行权限验证(isAllowedToOperateGoods)
+     *
+     * @param goodsTbId 商品TBID
+     */
+    void doDeleteGoods(Long goodsTbId);
 }

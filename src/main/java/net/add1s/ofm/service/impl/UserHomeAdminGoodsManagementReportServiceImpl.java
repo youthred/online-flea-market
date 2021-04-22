@@ -44,8 +44,12 @@ public class UserHomeAdminGoodsManagementReportServiceImpl implements IUserHomeA
                 .set(GoodsReport::getReviewerSysUserTbId, currentUser.getTbId())
                 .set(GoodsReport::getReviewTime, LocalDateTime.now())
         );
+        Long targetGoodsTbId = iGoodsReportService.getById(reportTbId).getGoodsTbId();
+        // 清理目标商品的其余举报数据
+        iGoodsReportService.remove(Wrappers.lambdaQuery(GoodsReport.class).eq(GoodsReport::getGoodsTbId, targetGoodsTbId).ne(GoodsReport::getTbId, reportTbId));
         if (pass) {
-            iGoodsService.offShelf(iGoodsReportService.getById(reportTbId).getGoodsTbId(), true);
+            // 下架目标商品
+            iGoodsService.doOffShelf(targetGoodsTbId);
         }
     }
 }

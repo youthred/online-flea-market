@@ -168,18 +168,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if (checkAuth) {
             if (isAllowedToOperateGoods(goodsTbId)) {
                 this.doOffShelf(goodsTbId);
+                this.clearReport(goodsTbId);
             } else {
                 throw new BusinessException("权限不足，禁止操作其他用户的商品");
             }
         } else {
             this.doOffShelf(goodsTbId);
+            this.clearReport(goodsTbId);
         }
-    }
-
-    private void doOffShelf(Long goodsTbId) {
-        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
-        // 下架后同步删除举报数据
-        iGoodsReportService.remove(Wrappers.lambdaQuery(GoodsReport.class).eq(GoodsReport::getGoodsTbId, goodsTbId));
     }
 
     @Override
@@ -193,10 +189,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         } else {
             this.doOnShelf(goodsTbId);
         }
-    }
-
-    private void doOnShelf(Long goodsTbId) {
-        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
     }
 
     @Override
@@ -232,18 +224,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if (checkAuth) {
             if (isAllowedToOperateGoods(goodsTbId)) {
                 this.doDeleteGoods(goodsTbId);
+                this.clearReport(goodsTbId);
             } else {
                 throw new BusinessException("权限不足，禁止操作其他用户的商品");
             }
         } else {
             this.doDeleteGoods(goodsTbId);
+            this.clearReport(goodsTbId);
         }
-    }
-
-    private void doDeleteGoods(Long goodsTbId) {
-        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getDeleted, true).eq(Goods::getTbId, goodsTbId));
-        // 删除后同步删除举报数据
-        iGoodsReportService.remove(Wrappers.lambdaQuery(GoodsReport.class).eq(GoodsReport::getGoodsTbId, goodsTbId));
     }
 
     @Override
@@ -275,6 +263,35 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     /**
+     * 当前用户是否允许操作某一商品，仅未卖商品时的超级管理员或商品卖家允许操作
+     *
+     * @param goodsTbId 商品TBID
+     * @return 是否允许
+     */
+    @Override
+    public boolean isAllowedToOperateGoods(Long goodsTbId) {
+        MyUserDetails currentUser = iSysUserService.currentUser();
+        // 未出售 且 ( 超级管理员 或 商品卖家 ) 才允许操作
+        return iGoodsOrderService.count(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getGoodsTbId, goodsTbId)) == 0
+                && (currentUser.isAdmin() || this.getById(goodsTbId).getSellerSysUserTbId().equals(currentUser.getTbId()));
+    }
+
+    @Override
+    public void doOffShelf(Long goodsTbId) {
+        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+    }
+
+    @Override
+    public void doOnShelf(Long goodsTbId) {
+        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+    }
+
+    @Override
+    public void doDeleteGoods(Long goodsTbId) {
+        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getDeleted, true).eq(Goods::getTbId, goodsTbId));
+    }
+
+    /**
      * 第一次私聊发送默认消息
      *
      * @param buyerSysUserTbId 卖家用户TBID
@@ -298,15 +315,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     /**
-     * 当前用户是否允许操作某一商品，仅未卖商品时的超级管理员或商品卖家允许操作
+     * 清理举报数据
      *
      * @param goodsTbId 商品TBID
-     * @return 是否允许
      */
-    private boolean isAllowedToOperateGoods(Long goodsTbId) {
-        MyUserDetails currentUser = iSysUserService.currentUser();
-        // 未出售 且 ( 超级管理员 或 商品卖家 ) 才允许操作
-        return iGoodsOrderService.count(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getGoodsTbId, goodsTbId)) == 0
-                && (currentUser.isAdmin() || this.getById(goodsTbId).getSellerSysUserTbId().equals(currentUser.getTbId()));
+    private void clearReport(Long goodsTbId) {
+        iGoodsReportService.remove(Wrappers.lambdaQuery(GoodsReport.class).eq(GoodsReport::getGoodsTbId, goodsTbId));
     }
 }

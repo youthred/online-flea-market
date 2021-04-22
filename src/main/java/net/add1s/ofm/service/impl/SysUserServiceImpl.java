@@ -61,6 +61,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    public MyUserDetails ghostUser() {
+        return new MyUserDetails()
+                .setTbId(-1L)
+                .setUsername("GHOST");
+    }
+
+    @Override
     public String register(UserRegisterDTO userRegisterDTO, HttpSession session) {
         registerValidate(userRegisterDTO, session);
         SysUser sysUser = userRegisterDTO.toEntity();

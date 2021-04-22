@@ -79,7 +79,8 @@ Vue.createApp({
         goodsManagementReportReview() {
             axios.put(`/home/admin/goodsManagement/report/review/${this.request.goodsManagement.report.review.goodsReport.tbId}/${this.request.goodsManagement.report.review.pass}`).then(res => {
                 if (res.data.success) {
-                    this.response.goodsManagement.report.page = res.data.data
+                    $('#goodsManagementReportReviewModal').modal('hide')
+                    this.setGoodsManagementReportPage()
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }

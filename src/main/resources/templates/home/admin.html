@@ -97,7 +97,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <div class="form-inline">
+                                        <div class="form-inline align-content-start">
                                             <div class="form-group mb-2">
                                                 <div class="custom-control custom-switch">
                                                     <input type="checkbox" class="custom-control-input" id="reviewPassSwitch"
@@ -105,8 +105,9 @@
                                                     <label class="custom-control-label" for="reviewPassSwitch">举报是否通过</label>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                            <button type="button" class="btn btn-primary" @click="goodsManagementReportReview">确认</button>
                                         </div>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                                     </div>
                                 </div>
                             </div>
@@ -131,8 +132,9 @@
                                     <th scope="col">商品ID</th>
                                     <th scope="col">举报理由</th>
                                     <th scope="col">举报时间</th>
-                                    <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核时间</th>
                                     <th v-if="request.goodsManagement.report.reviewed === '0'" scope="col">操作</th>
+                                    <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核时间</th>
+                                    <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核结果</th>
                                 </tr>
                                 </thead>
                                 <tbody v-if="Array.isNotEmpty(response.goodsManagement.report.page.records)">
@@ -141,12 +143,16 @@
                                     <td>{{goodsReport.goodsTbId}}</td>
                                     <td>{{goodsReport.reason}}</td>
                                     <td>{{goodsReport.createTime}}</td>
-                                    <td v-if="request.goodsManagement.report.reviewed === '1'">{{goodsReport.reviewTime}}</td>
                                     <td v-if="request.goodsManagement.report.reviewed === '0'">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-primary text-white"
                                                @click="showGoodsManagementReportReviewModal(goodsReport)">审核</a>
                                         </div>
+                                    </td>
+                                    <td v-if="request.goodsManagement.report.reviewed === '1'">{{goodsReport.reviewTime}}</td>
+                                    <td v-if="request.goodsManagement.report.reviewed === '1'">
+                                        <span v-if="goodsReport.passed" class="font-weight-bold">举报成功</span>
+                                        <span v-else class="text-muted">举报失败</span>
                                     </td>
                                 </tr>
                                 </tbody>

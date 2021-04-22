@@ -33,7 +33,7 @@ public class UserHomeAdminGoodsManagementReportController {
      * @return Res
      */
     @PutMapping("/review/{reportTbId}/{pass}")
-    public Res review(@PathVariable("reportTbId") Long reportTbId, @PathVariable("pass") boolean pass) {
+    public synchronized Res review(@PathVariable("reportTbId") Long reportTbId, @PathVariable("pass") boolean pass) {
         iUserHomeAdminGoodsManagementReportService.review(reportTbId, pass);
         return Res.ok();
     }

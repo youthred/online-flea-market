@@ -28,6 +28,13 @@ public interface ISysUserService extends IService<SysUser> {
     MyUserDetails currentUser();
 
     /**
+     * 幽灵用户：方便系统使用
+     *
+     * @return MyUserDetails
+     */
+    MyUserDetails ghostUser();
+
+    /**
      * 用户注册
      *
      * @param userRegisterDTO UserRegisterDTO
