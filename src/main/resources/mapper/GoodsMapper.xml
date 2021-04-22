@@ -17,16 +17,16 @@
             goods.`update_time`,
             city.`name` cityName,
             city.`ext_name` cityExtName,
-            suser.nickname,
-            suser.tb_id sellerTbId
+            suser.tb_id sellerTbId,
+            suser.username,
+            suser.nickname
         FROM t_goods goods
         LEFT JOIN t_sys_user suser ON suser.tb_id = goods.seller_sys_user_tb_id
         LEFT JOIN t_china_city city ON city.id = goods.city_id
     </sql>
 
     <resultMap id="findGoodsDetailMap" type="net.add1s.ofm.pojo.vo.business.GoodsVO" autoMapping="true">
-        <association property="seller" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO">
-            <result column="nickname" property="nickname"/>
+        <association property="seller" javaType="net.add1s.ofm.pojo.vo.sys.SysUserVO" autoMapping="true">
             <result column="sellerTbId" property="tbId"/>
         </association>
     </resultMap>

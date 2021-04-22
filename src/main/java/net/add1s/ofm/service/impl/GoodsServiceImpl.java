@@ -167,26 +167,36 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public void offShelf(Long goodsTbId, boolean checkAuth) {
         if (checkAuth) {
             if (isAllowedToOperateGoods(goodsTbId)) {
-                this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+                this.doOffShelf(goodsTbId);
             } else {
                 throw new BusinessException("权限不足，禁止操作其他用户的商品");
             }
         } else {
-            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+            this.doOffShelf(goodsTbId);
         }
+    }
+
+    private void doOffShelf(Long goodsTbId) {
+        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+        // 下架后同步删除举报数据
+        iGoodsReportService.remove(Wrappers.lambdaQuery(GoodsReport.class).eq(GoodsReport::getGoodsTbId, goodsTbId));
     }
 
     @Override
     public void onShelf(Long goodsTbId, boolean checkAuth) {
         if (checkAuth) {
             if (isAllowedToOperateGoods(goodsTbId)) {
-                this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+                this.doOnShelf(goodsTbId);
             } else {
                 throw new BusinessException("权限不足，禁止操作其他用户的商品");
             }
         } else {
-            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
+            this.doOnShelf(goodsTbId);
         }
+    }
+
+    private void doOnShelf(Long goodsTbId) {
+        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, false).set(Goods::getUpdateTime, LocalDateTime.now()).eq(Goods::getTbId, goodsTbId));
     }
 
     @Override
@@ -218,12 +228,22 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public void deleteGoods(Long goodsTbId) {
-        if (isAllowedToOperateGoods(goodsTbId)) {
-            this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getDeleted, true).eq(Goods::getTbId, goodsTbId));
+    public void deleteGoods(Long goodsTbId, boolean checkAuth) {
+        if (checkAuth) {
+            if (isAllowedToOperateGoods(goodsTbId)) {
+                this.doDeleteGoods(goodsTbId);
+            } else {
+                throw new BusinessException("权限不足，禁止操作其他用户的商品");
+            }
         } else {
-            throw new BusinessException("权限不足，禁止操作其他用户的商品");
+            this.doDeleteGoods(goodsTbId);
         }
+    }
+
+    private void doDeleteGoods(Long goodsTbId) {
+        this.update(Wrappers.lambdaUpdate(Goods.class).set(Goods::getOffShelf, true).set(Goods::getDeleted, true).eq(Goods::getTbId, goodsTbId));
+        // 删除后同步删除举报数据
+        iGoodsReportService.remove(Wrappers.lambdaQuery(GoodsReport.class).eq(GoodsReport::getGoodsTbId, goodsTbId));
     }
 
     @Override

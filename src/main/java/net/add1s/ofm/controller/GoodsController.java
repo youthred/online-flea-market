@@ -42,6 +42,17 @@ public class GoodsController {
     }
 
     /**
+     * 通过TBID跳转对应商品详情
+     *
+     * @param goodsTbId 商品TBID
+     * @return Res
+     */
+    @GetMapping("/{goodsTbId}")
+    public Res detail(@PathVariable("goodsTbId") Long goodsTbId) {
+        return Res.ok(iGoodsService.detail(goodsTbId));
+    }
+
+    /**
      * 通过TBID跳转对应商品详情页面
      *
      * @param goodsTbId 商品TBID
@@ -135,7 +146,7 @@ public class GoodsController {
      */
     @DeleteMapping("/delete/{goodsTbId}")
     public Res deleteGoods(@PathVariable("goodsTbId") Long goodsTbId) {
-        iGoodsService.deleteGoods(goodsTbId);
+        iGoodsService.deleteGoods(goodsTbId, true);
         return Res.ok();
     }
 

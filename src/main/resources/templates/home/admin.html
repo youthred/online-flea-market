@@ -37,6 +37,80 @@
                     <!-- 商品管理 -->
                     <div class="tab-pane fade show active" id="v-pills-goodsReportReview" role="tabpanel"
                          aria-labelledby="v-pills-goodsReportReview-tab">
+                        <div id="goodsManagementReportReviewModal"
+                             class="modal fade"
+                             data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="goodsManagementReportReviewModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">举报审核</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <dl class="row">
+                                            <dt class="col-sm-2">举报理由</dt>
+                                            <dd class="col-sm-10">{{request.goodsManagement.report.review.goodsReport.reason}}</dd>
+
+                                            <dt class="col-sm-2">举报时间</dt>
+                                            <dd class="col-sm-10">{{request.goodsManagement.report.review.goodsReport.createTime}}</dd>
+                                        </dl>
+                                        <div v-if="Object.isNotEmpty(request.goodsManagement.report.review.goods)">
+                                            <hr>
+                                            <h3 class="text-center">商品信息</h3>
+                                            <dl class="row">
+                                                <dt class="col-sm-2">卖家ID</dt>
+                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.seller.tbId}}</dd>
+
+                                                <dt class="col-sm-2">卖家用户名</dt>
+                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.seller.username}}</dd>
+
+                                                <dt class="col-sm-2">卖家昵称</dt>
+                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.seller.nickname}}</dd>
+
+                                                <dt class="col-sm-2">发布时间</dt>
+                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.createTime}}</dd>
+
+                                                <dt class="col-sm-2">最后更新时间</dt>
+                                                <dd v-if="String.isNotBlank(request.goodsManagement.report.review.goods.updateTime)" class="col-sm-10">{{request.goodsManagement.report.review.goods.updateTime}}</dd>
+                                                <dd v-else class="col-sm-10">发布后未更新</dd>
+
+                                                <dt class="col-sm-2">定价(&yen;)</dt>
+                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.price}}</dd>
+
+                                                <dt class="col-sm-2">商品描述</dt>
+                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.desc}}</dd>
+
+                                                <dt class="col-sm-2">商品图片</dt>
+                                                <dd class="col-sm-10">
+                                                    <div class="card-columns">
+                                                        <div v-if="Array.isNotEmpty(request.goodsManagement.report.review.goods.picArr)">
+                                                            <div class="card mb-3" v-for="pic in request.goodsManagement.report.review.goods.picArr">
+                                                                <img class="rounded card-img" :src="pic">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="form-inline">
+                                            <div class="form-group mb-2">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="reviewPassSwitch"
+                                                           v-model="request.goodsManagement.report.review.pass">
+                                                    <label class="custom-control-label" for="reviewPassSwitch">举报是否通过</label>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions"
@@ -71,7 +145,7 @@
                                     <td v-if="request.goodsManagement.report.reviewed === '0'">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-primary text-white"
-                                               @click="goodsManagementReportReview(goodsReport)">审核</a>
+                                               @click="showGoodsManagementReportReviewModal(goodsReport)">审核</a>
                                         </div>
                                     </td>
                                 </tr>

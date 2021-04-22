@@ -29,12 +29,12 @@ public class UserHomeAdminGoodsManagementReportController {
      * 审核
      *
      * @param reportTbId 举报审核TBID
-     * @param passed 举报是否通过 (1|0 or true|false)
+     * @param pass 举报是否通过 (1|0 or true|false)
      * @return Res
      */
-    @PutMapping("/review/{reportTbId}/{passed}")
-    public Res review(@PathVariable("reportTbId") Long reportTbId, @PathVariable("passed") boolean passed) {
-        iUserHomeAdminGoodsManagementReportService.review(reportTbId, passed);
+    @PutMapping("/review/{reportTbId}/{pass}")
+    public Res review(@PathVariable("reportTbId") Long reportTbId, @PathVariable("pass") boolean pass) {
+        iUserHomeAdminGoodsManagementReportService.review(reportTbId, pass);
         return Res.ok();
     }
 }

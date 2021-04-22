@@ -35,16 +35,16 @@ public class UserHomeAdminGoodsManagementReportServiceImpl implements IUserHomeA
     }
 
     @Override
-    public void review(Long reportTbId, boolean passed) {
+    public void review(Long reportTbId, boolean pass) {
         MyUserDetails currentUser = iSysUserService.currentUser();
         iGoodsReportService.update(Wrappers.lambdaUpdate(GoodsReport.class)
                 .eq(GoodsReport::getTbId, reportTbId)
                 .set(GoodsReport::getReviewed, true)
-                .set(GoodsReport::getPassed, passed)
+                .set(GoodsReport::getPassed, pass)
                 .set(GoodsReport::getReviewerSysUserTbId, currentUser.getTbId())
                 .set(GoodsReport::getReviewTime, LocalDateTime.now())
         );
-        if (passed) {
+        if (pass) {
             iGoodsService.offShelf(iGoodsReportService.getById(reportTbId).getGoodsTbId(), true);
         }
     }

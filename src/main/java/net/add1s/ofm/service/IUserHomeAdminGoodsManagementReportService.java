@@ -8,5 +8,5 @@ public interface IUserHomeAdminGoodsManagementReportService {
 
     IPage<GoodsReport> reportPage(MbpPage<GoodsReport> mbpPage);
 
-    void review(Long reportTbId, boolean passed);
+    void review(Long reportTbId, boolean pass);
 }

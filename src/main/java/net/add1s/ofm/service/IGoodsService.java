@@ -100,8 +100,9 @@ public interface IGoodsService extends IService<Goods> {
      * 删除商品，更新为[下架、已删除]
      *
      * @param goodsTbId 商品TBID
+     * @param checkAuth 是否检查权限
      */
-    void deleteGoods(Long goodsTbId);
+    void deleteGoods(Long goodsTbId, boolean checkAuth);
 
     /**
      * 商品购买
