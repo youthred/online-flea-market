@@ -39,7 +39,7 @@
                          aria-labelledby="v-pills-goodsReportReview-tab">
                         <div id="goodsManagementReportReviewModal"
                              class="modal fade"
-                             data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="goodsManagementReportReviewModalLabel"
+                             tabindex="-1" aria-labelledby="goodsManagementReportReviewModalLabel"
                              aria-hidden="true">
                             <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                                 <div class="modal-content">
@@ -97,17 +97,17 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <div class="form-inline align-content-start">
-                                            <div class="form-group mb-2">
-                                                <div class="custom-control custom-switch">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="form-inline">
+                                                <div class="custom-control custom-switch my-1 mr-2">
                                                     <input type="checkbox" class="custom-control-input" id="reviewPassSwitch"
                                                            v-model="request.goodsManagement.report.review.pass">
                                                     <label class="custom-control-label" for="reviewPassSwitch">举报是否通过</label>
                                                 </div>
+                                                <button type="button" class="btn btn-primary" @click="goodsManagementReportReview">确认</button>
                                             </div>
-                                            <button type="button" class="btn btn-primary" @click="goodsManagementReportReview">确认</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                                         </div>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                                     </div>
                                 </div>
                             </div>
