@@ -24,6 +24,9 @@ Vue.createApp({
                                     type: "eq"
                                 }
                             ]
+                        },
+                        review: {
+                            passed: false
                         }
                     }
                 }
@@ -58,7 +61,18 @@ Vue.createApp({
             this.request.goodsManagement.report.page.page.current ++
             this.setGoodsManagementReportPage()
         },
-        goodsManagementReportReview() {},
+        goodsManagementReportReview(goodsReport) {
+            console.log(goodsReport)
+            axios.put(`/home/admin/goodsManagement/report/review/${goodsReport.tbId}/${this.request.goodsManagement.report.review.passed}`).then(res => {
+                if (res.data.success) {
+                    this.response.goodsManagement.report.page = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
         // endregion
     },
     watch: {

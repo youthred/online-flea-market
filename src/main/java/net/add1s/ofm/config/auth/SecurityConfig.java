@@ -1,7 +1,7 @@
 package net.add1s.ofm.config.auth;
 
-import cn.hutool.core.date.DateUnit;
 import net.add1s.ofm.config.auth.impl.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author pj.w@qq.com
@@ -27,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final MyLogoutSuccessHandler myLogoutSuccessHandler;
     private final LoginFilter loginFilter;
     private final MyPasswordEncoder myPasswordEncoder;
+    private final DataSource dataSource;
 
     public SecurityConfig(
             MyUserDetailsService myUserDetailsService,
@@ -37,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             MyAuthenticationAccessDeniedHandler myAuthenticationAccessDeniedHandler,
             MyLogoutSuccessHandler myLogoutSuccessHandler,
             LoginFilter loginFilter,
-            MyPasswordEncoder myPasswordEncoder) {
+            MyPasswordEncoder myPasswordEncoder,
+            DataSource dataSource) {
         this.myUserDetailsService = myUserDetailsService;
         this.myAuthenticationSuccessHandler = myAuthenticationSuccessHandler;
         this.myAuthenticationFailureHandler = myAuthenticationFailureHandler;
@@ -47,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.myLogoutSuccessHandler = myLogoutSuccessHandler;
         this.loginFilter = loginFilter;
         this.myPasswordEncoder = myPasswordEncoder;
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -65,9 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(myAuthenticationFailureHandler)
                 .and()
                 .rememberMe()
-//                .rememberMeParameter("remember-me-custom")  // 自定义form name
+                .rememberMeParameter("rememberMe")  // 自定义form name
 //                .rememberMeCookieName("remember-me-cookie-custom")  // 自定义Cookie name
-                .tokenValiditySeconds(Long.valueOf(DateUnit.DAY.getMillis() * 2 / 1000).intValue()) // 令牌有效期：2天
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(Long.valueOf(TimeUnit.DAYS.toSeconds(2)).intValue()) // 令牌有效期：2天
+                .userDetailsService(myUserDetailsService)
                 .and()
                 .logout()   // 默认操作：①当前SESSION失效 ②当前用户的"remember-me"功能失效 ③清除当前的SecurityContext ④重定向到"loginPage(xx)"配置的指定页面
                 .logoutUrl("/logout")
@@ -108,7 +118,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 开放静态资源
         web.ignoring().antMatchers("/static/**");
     }
-//
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        jdbcTokenRepository.setCreateTableOnStartup(false);
+        return jdbcTokenRepository;
+    }
+
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {
 //        return new MyPasswordEncoder();

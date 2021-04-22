@@ -32,10 +32,10 @@ import java.util.Optional;
 @Component
 public class LoginFilter extends OncePerRequestFilter {
 
-    public final String uri = "/login";
-    public final String method = RequestMethod.POST.name();
-    public final String captchaCodeName = "imageCaptcha";
-    public final String username = "username";
+    public final static String uri = "/login";
+    public final static String method = RequestMethod.POST.name();
+    public final static String captchaCodeName = "imageCaptcha";
+    public final static String username = "username";
 
     private final MyAuthenticationFailureHandler myAuthenticationFailureHandler;
     private final ISysUserService iSysUserService;
