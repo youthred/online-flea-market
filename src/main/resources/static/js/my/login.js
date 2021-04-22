@@ -38,10 +38,6 @@ Vue.createApp({
             if (n === -1) {
                 this.refreshImageCaptcha()
             }
-        },
-        'user.rememberMe'(n, o) {
-            console.log(n, o)
-            console.log(this.user.rememberMe)
         }
     }
 }).mount('#loginVueApp')
