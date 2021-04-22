@@ -19,9 +19,6 @@
                     <a class="nav-link active" id="v-pills-goodsReportReview-tab"
                        data-toggle="pill" href="#v-pills-goodsReportReview" role="tab"
                        aria-controls="v-pills-goodsReportReview" aria-selected="true">举报审核</a>
-<!--                    <a class="nav-link" id="v-pills-goodsPostReview-tab"-->
-<!--                       data-toggle="pill" href="#v-pills-goodsPostReview" role="tab"-->
-<!--                       aria-controls="v-pills-goodsPostReview" aria-selected="false">发布审核</a>-->
                     <span class="text-muted text-left mt-2 mb-2"><small>用户管理</small></span>
                     <a class="nav-link" id="v-pills-user-tab"
                        data-toggle="pill" href="#v-pills-user" role="tab"
@@ -39,11 +36,65 @@
                 <div class="tab-content" id="v-pills-tabContent">
                     <!-- 商品管理 -->
                     <div class="tab-pane fade show active" id="v-pills-goodsReportReview" role="tabpanel"
-                         aria-labelledby="v-pills-goodsReportReview-tab">1
+                         aria-labelledby="v-pills-goodsReportReview-tab">
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                       id="inlineRadioUnreviewed" value="0" v-model="request.goodsManagement.report.reviewed">
+                                <label class="form-check-label" for="inlineRadioUnreviewed">待审</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                       id="inlineRadioReviewed" value="1" v-model="request.goodsManagement.report.reviewed">
+                                <label class="form-check-label" for="inlineRadioReviewed">已审</label>
+                            </div>
+                        </div>
+                        <div class="overflow-auto">
+                            <table class="table table-hover table-borderless">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">商品ID</th>
+                                    <th scope="col">举报理由</th>
+                                    <th scope="col">举报时间</th>
+                                    <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核时间</th>
+                                    <th v-if="request.goodsManagement.report.reviewed === '0'" scope="col">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody v-if="Array.isNotEmpty(response.goodsManagement.report.page.records)">
+                                <tr v-for="goodsReport in response.goodsManagement.report.page.records">
+                                    <th scope="row">{{goodsReport.tbId}}</th>
+                                    <td>{{goodsReport.goodsTbId}}</td>
+                                    <td>{{goodsReport.reason}}</td>
+                                    <td>{{goodsReport.createTime}}</td>
+                                    <td v-if="request.goodsManagement.report.reviewed === '1'">{{goodsReport.reviewTime}}</td>
+                                    <td v-if="request.goodsManagement.report.reviewed === '0'">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-primary text-white"
+                                               @click="goodsManagementReportReview(goods)">审核</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="page nav">
+                            <ul class="pagination justify-content-center">
+                                <!--prev-->
+                                <li v-if="request.goodsManagement.report.page.page.current > 1" class="page-item btn"
+                                    @click="goodsManagementReportPagePrev"><i
+                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                                <!--pageIndex of pages-->
+                                <li class="page-item page-link">{{request.goodsManagement.report.page.page.current}} /
+                                    {{response.goodsManagement.report.page.pages}}
+                                </li>
+                                <!--next-->
+                                <li v-if="request.goodsManagement.report.page.page.current < response.goodsManagement.report.page.pages"
+                                    class="page-item btn" @click="goodsManagementReportPageNext"><i
+                                        class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                            </ul>
+                        </nav>
                     </div>
-                    <!--                    <div class="tab-pane fade" id="v-pills-goodsPostReview" role="tabpanel"-->
-                    <!--                         aria-labelledby="v-pills-goodsPostReview-tab">11-->
-                    <!--                    </div>-->
 
                     <!-- 用户管理 -->
                     <div class="tab-pane fade" id="v-pills-user" role="tabpanel"

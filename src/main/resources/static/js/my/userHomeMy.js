@@ -37,7 +37,7 @@ let userHomeMyVueApp = Vue.createApp({
             },
             request: {
                 posted: {
-                    offShelf: 0,
+                    offShelf: '0',
                     postedRequest: {
                         page: {
                             current: 1,
@@ -46,7 +46,7 @@ let userHomeMyVueApp = Vue.createApp({
                         queryOptions: [
                             {
                                 key: "offShelf",
-                                value: 0,
+                                value: '0',
                                 type: "eq"
                             }
                         ]
@@ -158,7 +158,7 @@ let userHomeMyVueApp = Vue.createApp({
             this.request.posted.saveOrUpdateGoods.tbId = ''
             this.request.posted.saveOrUpdateGoods.cityId = ''
             this.request.posted.saveOrUpdateGoods.desc = ''
-            this.request.posted.saveOrUpdateGoods.pics = ''
+            this.request.posted.saveOrUpdateGoods.pics = `https://source.unsplash.com/random?rd=${Math.random()}`
             this.request.posted.saveOrUpdateGoods.price = ''
             this.request.posted.saveOrUpdateGoods.cityName = '未选择'
             this.cancelCityTreeRadioChecked()

@@ -1,5 +1,6 @@
 package net.add1s.ofm.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
@@ -26,11 +27,15 @@ public class UserHomeAdminGoodsManagementReportServiceImpl implements IUserHomeA
 
     @Override
     public IPage<GoodsReport> reportPage(MbpPage<GoodsReport> mbpPage) {
-        return iGoodsReportService.page(mbpPage.getPage(), mbpPage.toQueryWrapper());
+        LambdaQueryWrapper<GoodsReport> lambdaQueryWrapper = mbpPage.toQueryWrapper().lambda();
+        if (mbpPage.getQueryOptions().stream().anyMatch(queryOption -> "reviewed".equals(queryOption.getKey()) && "1".equals(queryOption.getValue()))) {
+            lambdaQueryWrapper.eq(GoodsReport::getReviewerSysUserTbId, iSysUserService.currentUser().getTbId());
+        }
+        return iGoodsReportService.page(mbpPage.getPage(), lambdaQueryWrapper);
     }
 
     @Override
-    public void examine(Long reportTbId, boolean passed) {
+    public void review(Long reportTbId, boolean passed) {
         MyUserDetails currentUser = iSysUserService.currentUser();
         iGoodsReportService.update(Wrappers.lambdaUpdate(GoodsReport.class)
                 .eq(GoodsReport::getTbId, reportTbId)

@@ -1,7 +1,6 @@
 package net.add1s.ofm.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.pojo.entity.business.GoodsReport;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/home/admin/goodsManagement/report")
 @AllArgsConstructor
-@Slf4j
 public class UserHomeAdminGoodsManagementReportController {
 
     private final IUserHomeAdminGoodsManagementReportService iUserHomeAdminGoodsManagementReportService;
@@ -34,9 +32,9 @@ public class UserHomeAdminGoodsManagementReportController {
      * @param passed 举报是否通过 (1|0 or true|false)
      * @return Res
      */
-    @PutMapping("/examine/{reportTbId}/{passed}")
-    public Res examine(@PathVariable("reportTbId") Long reportTbId, @PathVariable("passed") boolean passed) {
-        iUserHomeAdminGoodsManagementReportService.examine(reportTbId, passed);
+    @PutMapping("/review/{reportTbId}/{passed}")
+    public Res review(@PathVariable("reportTbId") Long reportTbId, @PathVariable("passed") boolean passed) {
+        iUserHomeAdminGoodsManagementReportService.review(reportTbId, passed);
         return Res.ok();
     }
 }

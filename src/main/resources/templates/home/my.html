@@ -131,24 +131,22 @@
                                     </td>
                                     <td>{{goods.price}}</td>
                                     <td>{{goods.views}}</td>
-                                    <td v-if="request.posted.offShelf === '1'">
-                                        <div class="btn-group">
-                                            <a class="btn btn-sm btn-warning text-white"
-                                               @click="showUpdateGoodsModal(goods)">修改</a>
-                                            <a class="btn btn-sm btn-dark text-white"
-                                               @click="onShelf(goods.tbId)">重新发布</a>
-                                            <a class="btn btn-sm btn-danger text-white"
-                                               @click="deleteGoods(goods.tbId)">删除</a>
-                                        </div>
-                                    </td>
-                                    <td v-else>
-                                        <div class="btn-group">
+                                    <td>
+                                        <div v-if="request.posted.offShelf === '0'" class="btn-group">
                                             <a class="btn btn-sm btn-primary text-white"
                                                :href="`/goods/${goods.tbId}.html`">查看</a>
                                             <a class="btn btn-sm btn-warning text-white"
                                                @click="showUpdateGoodsModal(goods)">修改</a>
                                             <a class="btn btn-sm btn-dark text-white"
                                                @click="offShelf(goods.tbId)">下架</a>
+                                            <a class="btn btn-sm btn-danger text-white"
+                                               @click="deleteGoods(goods.tbId)">删除</a>
+                                        </div>
+                                        <div v-if="request.posted.offShelf === '1'" class="btn-group">
+                                            <a class="btn btn-sm btn-warning text-white"
+                                               @click="showUpdateGoodsModal(goods)">修改</a>
+                                            <a class="btn btn-sm btn-dark text-white"
+                                               @click="onShelf(goods.tbId)">重新发布</a>
                                             <a class="btn btn-sm btn-danger text-white"
                                                @click="deleteGoods(goods.tbId)">删除</a>
                                         </div>
