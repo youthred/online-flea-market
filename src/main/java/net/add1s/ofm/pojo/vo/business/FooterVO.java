@@ -2,6 +2,7 @@ package net.add1s.ofm.pojo.vo.business;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.add1s.ofm.pojo.conf.GithubConf;
 
 import java.io.Serializable;
 
@@ -19,5 +20,5 @@ public class FooterVO implements Serializable {
     private String projectVersion;
     private String projectName;
     private String projectDescription;
-    private String github;
+    private GithubConf github;
 }

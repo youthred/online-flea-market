@@ -67,7 +67,9 @@ sys:
     project-name: '@project.artifactId@'
     project-version: '@project.version@'
     project-description: '@project.description@'
-    github: https://github.com/youthred/online-flea-market
+    github:
+      owner: youthred
+      repo: online-flea-market
     java-runtime-version: '@java.runtime.version@'
     build-time: '@maven.build.timestamp@'
   chat:
@@ -124,7 +126,9 @@ sys:
     project-name: '@project.artifactId@'
     project-version: '@project.version@'
     project-description: '@project.description@'
-    github: https://github.com/youthred/online-flea-market
+    github:
+      owner: youthred
+      repo: online-flea-market
     java-runtime-version: '@java.runtime.version@'
     build-time: '@maven.build.timestamp@'
   chat:

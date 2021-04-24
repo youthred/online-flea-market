@@ -2,7 +2,9 @@ package net.add1s.ofm.config.props;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.add1s.ofm.pojo.conf.GithubConf;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -18,6 +20,7 @@ public class AppProps {
     private String projectVersion;
     private String projectName;
     private String projectDescription;
-    private String github;
+    @NestedConfigurationProperty
+    private GithubConf github;
     private String javaRuntimeVersion;
 }

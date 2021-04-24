@@ -2,7 +2,8 @@
 <div id="footerApp" class="container-fluid fixed-bottom bg-white shadow" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div class="text-center text-muted m-1">
 <!--        <a :href="appInfo.github"><i class="fab fa-github"></i></a>-->
-        <a :href="`${appInfo.github}/commits`"><i class="fa fa-code"></i> dev log</a>
+<!--        <a :href="`${appInfo.github}/commits`"><i class="fa fa-code"></i> dev log</a>-->
+        <a href="/dev/log.html"><i class="fa fa-code"></i> dev log</a>
     </div>
 </div>
 
@@ -15,12 +16,13 @@
 <script src="/static/js/my/obj.js"></script>
 <script src="/static/js/sweetalert2/8/sweetalert2.min.js"></script>
 
+<!--
 <script>
     Vue.createApp({
         data() {
             return {
                 appInfo: {
-                    github: '--'
+                    github: {}
                 }
             }
         },
@@ -31,3 +33,4 @@
         }
     }).mount('#footerApp')
 </script>
+-->
