@@ -3,7 +3,7 @@ Vue.createApp({
         return {
             github: {},
             commitsRequest: {
-                per_page: 40,
+                per_page: 20,
                 page: 1
             },
             commits: [],
