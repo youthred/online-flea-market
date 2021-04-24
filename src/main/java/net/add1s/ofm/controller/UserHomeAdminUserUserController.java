@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
-import net.add1s.ofm.service.IUserHomeAdminUserManagementUserService;
+import net.add1s.ofm.service.IUserHomeAdminUserUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
  * @author pj.w@qq.com
  */
 @RestController
-@RequestMapping("/home/admin/userManagement/user")
+@RequestMapping("/home/admin/user/user")
 @AllArgsConstructor
-public class UserHomeAdminUserManagementUserController {
+public class UserHomeAdminUserUserController {
 
-    private final IUserHomeAdminUserManagementUserService iUserHomeAdminUserManagementUserService;
+    private final IUserHomeAdminUserUserService iUserHomeAdminUserUserService;
 
     @PostMapping("/page")
     public Res page(@RequestBody @Validated MbpPage<SysUser> mbpPage) {
-        return Res.ok(iUserHomeAdminUserManagementUserService.page(mbpPage));
+        return Res.ok(iUserHomeAdminUserUserService.page(mbpPage));
     }
 
     /**
@@ -32,7 +32,7 @@ public class UserHomeAdminUserManagementUserController {
      */
     @PutMapping("/resetPassword/{sysUserTbId}")
     public Res resetPassword(@PathVariable("sysUserTbId") Long sysUserTbId) {
-        iUserHomeAdminUserManagementUserService.resetPassword(sysUserTbId);
+        iUserHomeAdminUserUserService.resetPassword(sysUserTbId);
         return Res.ok();
     }
 
@@ -45,7 +45,7 @@ public class UserHomeAdminUserManagementUserController {
      */
     @PutMapping("/enableOrDisable/{sysUserTbId}/{enableState}")
     public Res enableOrDisable(@PathVariable("sysUserTbId") Long sysUserTbId, @PathVariable("enableState") Boolean enableState) {
-        iUserHomeAdminUserManagementUserService.enableOrDisable(sysUserTbId, enableState);
+        iUserHomeAdminUserUserService.enableOrDisable(sysUserTbId, enableState);
         return Res.ok();
     }
 }

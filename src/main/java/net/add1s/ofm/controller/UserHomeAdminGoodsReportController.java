@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.pojo.entity.business.GoodsReport;
-import net.add1s.ofm.service.IUserHomeAdminGoodsManagementReportService;
+import net.add1s.ofm.service.IUserHomeAdminGoodsReportService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
  * @author pj.w@qq.com
  */
 @RestController
-@RequestMapping("/home/admin/goodsManagement/report")
+@RequestMapping("/home/admin/user/user")
 @AllArgsConstructor
-public class UserHomeAdminGoodsManagementReportController {
+public class UserHomeAdminGoodsReportController {
 
-    private final IUserHomeAdminGoodsManagementReportService iUserHomeAdminGoodsManagementReportService;
+    private final IUserHomeAdminGoodsReportService iUserHomeAdminGoodsReportService;
 
     @PostMapping("/page")
     public Res page(@RequestBody @Validated MbpPage<GoodsReport> mbpPage) {
-        return Res.ok(iUserHomeAdminGoodsManagementReportService.page(mbpPage));
+        return Res.ok(iUserHomeAdminGoodsReportService.page(mbpPage));
     }
 
     /**
@@ -34,7 +34,7 @@ public class UserHomeAdminGoodsManagementReportController {
      */
     @PutMapping("/review/{reportTbId}/{pass}")
     public synchronized Res review(@PathVariable("reportTbId") Long reportTbId, @PathVariable("pass") boolean pass) {
-        iUserHomeAdminGoodsManagementReportService.review(reportTbId, pass);
+        iUserHomeAdminGoodsReportService.review(reportTbId, pass);
         return Res.ok();
     }
 }

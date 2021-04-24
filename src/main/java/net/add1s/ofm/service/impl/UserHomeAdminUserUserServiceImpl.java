@@ -8,7 +8,7 @@ import net.add1s.ofm.config.auth.MyPasswordEncoder;
 import net.add1s.ofm.config.props.SecurityProps;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
 import net.add1s.ofm.service.ISysUserService;
-import net.add1s.ofm.service.IUserHomeAdminUserManagementUserService;
+import net.add1s.ofm.service.IUserHomeAdminUserUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Service
 @Transactional(rollbackFor = Exception.class)
 @AllArgsConstructor
-public class UserHomeAdminUserManagementUserServiceImpl implements IUserHomeAdminUserManagementUserService {
+public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserService {
 
     private final ISysUserService iSysUserService;
     private final MyPasswordEncoder myPasswordEncoder;

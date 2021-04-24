@@ -10,7 +10,7 @@ import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.service.IGoodsReportService;
 import net.add1s.ofm.service.IGoodsService;
 import net.add1s.ofm.service.ISysUserService;
-import net.add1s.ofm.service.IUserHomeAdminGoodsManagementReportService;
+import net.add1s.ofm.service.IUserHomeAdminGoodsReportService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Service
 @Transactional(rollbackFor = Exception.class)
 @AllArgsConstructor
-public class UserHomeAdminGoodsManagementReportServiceImpl implements IUserHomeAdminGoodsManagementReportService {
+public class UserHomeAdminGoodsReportServiceImpl implements IUserHomeAdminGoodsReportService {
 
     private final IGoodsReportService iGoodsReportService;
     private final ISysUserService iSysUserService;

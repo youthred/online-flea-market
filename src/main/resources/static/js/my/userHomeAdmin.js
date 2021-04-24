@@ -63,7 +63,7 @@ Vue.createApp({
 
         // region goodsManagement report
         setGoodsManagementReportPage() {
-            axios.post('/home/admin/goodsManagement/report/page', this.request.goodsManagement.report.page).then(res => {
+            axios.post('/home/admin/user/user/page', this.request.goodsManagement.report.page).then(res => {
                 if (res.data.success) {
                     this.response.goodsManagement.report.page = res.data.data
                 } else {
@@ -95,7 +95,7 @@ Vue.createApp({
             $('#goodsManagementReportReviewModal').modal('show')
         },
         goodsManagementReportReview() {
-            axios.put(`/home/admin/goodsManagement/report/review/${this.request.goodsManagement.report.review.goodsReport.tbId}/${this.request.goodsManagement.report.review.pass}`).then(res => {
+            axios.put(`/home/admin/user/user/review/${this.request.goodsManagement.report.review.goodsReport.tbId}/${this.request.goodsManagement.report.review.pass}`).then(res => {
                 if (res.data.success) {
                     $('#goodsManagementReportReviewModal').modal('hide')
                     this.setGoodsManagementReportPage()
@@ -110,7 +110,7 @@ Vue.createApp({
 
         // region userManagement user
         setUserManagementUserPage() {
-            axios.post('/home/admin/userManagement/user/page', this.request.userManagement.user.page).then(res => {
+            axios.post('/home/admin/user/user/page', this.request.userManagement.user.page).then(res => {
                 if (res.data.success) {
                     this.response.userManagement.user.page = res.data.data
                 } else {
@@ -129,7 +129,7 @@ Vue.createApp({
             this.setUserManagementUserPage()
         },
         userResetPassword(userTbId) {
-            axios.put(`/home/admin/userManagement/user/resetPassword/${userTbId}`).then(res => {
+            axios.put(`/home/admin/user/user/resetPassword/${userTbId}`).then(res => {
                 if (res.data.success) {
                     Swal.fire('', '密码重置成功', 'success')
                     this.setUserManagementUserPage()
@@ -141,7 +141,7 @@ Vue.createApp({
             })
         },
         userEnableOrDisable(userTbId, enableState) {
-            axios.put(`/home/admin/userManagement/user/enableOrDisable/${userTbId}/${enableState}`).then(res => {
+            axios.put(`/home/admin/user/user/enableOrDisable/${userTbId}/${enableState}`).then(res => {
                 if (res.data.success) {
                     this.setUserManagementUserPage()
                 } else {

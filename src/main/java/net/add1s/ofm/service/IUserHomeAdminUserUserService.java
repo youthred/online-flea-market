@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
 
-public interface IUserHomeAdminUserManagementUserService {
+public interface IUserHomeAdminUserUserService {
 
     IPage<SysUser> page(MbpPage<SysUser> mbpPage);
 
