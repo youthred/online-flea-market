@@ -80,7 +80,7 @@ sys:
 
 ---
 server:
-  port: 82
+  port: 81
   servlet:
     session:
       timeout: 30m
