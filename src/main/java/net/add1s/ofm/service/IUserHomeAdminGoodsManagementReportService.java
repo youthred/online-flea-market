@@ -6,7 +6,7 @@ import net.add1s.ofm.pojo.entity.business.GoodsReport;
 
 public interface IUserHomeAdminGoodsManagementReportService {
 
-    IPage<GoodsReport> reportPage(MbpPage<GoodsReport> mbpPage);
+    IPage<GoodsReport> page(MbpPage<GoodsReport> mbpPage);
 
     void review(Long reportTbId, boolean pass);
 }

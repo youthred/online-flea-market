@@ -62,6 +62,7 @@ sys:
     host: http://localhost:${server.port}
   security:
     salt: 123456
+    default-password: 123456
   app:
     project-name: '@project.artifactId@'
     project-version: '@project.version@'
@@ -118,6 +119,7 @@ sys:
     host: http://youthre.cn:${server.port}
   security:
     salt: 123456
+    default-password: 123456
   app:
     project-name: '@project.artifactId@'
     project-version: '@project.version@'

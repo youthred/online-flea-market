@@ -21,8 +21,8 @@ public class UserHomeAdminGoodsManagementReportController {
     private final IUserHomeAdminGoodsManagementReportService iUserHomeAdminGoodsManagementReportService;
 
     @PostMapping("/page")
-    public Res reportPage(@RequestBody @Validated MbpPage<GoodsReport> mbpPage) {
-        return Res.ok(iUserHomeAdminGoodsManagementReportService.reportPage(mbpPage));
+    public Res page(@RequestBody @Validated MbpPage<GoodsReport> mbpPage) {
+        return Res.ok(iUserHomeAdminGoodsManagementReportService.page(mbpPage));
     }
 
     /**

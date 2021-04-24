@@ -52,42 +52,62 @@
                                     <div class="modal-body">
                                         <dl class="row">
                                             <dt class="col-sm-2">举报理由</dt>
-                                            <dd class="col-sm-10">{{request.goodsManagement.report.review.goodsReport.reason}}</dd>
+                                            <dd class="col-sm-10">
+                                                {{request.goodsManagement.report.review.goodsReport.reason}}
+                                            </dd>
 
                                             <dt class="col-sm-2">举报时间</dt>
-                                            <dd class="col-sm-10">{{request.goodsManagement.report.review.goodsReport.createTime}}</dd>
+                                            <dd class="col-sm-10">
+                                                {{request.goodsManagement.report.review.goodsReport.createTime}}
+                                            </dd>
                                         </dl>
                                         <div v-if="Object.isNotEmpty(request.goodsManagement.report.review.goods)">
                                             <hr>
                                             <h3 class="text-center">商品信息</h3>
                                             <dl class="row">
                                                 <dt class="col-sm-2">卖家ID</dt>
-                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.seller.tbId}}</dd>
+                                                <dd class="col-sm-10">
+                                                    {{request.goodsManagement.report.review.goods.seller.tbId}}
+                                                </dd>
 
                                                 <dt class="col-sm-2">卖家用户名</dt>
-                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.seller.username}}</dd>
+                                                <dd class="col-sm-10">
+                                                    {{request.goodsManagement.report.review.goods.seller.username}}
+                                                </dd>
 
                                                 <dt class="col-sm-2">卖家昵称</dt>
-                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.seller.nickname}}</dd>
+                                                <dd class="col-sm-10">
+                                                    {{request.goodsManagement.report.review.goods.seller.nickname}}
+                                                </dd>
 
                                                 <dt class="col-sm-2">发布时间</dt>
-                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.createTime}}</dd>
+                                                <dd class="col-sm-10">
+                                                    {{request.goodsManagement.report.review.goods.createTime}}
+                                                </dd>
 
                                                 <dt class="col-sm-2">最后更新时间</dt>
-                                                <dd v-if="String.isNotBlank(request.goodsManagement.report.review.goods.updateTime)" class="col-sm-10">{{request.goodsManagement.report.review.goods.updateTime}}</dd>
+                                                <dd v-if="String.isNotBlank(request.goodsManagement.report.review.goods.updateTime)"
+                                                    class="col-sm-10">
+                                                    {{request.goodsManagement.report.review.goods.updateTime}}
+                                                </dd>
                                                 <dd v-else class="col-sm-10">发布后未更新</dd>
 
                                                 <dt class="col-sm-2">定价(&yen;)</dt>
-                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.price}}</dd>
+                                                <dd class="col-sm-10">
+                                                    {{request.goodsManagement.report.review.goods.price}}
+                                                </dd>
 
                                                 <dt class="col-sm-2">商品描述</dt>
-                                                <dd class="col-sm-10">{{request.goodsManagement.report.review.goods.desc}}</dd>
+                                                <dd class="col-sm-10">
+                                                    {{request.goodsManagement.report.review.goods.desc}}
+                                                </dd>
 
                                                 <dt class="col-sm-2">商品图片</dt>
                                                 <dd class="col-sm-10">
                                                     <div class="card-columns">
                                                         <div v-if="Array.isNotEmpty(request.goodsManagement.report.review.goods.picArr)">
-                                                            <div class="card mb-3" v-for="pic in request.goodsManagement.report.review.goods.picArr">
+                                                            <div class="card mb-3"
+                                                                 v-for="pic in request.goodsManagement.report.review.goods.picArr">
                                                                 <img class="rounded card-img" :src="pic">
                                                             </div>
                                                         </div>
@@ -100,13 +120,18 @@
                                         <div class="d-flex w-100 justify-content-between">
                                             <div class="form-inline">
                                                 <div class="custom-control custom-switch my-1 mr-2">
-                                                    <input type="checkbox" class="custom-control-input" id="reviewPassSwitch"
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="reviewPassSwitch"
                                                            v-model="request.goodsManagement.report.review.pass">
-                                                    <label class="custom-control-label" for="reviewPassSwitch">举报是否通过</label>
+                                                    <label class="custom-control-label"
+                                                           for="reviewPassSwitch">举报是否通过</label>
                                                 </div>
-                                                <button type="button" class="btn btn-primary" @click="goodsManagementReportReview">确认</button>
+                                                <button type="button" class="btn btn-primary"
+                                                        @click="goodsManagementReportReview">确认
+                                                </button>
                                             </div>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -115,70 +140,141 @@
                         <div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                       id="inlineRadioUnreviewed" value="0" v-model="request.goodsManagement.report.reviewed">
+                                       id="inlineRadioUnreviewed" value="0"
+                                       v-model="request.goodsManagement.report.reviewed">
                                 <label class="form-check-label" for="inlineRadioUnreviewed">待审</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                       id="inlineRadioReviewed" value="1" v-model="request.goodsManagement.report.reviewed">
+                                       id="inlineRadioReviewed" value="1"
+                                       v-model="request.goodsManagement.report.reviewed">
                                 <label class="form-check-label" for="inlineRadioReviewed">已审</label>
                             </div>
                         </div>
-                        <div class="overflow-auto">
-                            <table class="table table-hover table-borderless">
-                                <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">商品ID</th>
-                                    <th scope="col">举报理由</th>
-                                    <th scope="col">举报时间</th>
-                                    <th v-if="request.goodsManagement.report.reviewed === '0'" scope="col">操作</th>
-                                    <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核时间</th>
-                                    <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核结果</th>
-                                </tr>
-                                </thead>
-                                <tbody v-if="Array.isNotEmpty(response.goodsManagement.report.page.records)">
-                                <tr v-for="goodsReport in response.goodsManagement.report.page.records">
-                                    <th scope="row">{{goodsReport.tbId}}</th>
-                                    <td>{{goodsReport.goodsTbId}}</td>
-                                    <td>{{goodsReport.reason}}</td>
-                                    <td>{{goodsReport.createTime}}</td>
-                                    <td v-if="request.goodsManagement.report.reviewed === '0'">
-                                        <div class="btn-group">
-                                            <a class="btn btn-sm btn-primary text-white"
-                                               @click="showGoodsManagementReportReviewModal(goodsReport)">审核</a>
-                                        </div>
-                                    </td>
-                                    <td v-if="request.goodsManagement.report.reviewed === '1'">{{goodsReport.reviewTime}}</td>
-                                    <td v-if="request.goodsManagement.report.reviewed === '1'">
-                                        <span v-if="goodsReport.passed" class="font-weight-bold">举报成功</span>
-                                        <span v-else class="text-muted">举报失败</span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div>
+                            <div class="overflow-auto">
+                                <table class="table table-hover table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">商品ID</th>
+                                        <th scope="col">举报理由</th>
+                                        <th scope="col">举报时间</th>
+                                        <th v-if="request.goodsManagement.report.reviewed === '0'" scope="col">操作</th>
+                                        <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核时间</th>
+                                        <th v-if="request.goodsManagement.report.reviewed === '1'" scope="col">审核结果</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody v-if="Array.isNotEmpty(response.goodsManagement.report.page.records)">
+                                    <tr v-for="goodsReport in response.goodsManagement.report.page.records">
+                                        <th scope="row">{{goodsReport.tbId}}</th>
+                                        <td>{{goodsReport.goodsTbId}}</td>
+                                        <td>{{goodsReport.reason}}</td>
+                                        <td>{{goodsReport.createTime}}</td>
+                                        <td v-if="request.goodsManagement.report.reviewed === '0'">
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm btn-primary text-white"
+                                                   @click="showGoodsManagementReportReviewModal(goodsReport)">审核</a>
+                                            </div>
+                                        </td>
+                                        <td v-if="request.goodsManagement.report.reviewed === '1'">
+                                            {{goodsReport.reviewTime}}
+                                        </td>
+                                        <td v-if="request.goodsManagement.report.reviewed === '1'">
+                                            <span v-if="goodsReport.passed" class="font-weight-bold">举报成功</span>
+                                            <span v-else class="text-muted">举报失败</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav aria-label="page nav">
+                                <ul class="pagination justify-content-center">
+                                    <!--prev-->
+                                    <li v-if="request.goodsManagement.report.page.page.current > 1"
+                                        class="page-item btn"
+                                        @click="goodsManagementReportPagePrev"><i
+                                            class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                                    <!--pageIndex of pages-->
+                                    <li class="page-item page-link">{{request.goodsManagement.report.page.page.current}}
+                                        /
+                                        {{response.goodsManagement.report.page.pages}}
+                                    </li>
+                                    <!--next-->
+                                    <li v-if="request.goodsManagement.report.page.page.current < response.goodsManagement.report.page.pages"
+                                        class="page-item btn" @click="goodsManagementReportPageNext"><i
+                                            class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                                </ul>
+                            </nav>
                         </div>
-                        <nav aria-label="page nav">
-                            <ul class="pagination justify-content-center">
-                                <!--prev-->
-                                <li v-if="request.goodsManagement.report.page.page.current > 1" class="page-item btn"
-                                    @click="goodsManagementReportPagePrev"><i
-                                        class="fa fa-angle-double-left" aria-hidden="true"></i></li>
-                                <!--pageIndex of pages-->
-                                <li class="page-item page-link">{{request.goodsManagement.report.page.page.current}} /
-                                    {{response.goodsManagement.report.page.pages}}
-                                </li>
-                                <!--next-->
-                                <li v-if="request.goodsManagement.report.page.page.current < response.goodsManagement.report.page.pages"
-                                    class="page-item btn" @click="goodsManagementReportPageNext"><i
-                                        class="fa fa-angle-double-right" aria-hidden="true"></i></li>
-                            </ul>
-                        </nav>
                     </div>
 
                     <!-- 用户管理 -->
                     <div class="tab-pane fade" id="v-pills-user" role="tabpanel"
-                         aria-labelledby="v-pills-user-tab">2
+                         aria-labelledby="v-pills-user-tab">
+                        <div>
+                            <div class="overflow-auto">
+                                <table class="table table-hover table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">用户名</th>
+                                        <th scope="col">昵称</th>
+                                        <th scope="col">邮箱</th>
+                                        <th scope="col">是否启用</th>
+                                        <th scope="col">创建时间</th>
+                                        <th scope="col">更新时间</th>
+                                        <th scope="col">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody v-if="Array.isNotEmpty(response.userManagement.user.page.records)">
+                                    <tr v-for="user in response.userManagement.user.page.records">
+                                        <th scope="row">{{user.tbId}}</th>
+                                        <td>{{user.username}}</td>
+                                        <td>{{user.nickname}}</td>
+                                        <td>{{user.email}}</td>
+                                        <td>
+                                            <div class="custom-control custom-switch">
+                                                <input v-model="user.enabled" type="checkbox"
+                                                       class="custom-control-input"
+                                                       :id="`customSwitchUserEnable-${user.tbId}`"
+                                                       @change="userEnableOrDisable(user.tbId, user.enabled)">
+                                                <label class="custom-control-label"
+                                                       :for="`customSwitchUserEnable-${user.tbId}`">
+                                                    <span v-if="user.enabled" class="text-success">已启用</span>
+                                                    <span v-else class="text-secondary">已禁用</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>{{user.createTime}}</td>
+                                        <td>{{user.updateTime}}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm btn-warning text-white"
+                                                   @click="userResetPassword(user.tbId)">重置密码</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav aria-label="page nav">
+                                <ul class="pagination justify-content-center">
+                                    <!--prev-->
+                                    <li v-if="request.userManagement.user.page.page.current > 1" class="page-item btn"
+                                        @click="userManagementUserPagePrev"><i
+                                            class="fa fa-angle-double-left" aria-hidden="true"></i></li>
+                                    <!--pageIndex of pages-->
+                                    <li class="page-item page-link">{{request.userManagement.user.page.page.current}} /
+                                        {{response.userManagement.user.page.pages}}
+                                    </li>
+                                    <!--next-->
+                                    <li v-if="request.userManagement.user.page.page.current < response.userManagement.user.page.pages"
+                                        class="page-item btn" @click="userManagementUserPageNext"><i
+                                            class="fa fa-angle-double-right" aria-hidden="true"></i></li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
 
                     <!-- 系统权限管理 -->

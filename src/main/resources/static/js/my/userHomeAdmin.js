@@ -6,6 +6,11 @@ Vue.createApp({
                     report: {
                         page: {}
                     }
+                },
+                userManagement: {
+                    user: {
+                        page: {}
+                    }
                 }
             },
             request: {
@@ -31,6 +36,18 @@ Vue.createApp({
                             goodsReport: {}
                         }
                     }
+                },
+                userManagement: {
+                    user: {
+                        page: {
+                            page: {
+                                current: 1,
+                                size: 10
+                            },
+                            queryOptions: [
+                            ]
+                        }
+                    }
                 }
             }
         }
@@ -41,6 +58,7 @@ Vue.createApp({
     methods: {
         init() {
             this.setGoodsManagementReportPage()
+            this.setUserManagementUserPage()
         },
 
         // region goodsManagement report
@@ -81,6 +99,51 @@ Vue.createApp({
                 if (res.data.success) {
                     $('#goodsManagementReportReviewModal').modal('hide')
                     this.setGoodsManagementReportPage()
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        // endregion
+
+        // region userManagement user
+        setUserManagementUserPage() {
+            axios.post('/home/admin/userManagement/user/page', this.request.userManagement.user.page).then(res => {
+                if (res.data.success) {
+                    this.response.userManagement.user.page = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        userManagementUserPagePrev() {
+            this.request.userManagement.user.page.page.current --
+            this.setUserManagementUserPage()
+        },
+        userManagementUserPageNext() {
+            this.request.userManagement.user.page.page.current ++
+            this.setUserManagementUserPage()
+        },
+        userResetPassword(userTbId) {
+            axios.put(`/home/admin/userManagement/user/resetPassword/${userTbId}`).then(res => {
+                if (res.data.success) {
+                    Swal.fire('', '密码重置成功', 'success')
+                    this.setUserManagementUserPage()
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        userEnableOrDisable(userTbId, enableState) {
+            axios.put(`/home/admin/userManagement/user/enableOrDisable/${userTbId}/${enableState}`).then(res => {
+                if (res.data.success) {
+                    this.setUserManagementUserPage()
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }

@@ -26,7 +26,7 @@ public class UserHomeAdminGoodsManagementReportServiceImpl implements IUserHomeA
     private final IGoodsService iGoodsService;
 
     @Override
-    public IPage<GoodsReport> reportPage(MbpPage<GoodsReport> mbpPage) {
+    public IPage<GoodsReport> page(MbpPage<GoodsReport> mbpPage) {
         LambdaQueryWrapper<GoodsReport> lambdaQueryWrapper = mbpPage.toQueryWrapper().lambda();
         if (mbpPage.getQueryOptions().stream().anyMatch(queryOption -> "reviewed".equals(queryOption.getKey()) && "1".equals(queryOption.getValue()))) {
             lambdaQueryWrapper.eq(GoodsReport::getReviewerSysUserTbId, iSysUserService.currentUser().getTbId());

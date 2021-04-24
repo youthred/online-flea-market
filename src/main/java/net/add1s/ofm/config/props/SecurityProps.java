@@ -18,4 +18,7 @@ public class SecurityProps {
 
     @NotBlank
     private String salt;
+
+    @NotBlank
+    private String defaultPassword;
 }
