@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @author pj.w@qq.com
  */
 @RestController
-@RequestMapping("/home/admin/user/user")
+@RequestMapping("/home/admin/goods/report")
 @AllArgsConstructor
 public class UserHomeAdminGoodsReportController {
 
