@@ -14,6 +14,7 @@ import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
 import net.add1s.ofm.pojo.vo.business.VerifyResult;
 import net.add1s.ofm.pojo.vo.sys.SysUserVO;
+import net.add1s.ofm.service.ISysRoleService;
 import net.add1s.ofm.service.ISysUserService;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -34,11 +35,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final WebProps webProps;
     private final MyPasswordEncoder myPasswordEncoder;
+    private final ISysRoleService iSysRoleService;
 
     public SysUserServiceImpl(WebProps webProps,
-                              MyPasswordEncoder myPasswordEncoder) {
+                              MyPasswordEncoder myPasswordEncoder,
+                              ISysRoleService iSysRoleService) {
         this.webProps = webProps;
         this.myPasswordEncoder = myPasswordEncoder;
+        this.iSysRoleService = iSysRoleService;
     }
 
     @Override
@@ -73,6 +77,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = userRegisterDTO.toEntity();
         sysUser.setPassword(myPasswordEncoder.encode(sysUser.getPassword()));
         this.save(sysUser);
+        // 给予默认角色
+        iSysRoleService.setDefaultRole(sysUser.getTbId());
         // todo 发邮件确认（启用）用户，这里模拟已经发送
         final String verifyLinkPrefix = webProps.getHost() + "/verify/";
         String key = IdUtil.fastSimpleUUID();

@@ -11,4 +11,20 @@
         where u.username = #{username}
     </select>
 
+    <select id="findBySysUserTbId" resultType="net.add1s.ofm.pojo.entity.sys.SysRole">
+        select
+            r.tb_id,
+            r.role_code,
+            r.role_name,
+            r.role_desc
+        from t_sys_user u
+        left join t_sys_bind_user_role ur on ur.user_tb_id = u.tb_id
+        left join t_sys_role r on r.tb_id = ur.role_tb_id
+        where u.tb_id = #{sysUserTbId}
+    </select>
+
+    <update id="setDefaultRole">
+        insert into t_sys_bind_user_role values (#{sysUserTbId}, #{sysRoleTbId})
+    </update>
+
 </mapper>

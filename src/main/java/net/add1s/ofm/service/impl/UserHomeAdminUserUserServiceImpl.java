@@ -6,13 +6,16 @@ import lombok.AllArgsConstructor;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.config.auth.MyPasswordEncoder;
 import net.add1s.ofm.config.props.SecurityProps;
+import net.add1s.ofm.pojo.entity.sys.SysRole;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
+import net.add1s.ofm.service.ISysRoleService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.service.IUserHomeAdminUserUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -22,6 +25,7 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
     private final ISysUserService iSysUserService;
     private final MyPasswordEncoder myPasswordEncoder;
     private final SecurityProps securityProps;
+    private final ISysRoleService iSysRoleService;
 
     @Override
     public IPage<SysUser> page(MbpPage<SysUser> mbpPage) {
@@ -45,5 +49,10 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
                         .set(SysUser::getUpdateTime, LocalDateTime.now())
                         .eq(SysUser::getTbId, sysUserTbId).set(SysUser::getEnabled, enableState)
         );
+    }
+
+    @Override
+    public List<SysRole> boundRoles(Long sysUserTbId) {
+        return iSysRoleService.findBySysUserTbId(sysUserTbId);
     }
 }

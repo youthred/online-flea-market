@@ -48,4 +48,15 @@ public class UserHomeAdminUserUserController {
         iUserHomeAdminUserUserService.enableOrDisable(sysUserTbId, enableState);
         return Res.ok();
     }
+
+    /**
+     * 已绑定的角色
+     *
+     * @param sysUserTbId 用户TBID
+     * @return Res
+     */
+    @GetMapping("/boundRoles/{sysUserTbId}")
+    public Res boundRoles(@PathVariable("sysUserTbId") Long sysUserTbId) {
+        return Res.ok(iUserHomeAdminUserUserService.boundRoles(sysUserTbId));
+    }
 }
