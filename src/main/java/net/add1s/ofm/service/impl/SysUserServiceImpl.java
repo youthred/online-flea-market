@@ -87,6 +87,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getEmail, userRegisterDTO.getEmail())) == 0, "邮箱已存在");
         Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, userRegisterDTO.getUsername())) == 0, "用户名已存在");
         Validate.isTrue(this.count(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getNickname, userRegisterDTO.getNickname())) == 0, "昵称已存在");
+        Validate.isTrue(userRegisterDTO.getPassword().equals(userRegisterDTO.getRePassword()), "确认密码失败");
     }
 
     @Override

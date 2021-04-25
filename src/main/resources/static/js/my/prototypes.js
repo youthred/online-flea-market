@@ -38,3 +38,17 @@ Object.isEmpty = function (obj) {
 Object.isNotEmpty = function (obj) {
     return !this.isEmpty(obj)
 }
+/**
+ * 对象的值都不为空或空字符串
+ * @param obj
+ * @returns {boolean}
+ */
+Object.isValuesAllNotBlank = function (obj) {
+    let allNotBlank = true
+    this.values(obj).forEach(value => {
+        if (String.isBlank(value)) {
+            allNotBlank = false
+        }
+    })
+    return allNotBlank
+}

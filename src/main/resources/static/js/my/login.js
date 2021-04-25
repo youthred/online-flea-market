@@ -22,15 +22,19 @@ Vue.createApp({
             this.imageCaptchaUrl = '/imageCaptcha?rd=' + Math.random()
         },
         login() {
-            axios.post('/login', Qs.stringify(this.user)).then(res => {
-                if (res.data.success) {
-                    $(location).attr('href', '/');
-                } else {
-                    Swal.fire('', res.data.message, 'error')
-                }
-            }).catch(err => {
-                Swal.fire('', err.toString(), 'error')
-            })
+            if (Object.isValuesAllNotBlank(this.user)) {
+                axios.post('/login', Qs.stringify(this.user)).then(res => {
+                    if (res.data.success) {
+                        $(location).attr('href', '/');
+                    } else {
+                        Swal.fire('', res.data.message, 'error')
+                    }
+                }).catch(err => {
+                    Swal.fire('', err.toString(), 'error')
+                })
+            } else {
+                Swal.fire('', '必填项不能为空', 'warning')
+            }
         }
     },
     watch: {
