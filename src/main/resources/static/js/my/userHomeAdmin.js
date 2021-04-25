@@ -11,7 +11,8 @@ Vue.createApp({
                     user: {
                         page: {},
                         roleBind: {
-                            roles: []
+                            roles: [],
+                            userTbId: -1
                         }
                     }
                 }
@@ -158,16 +159,26 @@ Vue.createApp({
             axios.get(`/home/admin/user/user/roles/${userTbId}`).then(res => {
                 if (res.data.success) {
                     this.response.userManagement.user.roleBind.roles = res.data.data
+                    this.response.userManagement.user.roleBind.userTbId = userTbId
+                    $('#userRoleBindModal').modal('show')
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
             }).catch(err => {
                 Swal.fire('', err.toString(), 'error')
             })
-            $('#userRoleBindModal').modal('show')
         },
         userRoleBind() {
-            console.log(this.response.userManagement.user.roleBind.roles)
+            axios.put(`/home/admin/user/user/roleBind/${this.response.userManagement.user.roleBind.userTbId}`, this.response.userManagement.user.roleBind.roles).then(res => {
+                if (res.data.success) {
+                    Swal.fire('', '角色绑定修改成功', 'success')
+                    $('#userRoleBindModal').modal('hide')
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
         },
         // endregion
     },

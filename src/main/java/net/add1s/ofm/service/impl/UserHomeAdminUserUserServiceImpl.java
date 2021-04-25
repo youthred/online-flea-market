@@ -3,6 +3,7 @@ package net.add1s.ofm.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
+import net.add1s.ofm.common.enums.SysUserEnum;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.config.auth.MyPasswordEncoder;
 import net.add1s.ofm.config.props.SecurityProps;
@@ -11,11 +12,14 @@ import net.add1s.ofm.pojo.vo.sys.SysRoleVO;
 import net.add1s.ofm.service.ISysRoleService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.service.IUserHomeAdminUserUserService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -57,7 +61,10 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
     }
 
     @Override
-    public void roleBind(List<SysRoleVO> sysRoleVOS) {
-
+    public void roleBind(Long sysUserTbId, List<SysRoleVO> sysRoleVOS) {
+        Validate.isTrue(!SysUserEnum.ADMIN.getUsername().equals(iSysUserService.getById(sysUserTbId).getUsername()), "初始用户[ADMIN]禁止更改角色");
+        List<SysRoleVO> roleBindUpdateList = sysRoleVOS.stream().filter(SysRoleVO::isBound).collect(Collectors.toList());
+        Validate.isTrue(CollectionUtils.isNotEmpty(roleBindUpdateList), "请至少绑定一个角色");
+        iSysRoleService.updateRoleBind(sysUserTbId, roleBindUpdateList);
     }
 }

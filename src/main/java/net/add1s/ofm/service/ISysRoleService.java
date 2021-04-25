@@ -26,4 +26,12 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return SysRoleVO list
      */
     List<SysRoleVO> findAllRolesWithUserBound(Long sysUserTbId);
+
+    /**
+     * 修改角色绑定
+     *
+     * @param sysUserTbId 用户TBID
+     * @param sysRoleVOS 更改后的角色绑定信息
+     */
+    void updateRoleBind(Long sysUserTbId, List<SysRoleVO> sysRoleVOS);
 }

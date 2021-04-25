@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.common.enums.SysRoleEnum;
 import net.add1s.ofm.mapper.SysRoleMapper;
 import net.add1s.ofm.pojo.entity.sys.SysRole;
+import net.add1s.ofm.pojo.vo.sys.SysBindUserRoleVO;
 import net.add1s.ofm.pojo.vo.sys.SysRoleVO;
 import net.add1s.ofm.service.ISysRoleService;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         List<SysRole> boundRoles = this.findBySysUserTbId(sysUserTbId);
         sysRoleVOS.forEach(sysRoleVO -> sysRoleVO.setBound(boundRoles.stream().anyMatch(boundRole -> boundRole.getTbId().equals(sysRoleVO.getTbId()))));
         return sysRoleVOS;
+    }
+
+    @Override
+    public void updateRoleBind(Long sysUserTbId, List<SysRoleVO> sysRoleVOS) {
+        this.baseMapper.deleteBounds(sysUserTbId);
+        List<SysBindUserRoleVO> sysBindUserRoleVOS = sysRoleVOS.stream().map(sysRoleVO -> new SysBindUserRoleVO(sysUserTbId, sysRoleVO.getTbId())).collect(Collectors.toList());
+        this.baseMapper.bindRole(sysBindUserRoleVOS);
     }
 }

@@ -66,12 +66,13 @@ public class UserHomeAdminUserUserController {
     /**
      * 执行角色绑定
      *
+     * @param sysUserTbId 用户TBID
      * @param sysRoleVOS 修改后的绑定状态
      * @return Res
      */
-    @PutMapping("/roleBind")
-    public Res roleBind(@RequestBody List<SysRoleVO> sysRoleVOS) {
-        iUserHomeAdminUserUserService.roleBind(sysRoleVOS);
+    @PutMapping("/roleBind/{sysUserTbId}")
+    public Res roleBind(@PathVariable("sysUserTbId") Long sysUserTbId, @RequestBody List<SysRoleVO> sysRoleVOS) {
+        iUserHomeAdminUserUserService.roleBind(sysUserTbId, sysRoleVOS);
         return Res.ok();
     }
 }

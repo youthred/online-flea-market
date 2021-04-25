@@ -17,5 +17,5 @@ public interface IUserHomeAdminUserUserService {
 
     List<SysRoleVO> roles(Long sysUserTbId);
 
-    void roleBind(List<SysRoleVO> sysRoleVOS);
+    void roleBind(Long sysUserTbId, List<SysRoleVO> sysRoleVOS);
 }

@@ -23,8 +23,19 @@
         where u.tb_id = #{sysUserTbId}
     </select>
 
-    <update id="setDefaultRole">
+    <insert id="setDefaultRole">
         insert into t_sys_bind_user_role values (#{sysUserTbId}, #{sysRoleTbId})
-    </update>
+    </insert>
+
+    <delete id="deleteBounds">
+        delete from t_sys_bind_user_role where user_tb_id = #{sysUserTbId}
+    </delete>
+
+    <insert id="bindRole">
+        insert into t_sys_bind_user_role values
+        <foreach collection="sysBindUserRoleVOS" item="ur" separator=",">
+            (#{ur.userTbId}, #{ur.roleTbId})
+        </foreach>
+    </insert>
 
 </mapper>
