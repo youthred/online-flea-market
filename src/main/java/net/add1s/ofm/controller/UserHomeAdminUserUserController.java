@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
+import net.add1s.ofm.pojo.vo.sys.SysRoleVO;
 import net.add1s.ofm.service.IUserHomeAdminUserUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 系统管理 - 用户管理 - 用户
@@ -50,13 +53,25 @@ public class UserHomeAdminUserUserController {
     }
 
     /**
-     * 已绑定的角色
+     * 所有角色，已绑定的bound为true
      *
      * @param sysUserTbId 用户TBID
      * @return Res
      */
-    @GetMapping("/boundRoles/{sysUserTbId}")
-    public Res boundRoles(@PathVariable("sysUserTbId") Long sysUserTbId) {
-        return Res.ok(iUserHomeAdminUserUserService.boundRoles(sysUserTbId));
+    @GetMapping("/roles/{sysUserTbId}")
+    public Res roles(@PathVariable("sysUserTbId") Long sysUserTbId) {
+        return Res.ok(iUserHomeAdminUserUserService.roles(sysUserTbId));
+    }
+
+    /**
+     * 执行角色绑定
+     *
+     * @param sysRoleVOS 修改后的绑定状态
+     * @return Res
+     */
+    @PutMapping("/roleBind")
+    public Res roleBind(@RequestBody List<SysRoleVO> sysRoleVOS) {
+        iUserHomeAdminUserUserService.roleBind(sysRoleVOS);
+        return Res.ok();
     }
 }

@@ -10,7 +10,9 @@ Vue.createApp({
                 userManagement: {
                     user: {
                         page: {},
-                        boundRoles: []
+                        roleBind: {
+                            roles: []
+                        }
                     }
                 }
             },
@@ -153,9 +155,9 @@ Vue.createApp({
             })
         },
         showUserRoleBindModal(userTbId) {
-            axios.get(`/home/admin/user/user/boundRoles/${userTbId}`).then(res => {
+            axios.get(`/home/admin/user/user/roles/${userTbId}`).then(res => {
                 if (res.data.success) {
-                    this.response.userManagement.user.boundRoles = res.data.data
+                    this.response.userManagement.user.roleBind.roles = res.data.data
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
@@ -165,6 +167,7 @@ Vue.createApp({
             $('#userRoleBindModal').modal('show')
         },
         userRoleBind() {
+            console.log(this.response.userManagement.user.roleBind.roles)
         },
         // endregion
     },

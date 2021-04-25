@@ -226,11 +226,12 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <div>
-                                            <h4>已绑定的角色</h4>
-                                            <div v-if="Array.isNotEmpty(response.userManagement.user.boundRoles)">
-                                                <span v-for="role in response.userManagement.user.boundRoles"
-                                                      class="badge badge-dark">{{role.roleName}}</span>
+                                        <div v-if="Array.isNotEmpty(response.userManagement.user.roleBind.roles)">
+                                            <div v-for="role in response.userManagement.user.roleBind.roles"
+                                                 class="custom-control custom-checkbox">
+                                                <input v-model="role.bound" type="checkbox"
+                                                       class="custom-control-input" :id="`roleCheck-${role.tbId}`">
+                                                <label class="custom-control-label" :for="`roleCheck-${role.tbId}`">{{role.roleName}}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -268,10 +269,10 @@
                                             <div class="custom-control custom-switch">
                                                 <input v-model="user.enabled" type="checkbox"
                                                        class="custom-control-input"
-                                                       :id="`customSwitchUserEnable-${user.tbId}`"
+                                                       :id="`userEnableSwitch-${user.tbId}`"
                                                        @change="userEnableOrDisable(user.tbId, user.enabled)">
                                                 <label class="custom-control-label"
-                                                       :for="`customSwitchUserEnable-${user.tbId}`">
+                                                       :for="`userEnableSwitch-${user.tbId}`">
                                                     <span v-if="user.enabled" class="text-success">已启用</span>
                                                     <span v-else class="text-secondary">已禁用</span>
                                                 </label>

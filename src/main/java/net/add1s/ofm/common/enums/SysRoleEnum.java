@@ -15,9 +15,9 @@ public enum SysRoleEnum {
     MEMBER_REGISTERED("MEMBER_REGISTERED");
     ;
 
-    private final String roleName;
+    private final String roleCode;
 
     public String forRolePrefix() {
-        return AuthContent.ROLE_PREFIX + this.roleName;
+        return AuthContent.ROLE_PREFIX + this.roleCode;
     }
 }

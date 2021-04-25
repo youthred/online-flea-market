@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.config.auth.MyPasswordEncoder;
 import net.add1s.ofm.config.props.SecurityProps;
-import net.add1s.ofm.pojo.entity.sys.SysRole;
 import net.add1s.ofm.pojo.entity.sys.SysUser;
+import net.add1s.ofm.pojo.vo.sys.SysRoleVO;
 import net.add1s.ofm.service.ISysRoleService;
 import net.add1s.ofm.service.ISysUserService;
 import net.add1s.ofm.service.IUserHomeAdminUserUserService;
@@ -52,7 +52,12 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
     }
 
     @Override
-    public List<SysRole> boundRoles(Long sysUserTbId) {
-        return iSysRoleService.findBySysUserTbId(sysUserTbId);
+    public List<SysRoleVO> roles(Long sysUserTbId) {
+        return iSysRoleService.findAllRolesWithUserBound(sysUserTbId);
+    }
+
+    @Override
+    public void roleBind(List<SysRoleVO> sysRoleVOS) {
+
     }
 }
