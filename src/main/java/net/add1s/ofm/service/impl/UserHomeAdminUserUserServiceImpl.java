@@ -38,6 +38,7 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
 
     @Override
     public void resetPassword(Long sysUserTbId) {
+        adminCheck(sysUserTbId);
         iSysUserService.update(
                 Wrappers.lambdaUpdate(SysUser.class)
                         .eq(SysUser::getTbId, sysUserTbId)
@@ -48,6 +49,7 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
 
     @Override
     public void enableOrDisable(Long sysUserTbId, Boolean enableState) {
+        adminCheck(sysUserTbId);
         iSysUserService.update(
                 Wrappers.lambdaUpdate(SysUser.class)
                         .set(SysUser::getUpdateTime, LocalDateTime.now())
@@ -62,9 +64,13 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
 
     @Override
     public void roleBind(Long sysUserTbId, List<SysRoleVO> sysRoleVOS) {
-        Validate.isTrue(!SysUserEnum.ADMIN.getUsername().equals(iSysUserService.getById(sysUserTbId).getUsername()), "初始用户[ADMIN]禁止更改角色");
+        adminCheck(sysUserTbId);
         List<SysRoleVO> roleBindUpdateList = sysRoleVOS.stream().filter(SysRoleVO::isBound).collect(Collectors.toList());
         Validate.isTrue(CollectionUtils.isNotEmpty(roleBindUpdateList), "请至少绑定一个角色");
         iSysRoleService.updateRoleBind(sysUserTbId, roleBindUpdateList);
+    }
+
+    private void adminCheck(Long sysUserTbId) {
+        Validate.isTrue(!SysUserEnum.ADMIN.getUsername().equals(iSysUserService.getById(sysUserTbId).getUsername()), "禁止操作初始用户[ADMIN]");
     }
 }

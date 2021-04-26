@@ -236,7 +236,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-warning text-white" @click="userRoleBind(userTbId)">
+                                        <button type="button" class="btn btn-warning text-white"
+                                                @click="userRoleBind(userTbId)">
                                             确认
                                         </button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -265,7 +266,19 @@
                                         <td>{{user.username}}</td>
                                         <td>{{user.nickname}}</td>
                                         <td>{{user.email}}</td>
-                                        <td>
+                                        <td v-if="user.username === 'admin'">
+                                            <div class="custom-control custom-switch">
+                                                <input v-model="user.enabled" type="checkbox"
+                                                       class="custom-control-input"
+                                                       :id="`userEnableSwitch-${user.tbId}`"
+                                                       disabled>
+                                                <label class="custom-control-label"
+                                                       :for="`userEnableSwitch-${user.tbId}`">
+                                                    <span v-if="user.enabled" class="text-secondary">已启用</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td v-if="user.username !== 'admin'">
                                             <div class="custom-control custom-switch">
                                                 <input v-model="user.enabled" type="checkbox"
                                                        class="custom-control-input"
@@ -280,7 +293,13 @@
                                         </td>
                                         <td>{{user.createTime}}</td>
                                         <td>{{user.updateTime}}</td>
-                                        <td>
+                                        <td v-if="user.username === 'admin'">
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm btn-secondary text-white disabled">重置密码</a>
+                                                <a class="btn btn-sm btn-secondary text-white disabled">角色绑定</a>
+                                            </div>
+                                        </td>
+                                        <td v-if="user.username !== 'admin'">
                                             <div class="btn-group">
                                                 <a class="btn btn-sm btn-warning text-white"
                                                    @click="userResetPassword(user.tbId)">重置密码</a>
