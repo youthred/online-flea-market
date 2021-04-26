@@ -8,10 +8,11 @@
         from t_sys_user u
         left join t_sys_bind_user_role ur on ur.user_tb_id = u.tb_id
         left join t_sys_role r on r.tb_id = ur.role_tb_id
-        where u.username = #{username}
+        where r.tb_id is not null
+        and u.username = #{username}
     </select>
 
-    <select id="findBySysUserTbId" resultType="net.add1s.ofm.pojo.entity.sys.SysRole">
+    <select id="findBySysUserTbId" resultType="net.add1s.ofm.pojo.vo.sys.SysRoleVO">
         select
             r.tb_id,
             r.role_code,
@@ -20,7 +21,8 @@
         from t_sys_user u
         left join t_sys_bind_user_role ur on ur.user_tb_id = u.tb_id
         left join t_sys_role r on r.tb_id = ur.role_tb_id
-        where u.tb_id = #{sysUserTbId}
+        where r.tb_id is not null
+        and u.tb_id = #{sysUserTbId}
     </select>
 
     <insert id="setDefaultRole">

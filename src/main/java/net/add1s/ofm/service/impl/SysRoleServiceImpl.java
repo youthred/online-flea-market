@@ -2,12 +2,14 @@ package net.add1s.ofm.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import net.add1s.ofm.common.enums.SysRoleEnum;
 import net.add1s.ofm.mapper.SysRoleMapper;
 import net.add1s.ofm.pojo.entity.sys.SysRole;
 import net.add1s.ofm.pojo.vo.sys.SysBindUserRoleVO;
 import net.add1s.ofm.pojo.vo.sys.SysRoleVO;
 import net.add1s.ofm.service.ISysRoleService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
     @Override
@@ -24,7 +27,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public List<SysRole> findBySysUserTbId(Long sysUserTbId) {
+    public List<SysRoleVO> findBySysUserTbId(Long sysUserTbId) {
         return this.baseMapper.findBySysUserTbId(sysUserTbId);
     }
 
@@ -37,8 +40,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public List<SysRoleVO> findAllRolesWithUserBound(Long sysUserTbId) {
         List<SysRoleVO> sysRoleVOS = this.list().stream().map(SysRoleVO::new).collect(Collectors.toList());
-        List<SysRole> boundRoles = this.findBySysUserTbId(sysUserTbId);
-        sysRoleVOS.forEach(sysRoleVO -> sysRoleVO.setBound(boundRoles.stream().anyMatch(boundRole -> boundRole.getTbId().equals(sysRoleVO.getTbId()))));
+        List<SysRoleVO> boundRoleVOS = this.findBySysUserTbId(sysUserTbId);
+        if (CollectionUtils.isNotEmpty(boundRoleVOS)) {
+            sysRoleVOS.forEach(sysRoleVO -> sysRoleVO.setBound(boundRoleVOS.stream().anyMatch(boundRole -> boundRole.getTbId().equals(sysRoleVO.getTbId()))));
+        }
         return sysRoleVOS;
     }
 

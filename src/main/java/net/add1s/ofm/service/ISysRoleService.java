@@ -10,7 +10,7 @@ public interface ISysRoleService extends IService<SysRole> {
 
     List<String> findRoleCodesByUsername(String username);
 
-    List<SysRole> findBySysUserTbId(Long sysUserTbId);
+    List<SysRoleVO> findBySysUserTbId(Long sysUserTbId);
 
     /**
      * 添加默认角色
