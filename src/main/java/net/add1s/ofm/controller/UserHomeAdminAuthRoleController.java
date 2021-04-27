@@ -1,15 +1,11 @@
 package net.add1s.ofm.controller;
 
 import lombok.AllArgsConstructor;
-import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.common.response.Res;
-import net.add1s.ofm.pojo.entity.sys.SysRole;
 import net.add1s.ofm.service.IUserHomeAdminAuthRoleService;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 系统管理 - 权限管理 - 角色
@@ -23,8 +19,19 @@ public class UserHomeAdminAuthRoleController {
 
     private final IUserHomeAdminAuthRoleService iUserHomeAdminAuthRoleService;
 
-    @PostMapping("/page")
-    public Res page(@RequestBody @Validated MbpPage<SysRole> mbpPage) {
+    @GetMapping("/list")
+    public Res list() {
+        return Res.ok(iUserHomeAdminAuthRoleService.list());
+    }
+
+    @GetMapping("/permissionBoundTree/{sysRoleTbId}")
+    public Res permissionBoundTree(@PathVariable("sysRoleTbId") Long sysRoleTbId) {
+        return Res.ok(iUserHomeAdminAuthRoleService.permissionBoundTree(sysRoleTbId));
+    }
+
+    @PutMapping("/permissionBind/{sysRoleTbId}")
+    public Res permissionBind(@PathVariable("sysRoleTbId") Long sysRoleTbId, @RequestBody List<Long> sysPermissionBoundTbIds) {
+        iUserHomeAdminAuthRoleService.permissionBind(sysRoleTbId, sysPermissionBoundTbIds);
         return Res.ok();
     }
 }

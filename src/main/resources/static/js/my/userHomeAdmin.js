@@ -17,7 +17,12 @@ Vue.createApp({
                     }
                 },
                 authManagement: {
-                    role: {},
+                    role: {
+                        list: [],
+                        permissionBind: {
+                            roleTbId: -1
+                        }
+                    },
                     permission: {
                         page: {},
                         tree: []
@@ -69,7 +74,8 @@ Vue.createApp({
         init() {
             this.setGoodsManagementReportPage()
             this.setUserManagementUserPage()
-            this.setPermissionTree()
+            this.setAuthManagementRoleList()
+            this.setAuthManagementPermissionTree()
         },
 
         // region goodsManagement report
@@ -178,7 +184,7 @@ Vue.createApp({
         userRoleBind() {
             axios.put(`/home/admin/user/user/roleBind/${this.response.userManagement.user.roleBind.userTbId}`, this.response.userManagement.user.roleBind.roles).then(res => {
                 if (res.data.success) {
-                    Swal.fire('', '角色绑定修改成功', 'success')
+                    Swal.fire('', '角色绑定成功', 'success')
                     $('#userRoleBindModal').modal('hide')
                 } else {
                     Swal.fire('', res.data.message, 'error')
@@ -190,10 +196,58 @@ Vue.createApp({
         // endregion
 
         // region authManagement role
+        setAuthManagementRoleList() {
+            axios.get('/home/admin/auth/role/list').then(res => {
+                if (res.data.success) {
+                    this.response.authManagement.role.list = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        showRolePermissionBindModal(roleTbId) {
+            axios.get(`/home/admin/auth/role/permissionBoundTree/${roleTbId}`).then(res => {
+                if (res.data.success) {
+                    $.fn.zTree.init($("#permissionBindTree"), {
+                        check: {
+                            enable: true,
+                            chkboxType: { 'Y': '', 'N': '' }
+                        }
+                    }, res.data.data)
+                    this.response.authManagement.role.permissionBind.roleTbId = roleTbId
+                    $('#rolePermissionBindModal').modal('show')
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        rolePermissionBind() {
+            const permissionBindTreeObj = $.fn.zTree.getZTreeObj("permissionBindTree")
+            let checkedNodes = permissionBindTreeObj.getCheckedNodes(true)
+            let permissionReadyBoundTbIds = []
+            $.map(checkedNodes, (val, i) => {
+                permissionReadyBoundTbIds.push(val.id)
+            });
+            axios.put(`/home/admin/auth/role/permissionBind/${this.response.authManagement.role.permissionBind.roleTbId}`, permissionReadyBoundTbIds).then(res => {
+                if (res.data.success) {
+                    Swal.fire('', '权限绑定成功', 'success')
+                    $('#rolePermissionBindModal').modal('hide')
+                    permissionBindTreeObj.destroy()
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
         // endregion
 
         // region authManagement permission
-        setPermissionTree() {
+        setAuthManagementPermissionTree() {
             axios.get('/home/admin/auth/permission/tree').then(res => {
                 if (res.data.success) {
                     $.fn.zTree.init($("#permissionTree"), {

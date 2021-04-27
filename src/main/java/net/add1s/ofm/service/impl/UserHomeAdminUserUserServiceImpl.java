@@ -1,5 +1,6 @@
 package net.add1s.ofm.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
@@ -71,6 +72,6 @@ public class UserHomeAdminUserUserServiceImpl implements IUserHomeAdminUserUserS
     }
 
     private void adminCheck(Long sysUserTbId) {
-        Validate.isTrue(!SysUserEnum.ADMIN.getUsername().equals(iSysUserService.getById(sysUserTbId).getUsername()), "禁止操作初始用户[ADMIN]");
+        Validate.isTrue(!SysUserEnum.ADMIN.getUsername().equals(iSysUserService.getById(sysUserTbId).getUsername()), StrUtil.format("禁止操作初始用户[{}]", SysUserEnum.ADMIN.getUsername()));
     }
 }

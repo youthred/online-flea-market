@@ -28,4 +28,32 @@
         where u.username = #{username}
     </select>
 
+    <select id="findBound" resultType="net.add1s.ofm.pojo.vo.sys.SysPermissionVO">
+        select
+            p.tb_id,
+            p.permission_url,
+            p.request_method,
+            p.permission_code,
+            p.permission_name,
+            p.permission_desc,
+            p.pid,
+            p.permit_any
+        from t_sys_role r
+        left join t_sys_bind_role_permission rp on rp.role_tb_id = r.tb_id
+        left join t_sys_permission p on p.tb_id = rp.permission_tb_id
+        where p.tb_id is not null
+        and r.tb_id = #{sysRoleTbId}
+    </select>
+
+    <delete id="deleteBounds">
+        delete from t_sys_bind_role_permission where role_tb_id = #{sysRoleTbId}
+    </delete>
+
+    <insert id="bindPermission">
+        insert into t_sys_bind_role_permission values
+        <foreach collection="sysBindRolePermissionVOS" item="rp" separator=",">
+            (#{rp.roleTbId}, #{rp.permissionTbId})
+        </foreach>
+    </insert>
+
 </mapper>

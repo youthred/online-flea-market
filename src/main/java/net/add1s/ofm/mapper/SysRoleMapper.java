@@ -12,7 +12,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     List<String> findRoleCodesByUsername(@Param("username") String username);
 
-    List<SysRoleVO> findBySysUserTbId(@Param("sysUserTbId") Long sysUserTbId);
+    List<SysRoleVO> findBound(@Param("sysUserTbId") Long sysUserTbId);
 
     void setDefaultRole(@Param("sysUserTbId") Long sysUserTbId, @Param("sysRoleTbId") Long sysRoleTbId);
 

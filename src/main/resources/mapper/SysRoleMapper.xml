@@ -12,7 +12,7 @@
         and u.username = #{username}
     </select>
 
-    <select id="findBySysUserTbId" resultType="net.add1s.ofm.pojo.vo.sys.SysRoleVO">
+    <select id="findBound" resultType="net.add1s.ofm.pojo.vo.sys.SysRoleVO">
         select
             r.tb_id,
             r.role_code,

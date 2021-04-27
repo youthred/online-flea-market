@@ -19,4 +19,20 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @return String list
      */
     List<String> findPermitAnyUrl();
+
+    /**
+     * 查询所有已绑定的权限信息
+     *
+     * @param sysRoleTbId 角色TBID
+     * @return SysPermissionVOS
+     */
+    List<SysPermissionVO> findBound(Long sysRoleTbId);
+
+    /**
+     * 修改权限绑定
+     *
+     * @param sysRoleTbId 角色TBID
+     * @param sysPermissionBoundTbIds 修改后的绑定权限TBID
+     */
+    void updatePermissionBind(Long sysRoleTbId, List<Long> sysPermissionBoundTbIds);
 }

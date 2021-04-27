@@ -238,7 +238,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-warning text-white"
-                                                @click="userRoleBind(userTbId)">
+                                                @click="userRoleBind()">
                                             确认
                                         </button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -333,7 +333,67 @@
 
                     <!-- 系统权限管理 -->
                     <div class="tab-pane fade" id="v-pills-sysAuthRole" role="tabpanel"
-                         aria-labelledby="v-pills-sysAuthRole-tab">3
+                         aria-labelledby="v-pills-sysAuthRole-tab">
+                        <div id="rolePermissionBindModal"
+                             class="modal fade"
+                             data-backdrop="static" data-keyboard="false" tabindex="-1"
+                             aria-labelledby="rolePermissionBindModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">权限绑定</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div>
+                                            <ul id="permissionBindTree" class="ztree"></ul>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-warning text-white"
+                                                @click="rolePermissionBind()">
+                                            确认
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="overflow-auto">
+                            <table class="table table-hover table-borderless">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">唯一码</th>
+                                    <th scope="col">名称</th>
+                                    <th scope="col">描述</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody v-if="Array.isNotEmpty(response.authManagement.role.list)">
+                                <tr v-for="role in response.authManagement.role.list">
+                                    <th scope="row">{{role.tbId}}</th>
+                                    <td>{{role.roleCode}}</td>
+                                    <td>{{role.roleName}}</td>
+                                    <td>{{role.roleDesc}}</td>
+                                    <td v-if="role.roleCode === 'ADMIN'">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-secondary text-white disabled">权限绑定</a>
+                                        </div>
+                                    </td>
+                                    <td v-if="role.roleCode !== 'ADMIN'">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-warning text-white"
+                                               @click="showRolePermissionBindModal(role.tbId)">权限绑定</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-sysAuthPermission" role="tabpanel"
                          aria-labelledby="v-pills-sysAuthPermission-tab">

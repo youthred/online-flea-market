@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.add1s.ofm.mapper.SysPermissionMapper;
 import net.add1s.ofm.pojo.entity.sys.SysPermission;
+import net.add1s.ofm.pojo.vo.sys.SysBindRolePermissionVO;
 import net.add1s.ofm.pojo.vo.sys.SysPermissionVO;
 import net.add1s.ofm.service.ISysPermissionService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,5 +35,19 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                 .stream()
                 .map(SysPermission::getPermissionUrl)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SysPermissionVO> findBound(Long sysRoleTbId) {
+        return this.baseMapper.findBound(sysRoleTbId);
+    }
+
+    @Override
+    public void updatePermissionBind(Long sysRoleTbId, List<Long> sysPermissionBoundTbIds) {
+        this.baseMapper.deleteBounds(sysRoleTbId);
+        if (CollectionUtils.isNotEmpty(sysPermissionBoundTbIds)) {
+            List<SysBindRolePermissionVO> sysBindRolePermissionVOS = sysPermissionBoundTbIds.stream().map(permissionBoundTbId -> new SysBindRolePermissionVO(sysRoleTbId, permissionBoundTbId)).collect(Collectors.toList());
+            this.baseMapper.bindPermission(sysBindRolePermissionVOS);
+        }
     }
 }

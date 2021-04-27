@@ -27,8 +27,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public List<SysRoleVO> findBySysUserTbId(Long sysUserTbId) {
-        return this.baseMapper.findBySysUserTbId(sysUserTbId);
+    public List<SysRoleVO> findBound(Long sysUserTbId) {
+        return this.baseMapper.findBound(sysUserTbId);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public List<SysRoleVO> findAllRolesWithUserBound(Long sysUserTbId) {
         List<SysRoleVO> sysRoleVOS = this.list().stream().map(SysRoleVO::new).collect(Collectors.toList());
-        List<SysRoleVO> boundRoleVOS = this.findBySysUserTbId(sysUserTbId);
+        List<SysRoleVO> boundRoleVOS = this.findBound(sysUserTbId);
         if (CollectionUtils.isNotEmpty(boundRoleVOS)) {
             sysRoleVOS.forEach(sysRoleVO -> sysRoleVO.setBound(boundRoleVOS.stream().anyMatch(boundRole -> boundRole.getTbId().equals(sysRoleVO.getTbId()))));
         }
