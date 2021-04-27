@@ -37,12 +37,6 @@ public class SysPermission implements Serializable {
     @TableField("`permission_desc`")
     private String permissionDesc;
 
-    /**
-     * 同tbId
-     */
-    @TableField("`id`")
-    private Long id;
-
     @TableField("`pid`")
     private Long pid;
 

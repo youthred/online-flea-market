@@ -20,7 +20,6 @@ public class SysPermissionVO implements Serializable {
     private String permissionCode;
     private String permissionName;
     private String permissionDesc;
-    private Long id;
     private Long pid;
     private Boolean permitAny;
 }

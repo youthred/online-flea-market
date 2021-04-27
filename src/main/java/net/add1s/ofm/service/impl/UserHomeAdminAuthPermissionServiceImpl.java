@@ -39,7 +39,7 @@ public class UserHomeAdminAuthPermissionServiceImpl implements IUserHomeAdminAut
                 "-1",
                 treeNodeConfig,
                 (treeNode, tree) -> {
-                    tree.setId(treeNode.getId().toString());
+                    tree.setId(treeNode.getTbId().toString());
                     tree.setParentId(treeNode.getPid().toString());
                     tree.setName(treeNode.getPermissionName());
                     tree.putExtra("sysPermission", treeNode);
