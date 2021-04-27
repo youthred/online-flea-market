@@ -6,10 +6,7 @@ import net.add1s.ofm.common.response.Res;
 import net.add1s.ofm.pojo.entity.sys.SysPermission;
 import net.add1s.ofm.service.IUserHomeAdminAuthPermissionService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 系统管理 - 权限管理 - 角色
@@ -25,6 +22,11 @@ public class UserHomeAdminAuthPermissionController {
 
     @PostMapping("/page")
     public Res page(@RequestBody @Validated MbpPage<SysPermission> mbpPage) {
-        return Res.ok();
+        return Res.ok(iUserHomeAdminAuthPermissionService.page(mbpPage));
+    }
+
+    @GetMapping("/tree")
+    public Res tree() {
+        return Res.ok(iUserHomeAdminAuthPermissionService.tree());
     }
 }
