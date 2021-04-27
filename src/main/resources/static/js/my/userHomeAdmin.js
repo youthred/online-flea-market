@@ -15,7 +15,14 @@ Vue.createApp({
                             userTbId: -1
                         }
                     }
-                }
+                },
+                authManagement: {
+                    role: {},
+                    permission: {
+                        page: {},
+                        tree: []
+                    }
+                },
             },
             request: {
                 goodsManagement: {
@@ -63,6 +70,7 @@ Vue.createApp({
         init() {
             this.setGoodsManagementReportPage()
             this.setUserManagementUserPage()
+            this.setPermissionTree()
         },
 
         // region goodsManagement report
@@ -173,6 +181,24 @@ Vue.createApp({
                 if (res.data.success) {
                     Swal.fire('', '角色绑定修改成功', 'success')
                     $('#userRoleBindModal').modal('hide')
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
+        // endregion
+
+        // region authManagement role
+        // endregion
+
+        // region authManagement permission
+        setPermissionTree() {
+            axios.get('/home/admin/auth/permission/tree').then(res => {
+                if (res.data.success) {
+                    $.fn.zTree.init($("#permissionTree"), {}, res.data.data)
+                    this.response.authManagement.permission.tree = res.data.data
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }

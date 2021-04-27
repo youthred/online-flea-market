@@ -42,6 +42,7 @@ public class UserHomeAdminAuthPermissionServiceImpl implements IUserHomeAdminAut
                     tree.setId(treeNode.getTbId().toString());
                     tree.setParentId(treeNode.getPid().toString());
                     tree.setName(treeNode.getPermissionName());
+                    tree.putExtra("open", true);
                     tree.putExtra("sysPermission", treeNode);
                 }
         );

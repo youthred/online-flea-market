@@ -5,6 +5,7 @@
       xmlns:v-on="http://www.w3.org/1999/xhtml"
       xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: header('后台 - 系统管理')"></head>
+<link rel="stylesheet" type="text/css" href="/static/css/ztree/zTreeStyle.css"/>
 <body>
 <div class="sticky-top">
     <span th:replace="common/nav :: nav_userHome('admin')"></span>
@@ -335,7 +336,10 @@
                          aria-labelledby="v-pills-sysAuthRole-tab">3
                     </div>
                     <div class="tab-pane fade" id="v-pills-sysAuthPermission" role="tabpanel"
-                         aria-labelledby="v-pills-sysAuthPermission-tab">4
+                         aria-labelledby="v-pills-sysAuthPermission-tab">
+                        <div>
+                            <ul id="permissionTree" class="ztree"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
