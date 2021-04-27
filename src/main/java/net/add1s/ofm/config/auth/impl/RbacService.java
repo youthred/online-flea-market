@@ -1,5 +1,6 @@
 package net.add1s.ofm.config.auth.impl;
 
+import net.add1s.ofm.common.enums.RequestMethodEnum;
 import net.add1s.ofm.pojo.vo.sys.SysPermissionVO;
 import net.add1s.ofm.service.ISysPermissionService;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +28,10 @@ public class RbacService {
             Set<SysPermissionVO> sysPermissionVOS = iSysPermissionService.findSysPermissionVOByUsername(username);
             return sysPermissionVOS.stream().anyMatch(sysPermissionVO ->
                     new AntPathMatcher().match(sysPermissionVO.getPermissionUrl(), request.getRequestURI())
-                            && StringUtils.equals(sysPermissionVO.getRequestMethod(), request.getMethod())
+                            && (
+                            StringUtils.equals(RequestMethodEnum.ANY.getMethodName(), sysPermissionVO.getRequestMethod())
+                                    || StringUtils.equals(sysPermissionVO.getRequestMethod(), request.getMethod())
+                    )
             );
         }
         return false;

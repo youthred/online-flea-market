@@ -42,7 +42,7 @@ public class GoodsController {
     }
 
     /**
-     * 通过TBID跳转对应商品详情
+     * 通过TBID获取对应商品详情
      *
      * @param goodsTbId 商品TBID
      * @return Res
@@ -86,7 +86,7 @@ public class GoodsController {
      * @return ModelAndView
      */
     @GetMapping("/doChat/{goodsTbId}.html")
-    public ModelAndView doChat(@PathVariable("goodsTbId") Long goodsTbId) {
+    public ModelAndView doChatPage(@PathVariable("goodsTbId") Long goodsTbId) {
         return new ModelAndView("goods/doChat", "chat", iGoodsService.chat(goodsTbId));
     }
 

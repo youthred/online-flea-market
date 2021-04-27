@@ -39,7 +39,7 @@ public class UserHomeMyServiceImpl implements IUserHomeMyService {
 
     // region 我发布的 posted
     @Override
-    public IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage) {
+    public IPage<Goods> postedPage(MbpPage<Goods> mbpPage) {
         Page<Goods> page = iGoodsService.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getSellerSysUserTbId, iSysUserService.currentUser().getTbId()).eq(Goods::getDeleted, false));
         // 已完成的订单商品TBID
         List<Long> doneOrderGoodsTbIds = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).select(GoodsOrder::getGoodsTbId).eq(GoodsOrder::getDone, true)).stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList());
@@ -54,7 +54,7 @@ public class UserHomeMyServiceImpl implements IUserHomeMyService {
 
     // region 我卖出的 sold
     @Override
-    public IPage<Goods> mySoldPage(MbpPage<Goods> mbpPage) {
+    public IPage<Goods> soldPage(MbpPage<Goods> mbpPage) {
         Page<Goods> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
         List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getSellerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
@@ -68,7 +68,7 @@ public class UserHomeMyServiceImpl implements IUserHomeMyService {
 
     // region 我买到的 bought
     @Override
-    public IPage<Goods> myBoughtPage(MbpPage<Goods> mbpPage) {
+    public IPage<Goods> boughtPage(MbpPage<Goods> mbpPage) {
         Page<Goods> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
         List<GoodsOrder> doneOrderBought = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
@@ -82,7 +82,7 @@ public class UserHomeMyServiceImpl implements IUserHomeMyService {
 
     // region 我的私聊 privateChat
     @Override
-    public List<GoodsChatVO> chats() {
+    public List<GoodsChatVO> privateChats() {
         return iGoodsService.chats();
     }
     // endregion

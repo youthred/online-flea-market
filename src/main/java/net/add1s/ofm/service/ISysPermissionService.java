@@ -12,4 +12,11 @@ public interface ISysPermissionService extends IService<SysPermission> {
     List<String> findPermissionCodesByRoleCodes(List<String> roleCodes);
 
     Set<SysPermissionVO> findSysPermissionVOByUsername(String username);
+
+    /**
+     * 查询出无需权限的接口路径
+     *
+     * @return String list
+     */
+    List<String> findPermitAnyUrl();
 }

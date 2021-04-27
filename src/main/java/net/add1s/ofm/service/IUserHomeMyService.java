@@ -10,19 +10,19 @@ import java.util.List;
 public interface IUserHomeMyService {
 
     // region 我发布的 posted
-    IPage<Goods> myPostedPage(MbpPage<Goods> mbpPage);
+    IPage<Goods> postedPage(MbpPage<Goods> mbpPage);
     // endregion
 
     // region 我卖出的 sold
-    IPage<Goods> mySoldPage(MbpPage<Goods> mbpPage);
+    IPage<Goods> soldPage(MbpPage<Goods> mbpPage);
     // endregion
 
     // region 我买到的 bought
-    IPage<Goods> myBoughtPage(MbpPage<Goods> mbpPage);
+    IPage<Goods> boughtPage(MbpPage<Goods> mbpPage);
     // endregion
 
     // region 我的私聊 privateChat
-    List<GoodsChatVO> chats();
+    List<GoodsChatVO> privateChats();
     // endregion
 
     // region 我的点赞 like

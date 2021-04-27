@@ -12,7 +12,7 @@ import net.add1s.ofm.common.content.AuthContent;
 public enum SysRoleEnum {
 
     ADMIN("ADMIN"),
-    MEMBER_REGISTERED("MEMBER_REGISTERED");
+    MEMBER_REGISTERED("MEMBER_REGISTERED"),
     ;
 
     private final String roleCode;

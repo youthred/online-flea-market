@@ -33,7 +33,7 @@ public class NettyController {
     }
 
     /**
-     * 群聊HOST
+     * 私聊HOST
      *
      * @return Res
      */

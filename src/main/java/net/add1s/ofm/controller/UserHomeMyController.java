@@ -29,8 +29,8 @@ public class UserHomeMyController {
      * @return Res
      */
     @PostMapping("/posted/page")
-    public Res myPostedPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iUserHomeMyService.myPostedPage(mbpPage));
+    public Res postedPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
+        return Res.ok(iUserHomeMyService.postedPage(mbpPage));
     }
     // endregion
 
@@ -41,8 +41,8 @@ public class UserHomeMyController {
      * @return Res
      */
     @PostMapping("/sold/page")
-    public Res mySoldPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iUserHomeMyService.mySoldPage(mbpPage));
+    public Res soldPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
+        return Res.ok(iUserHomeMyService.soldPage(mbpPage));
     }
     // endregion
 
@@ -53,8 +53,8 @@ public class UserHomeMyController {
      * @return Res
      */
     @PostMapping("/bought/page")
-    public Res myBoughtPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
-        return Res.ok(iUserHomeMyService.myBoughtPage(mbpPage));
+    public Res boughtPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
+        return Res.ok(iUserHomeMyService.boughtPage(mbpPage));
     }
     // endregion
 
@@ -66,8 +66,8 @@ public class UserHomeMyController {
      * @return ModelAndView
      */
     @GetMapping("/privateChat/chats")
-    public Res chat() {
-        return Res.ok(iUserHomeMyService.chats());
+    public Res privateChats() {
+        return Res.ok(iUserHomeMyService.privateChats());
     }
 
     // endregion

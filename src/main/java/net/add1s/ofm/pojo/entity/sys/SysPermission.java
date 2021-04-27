@@ -45,4 +45,10 @@ public class SysPermission implements Serializable {
 
     @TableField("`pid`")
     private Long pid;
+
+    /**
+     * 是否无需验证
+     */
+    @TableField("`permit_any`")
+    private Boolean permitAny;
 }

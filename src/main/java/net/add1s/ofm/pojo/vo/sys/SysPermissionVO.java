@@ -22,4 +22,5 @@ public class SysPermissionVO implements Serializable {
     private String permissionDesc;
     private Long id;
     private Long pid;
+    private Boolean permitAny;
 }

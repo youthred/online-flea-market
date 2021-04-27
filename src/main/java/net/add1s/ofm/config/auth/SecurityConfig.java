@@ -1,6 +1,8 @@
 package net.add1s.ofm.config.auth;
 
+import lombok.AllArgsConstructor;
 import net.add1s.ofm.config.auth.impl.*;
+import net.add1s.ofm.service.ISysPermissionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MyUserDetailsService myUserDetailsService;
@@ -33,29 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final LoginFilter loginFilter;
     private final MyPasswordEncoder myPasswordEncoder;
     private final DataSource dataSource;
-
-    public SecurityConfig(
-            MyUserDetailsService myUserDetailsService,
-            MyAuthenticationSuccessHandler myAuthenticationSuccessHandler,
-            MyAuthenticationFailureHandler myAuthenticationFailureHandler,
-            MyExpiredSessionStrategy myExpiredSessionStrategy,
-            MyInvalidSessionStrategy myInvalidSessionStrategy,
-            MyAuthenticationAccessDeniedHandler myAuthenticationAccessDeniedHandler,
-            MyLogoutSuccessHandler myLogoutSuccessHandler,
-            LoginFilter loginFilter,
-            MyPasswordEncoder myPasswordEncoder,
-            DataSource dataSource) {
-        this.myUserDetailsService = myUserDetailsService;
-        this.myAuthenticationSuccessHandler = myAuthenticationSuccessHandler;
-        this.myAuthenticationFailureHandler = myAuthenticationFailureHandler;
-        this.myExpiredSessionStrategy = myExpiredSessionStrategy;
-        this.myInvalidSessionStrategy = myInvalidSessionStrategy;
-        this.myAuthenticationAccessDeniedHandler = myAuthenticationAccessDeniedHandler;
-        this.myLogoutSuccessHandler = myLogoutSuccessHandler;
-        this.loginFilter = loginFilter;
-        this.myPasswordEncoder = myPasswordEncoder;
-        this.dataSource = dataSource;
-    }
+    private final ISysPermissionService iSysPermissionService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -84,17 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(myLogoutSuccessHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        "/**"
-//                        "/login.html",
-//                        "/login",
-//                        "/register.html",
-//                        "/register",
-//                        "/",
-//                        "/imageCaptcha",
-//                        "/common/**",
-//                        "/chat/doChat.html"
-                ).permitAll()  // 无需认证
+                .antMatchers(iSysPermissionService.findPermitAnyUrl().toArray(String[]::new)).permitAll()  // 无需认证
 //                .antMatchers("/", "/index").authenticated() // 登录即可访问
                 .anyRequest().access("@rbacService.hasPermission(request, authentication)") // 参数名称必须是"request"和"authentication"
 //                .anyRequest().authenticated()
