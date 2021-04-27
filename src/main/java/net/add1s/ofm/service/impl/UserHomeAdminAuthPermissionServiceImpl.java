@@ -6,6 +6,7 @@ import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
+import net.add1s.ofm.common.enums.RequestMethodEnum;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.pojo.entity.sys.SysPermission;
 import net.add1s.ofm.service.ISysPermissionService;
@@ -43,6 +44,7 @@ public class UserHomeAdminAuthPermissionServiceImpl implements IUserHomeAdminAut
                     tree.setParentId(treeNode.getPid().toString());
                     tree.setName(treeNode.getPermissionName());
                     tree.putExtra("open", true);
+                    tree.putExtra("bootstrapColor", RequestMethodEnum.parseBootstrapColor(treeNode.getRequestMethod()));
                     tree.putExtra("sysPermission", treeNode);
                 }
         );

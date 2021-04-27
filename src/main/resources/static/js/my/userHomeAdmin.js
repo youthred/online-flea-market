@@ -55,8 +55,7 @@ Vue.createApp({
                                 current: 1,
                                 size: 10
                             },
-                            queryOptions: [
-                            ]
+                            queryOptions: []
                         }
                     }
                 }
@@ -86,11 +85,11 @@ Vue.createApp({
             })
         },
         goodsManagementReportPagePrev() {
-            this.request.goodsManagement.report.page.page.current --
+            this.request.goodsManagement.report.page.page.current--
             this.setGoodsManagementReportPage()
         },
         goodsManagementReportPageNext() {
-            this.request.goodsManagement.report.page.page.current ++
+            this.request.goodsManagement.report.page.page.current++
             this.setGoodsManagementReportPage()
         },
         showGoodsManagementReportReviewModal(goodsReport) {
@@ -133,11 +132,11 @@ Vue.createApp({
             })
         },
         userManagementUserPagePrev() {
-            this.request.userManagement.user.page.page.current --
+            this.request.userManagement.user.page.page.current--
             this.setUserManagementUserPage()
         },
         userManagementUserPageNext() {
-            this.request.userManagement.user.page.page.current ++
+            this.request.userManagement.user.page.page.current++
             this.setUserManagementUserPage()
         },
         userResetPassword(userTbId) {
@@ -197,13 +196,29 @@ Vue.createApp({
         setPermissionTree() {
             axios.get('/home/admin/auth/permission/tree').then(res => {
                 if (res.data.success) {
-                    $.fn.zTree.init($("#permissionTree"), {}, res.data.data)
+                    $.fn.zTree.init($("#permissionTree"), {
+                        callback: {
+                            onClick: this.permissionTreeClick
+                        }
+                    }, res.data.data)
                     this.response.authManagement.permission.tree = res.data.data
                 } else {
                     Swal.fire('', res.data.message, 'error')
                 }
             }).catch(err => {
                 Swal.fire('', err.toString(), 'error')
+            })
+        },
+        permissionTreeClick(event, treeId, treeNode) {
+            Swal.fire({
+                title: treeNode.name,
+                html: `
+                    <div class="alert alert-${treeNode.bootstrapColor} d-flex w-100 justify-content-between" role="alert">
+                        <span>${treeNode.sysPermission.permissionUrl}</span>
+                        <span class="badge badge-pill badge-${treeNode.bootstrapColor}">${treeNode.sysPermission.requestMethod}</span>
+                    </div>
+                    <span>${treeNode.sysPermission.permissionDesc}</span>
+                `
             })
         },
         // endregion
