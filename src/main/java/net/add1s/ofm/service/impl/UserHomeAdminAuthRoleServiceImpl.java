@@ -52,6 +52,7 @@ public class UserHomeAdminAuthRoleServiceImpl implements IUserHomeAdminAuthRoleS
                     tree.setName(treeNode.getPermissionName());
                     tree.putExtra("open", true);
                     tree.putExtra("checked", permissionBoundTbIds.contains(treeNode.getTbId()));
+                    tree.putExtra("nocheck", treeNode.getPermitAny());
                 }
         );
     }
