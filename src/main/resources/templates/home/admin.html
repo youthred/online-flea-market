@@ -62,7 +62,7 @@
                                                 {{request.goodsManagement.report.review.goodsReport.createTime}}
                                             </dd>
                                         </dl>
-                                        <div v-if="Object.isNotEmpty(request.goodsManagement.report.review.goods)">
+                                        <div v-if="Object.isNotNull(request.goodsManagement.report.review.goods)">
                                             <hr>
                                             <h3 class="text-center">商品信息</h3>
                                             <dl class="row">

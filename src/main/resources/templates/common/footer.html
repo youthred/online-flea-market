@@ -1,11 +1,12 @@
 <div class="pb-5"></div>
-<div id="footerApp" class="container-fluid fixed-bottom bg-white shadow" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-    <div class="text-center text-muted m-1">
+<footer id="footerApp" class="container-fluid fixed-bottom bg-white shadow">
+    <div class="text-center m-1 links" v-if="Object.isNotNull(appInfo)">
 <!--        <a :href="appInfo.github"><i class="fab fa-github"></i></a>-->
-<!--        <a :href="`${appInfo.github}/commits`"><i class="fa fa-code"></i> dev log</a>-->
-        <a href="/dev/log.html"><i class="fa fa-code"></i> dev log</a>
+<!--        <a href="/dev/log.html"><i class="fa fa-code"></i> dev log</a>-->
+        <span class="text-secondary">{{appInfo.projectName}} <small class="text-muted">{{appInfo.projectVersion}}</small></span>
+        <span class="text-secondary">Java <small class="text-muted">{{appInfo.javaRuntimeVersion}}</small></span>
     </div>
-</div>
+</footer>
 
 <script src="/static/js/vue/3.0.4/vue.global.prod.js"></script>
 <script src="/static/js/axios/0.21.0/axios.min.js"></script>
@@ -18,14 +19,11 @@
 <script src="/static/js/sweetalert2/8/sweetalert2.min.js"></script>
 <script src="/static/js/my/util.js"></script>
 
-<!--
 <script>
     Vue.createApp({
         data() {
             return {
-                appInfo: {
-                    github: {}
-                }
+                appInfo: {}
             }
         },
         mounted() {
@@ -35,4 +33,3 @@
         }
     }).mount('#footerApp')
 </script>
--->

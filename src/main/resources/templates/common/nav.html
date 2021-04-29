@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      xmlns:v-bind="http://www.w3.org/1999/xhtml"
-      xmlns:v-on="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>navs</title>
@@ -12,9 +10,13 @@
 
 <!--公共导航栏 nav_common-->
 <nav th:fragment="nav_common(item)" class="navbar navbar-expand-lg navbar-light bg-light">
-    <!--    <a class="navbar-brand mb-0 h1" href="/">在线跳蚤市场</a>-->
-    <a class="navbar-brand" href="/"><img src="/static/img/favicon.ico" class="rounded img-fluid"
-                                          style="height: 30px" alt="logo"></a>
+<!--    <a class="navbar-brand mb-0 h1" href="/">在线二手书跳蚤市场</a>-->
+        <a class="navbar-brand" href="/">
+            <img src="/static/img/book.png"
+                 class="rounded img-fluid"
+                 style="height: 30px" alt="logo">
+            在线二手书跳蚤市场
+        </a>
 
     <!--在这个button（data-target="#navbarSupportedContent"）之后的元素（id="navbarSupportedContent"）在小屏幕上会自动折叠-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nscCommon"
@@ -97,8 +99,8 @@
             </ul>
         </div>
 
-<!--        &lt;!&ndash;.mr-auto后的元素靠右侧排列&ndash;&gt;-->
-<!--        <div class="mr-auto"></div>-->
+        <!--        &lt;!&ndash;.mr-auto后的元素靠右侧排列&ndash;&gt;-->
+        <!--        <div class="mr-auto"></div>-->
 
         <ul class="navbar-nav">
             <span th:replace=":: nav-dropdown"></span>
@@ -116,7 +118,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ndCommon">
 <!--            <a class="dropdown-item" href="/home/my.html">我的</a>-->
-<!--            <div class="dropdown-divider"></div>-->
+            <!--            <div class="dropdown-divider"></div>-->
             <a class="dropdown-item" href="/logout">注销</a>
         </div>
     </span>

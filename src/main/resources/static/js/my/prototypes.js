@@ -32,11 +32,11 @@ Array.isEmpty = function (arr) {
     return !this.isNotEmpty(arr)
 }
 
-Object.isEmpty = function (obj) {
+Object.isNull = function (obj) {
     return Object.keys(obj).length === 0
 }
-Object.isNotEmpty = function (obj) {
-    return !this.isEmpty(obj)
+Object.isNotNull = function (obj) {
+    return !this.isNull(obj)
 }
 /**
  * 对象的值都不为空或空字符串

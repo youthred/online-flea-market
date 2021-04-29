@@ -72,6 +72,7 @@ sys:
       repo: online-flea-market
     java-runtime-version: '@java.runtime.version@'
     build-time: '@maven.build.timestamp@'
+    record-number: XX
   chat:
     group-sex-port: 8888
     group-sex-server-host: 'ws://localhost:${sys.chat.group-sex-port}/ws'
@@ -131,6 +132,7 @@ sys:
       repo: online-flea-market
     java-runtime-version: '@java.runtime.version@'
     build-time: '@maven.build.timestamp@'
+    record-number: XX
   chat:
     group-sex-port: 8888
     group-sex-server-host: 'ws://youthred.cn:${sys.chat.group-sex-port}/ws'

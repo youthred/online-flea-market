@@ -23,4 +23,5 @@ public class AppProps {
     @NestedConfigurationProperty
     private GithubConf github;
     private String javaRuntimeVersion;
+    private String recordNumber;
 }

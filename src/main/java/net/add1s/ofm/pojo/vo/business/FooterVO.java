@@ -21,4 +21,5 @@ public class FooterVO implements Serializable {
     private String projectName;
     private String projectDescription;
     private GithubConf github;
+    private String recordNumber;
 }

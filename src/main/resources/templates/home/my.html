@@ -349,7 +349,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <dl v-if="Object.isNotEmpty(common.soldOrBought.goodsSnapshot)" class="row">
+                            <dl v-if="Object.isNotNull(common.soldOrBought.goodsSnapshot)" class="row">
                                 <dt class="col-sm-2">卖家ID</dt>
                                 <dd class="col-sm-10">{{common.soldOrBought.goodsSnapshot.seller.tbId}}</dd>
 
@@ -417,7 +417,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <dl v-if="Object.isNotEmpty(common.buyerOrSeller.info)" class="row">
+                            <dl v-if="Object.isNotNull(common.buyerOrSeller.info)" class="row">
                                 <dt class="col-sm-2">用户ID</dt>
                                 <dd class="col-sm-10">{{common.buyerOrSeller.info.tbId}}</dd>
 
