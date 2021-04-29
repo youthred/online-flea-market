@@ -19,7 +19,8 @@ let userHomeMyVueApp = Vue.createApp({
                             radioDisabled: true,
                             children: []
                         }
-                    }
+                    },
+                    usedBookTypes: []
                 },
                 sold: {             // 我卖出的
                     soldPage: {}
@@ -57,7 +58,9 @@ let userHomeMyVueApp = Vue.createApp({
                         pics: '',
                         price: '',
                         cityId: '',
-                        cityName: '未选择'
+                        cityName: '未选择',
+                        type: 'USED_BOOK_TYPE',
+                        typeCode: ''
                     }
                 },
                 sold: {
@@ -90,6 +93,7 @@ let userHomeMyVueApp = Vue.createApp({
             // posted
             this.setPostedPage()
             this.setCityTree()
+            this.setUsedBookTypes()
 
             // sold
             this.setSoldPage()
@@ -153,6 +157,17 @@ let userHomeMyVueApp = Vue.createApp({
                 Swal.fire('', err.toString(), 'error')
             })
         },
+        setUsedBookTypes() {
+            axios.get('/home/my/posted/usedBookTypes').then(res => {
+                if (res.data.success) {
+                    this.response.posted.usedBookTypes = res.data.data
+                } else {
+                    Swal.fire('', res.data.message, 'error')
+                }
+            }).catch(err => {
+                Swal.fire('', err.toString(), 'error')
+            })
+        },
         // 商品新增/修改请求体重新设置为默认值
         defaultSaveOrUpdateGoods() {
             this.request.posted.saveOrUpdateGoods.tbId = ''
@@ -161,6 +176,8 @@ let userHomeMyVueApp = Vue.createApp({
             this.request.posted.saveOrUpdateGoods.pics = `https://source.unsplash.com/random?rd=${Math.random()}`
             this.request.posted.saveOrUpdateGoods.price = ''
             this.request.posted.saveOrUpdateGoods.cityName = '未选择'
+            this.request.posted.saveOrUpdateGoods.type = ''
+            this.request.posted.saveOrUpdateGoods.typeCode = ''
             this.cancelCityTreeRadioChecked()
         },
         // 设置商品新增/修改请求体
@@ -171,6 +188,8 @@ let userHomeMyVueApp = Vue.createApp({
             this.request.posted.saveOrUpdateGoods.pics = goods.pics
             this.request.posted.saveOrUpdateGoods.cityId = goods.cityId
             this.request.posted.saveOrUpdateGoods.cityName = goods.cityName
+            this.request.posted.saveOrUpdateGoods.type = goods.type
+            this.request.posted.saveOrUpdateGoods.typeCode = goods.typeCode
         },
         // 取消cityTree已选中
         cancelCityTreeRadioChecked() {
@@ -190,7 +209,7 @@ let userHomeMyVueApp = Vue.createApp({
                 Swal.fire('', err.toString(), 'error')
             })
         },
-        async showUpdateGoodsModal(goods) {
+        async showSaveOrUpdateGoodsModal(goods) {
             // this.defaultSaveOrUpdateGoods()
             // 同步执行，等待cityName赋值完成后再执行下一步
             await axios.get(`/city/${goods.cityId}`).then(res => {

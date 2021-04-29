@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import net.add1s.ofm.common.enums.QueryTypeEnum;
 import net.add1s.ofm.common.enums.Symbol;
 import net.add1s.ofm.common.enums.TransactionRoleEnum;
@@ -21,6 +22,7 @@ import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.vo.business.ChatMessageVO;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
+import net.add1s.ofm.pojo.vo.business.ParameterVO;
 import net.add1s.ofm.pojo.vo.sys.SysUserVO;
 import net.add1s.ofm.service.*;
 import net.add1s.ofm.util.SqlUtil;
@@ -34,21 +36,18 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@AllArgsConstructor
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements IGoodsService {
 
     private final IGoodsReportService iGoodsReportService;
     private final ISysUserService iSysUserService;
     private final IChatMessageService iChatMessageService;
     private final IGoodsOrderService iGoodsOrderService;
+    private final IParameterService iParameterService;
 
-    public GoodsServiceImpl(IGoodsReportService iGoodsReportService,
-                            ISysUserService iSysUserService,
-                            IChatMessageService iChatMessageService,
-                            IGoodsOrderService iGoodsOrderService) {
-        this.iGoodsReportService = iGoodsReportService;
-        this.iSysUserService = iSysUserService;
-        this.iChatMessageService = iChatMessageService;
-        this.iGoodsOrderService = iGoodsOrderService;
+    @Override
+    public List<ParameterVO> usedBookTypes() {
+        return iParameterService.usedBookTypes();
     }
 
     @Override
@@ -62,7 +61,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public IPage<Goods> goodsPage(MbpPage<Goods> mbpPage) {
+    public IPage<GoodsVO> goodsPage(MbpPage<Goods> mbpPage) {
         boolean remove = mbpPage.getQueryOptions().removeIf(queryOption -> "desc".equals(queryOption.getKey()) && Symbol.EMPTY_STRING.getValue().equals(queryOption.getValue().toString()));
         if (!remove) {
             mbpPage.getQueryOptions().forEach(queryOption -> {
@@ -72,9 +71,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 }
             });
         }
+        // 分类若选择“总类”，则全部查询
+        mbpPage.getQueryOptions().removeIf(queryOption -> "typeCode".equals(queryOption.getKey()) && "000".equals(queryOption.getValue().toString()));
         Page<Goods> page = this.page(mbpPage.getPage(), mbpPage.toQueryWrapper().lambda().eq(Goods::getOffShelf, false).eq(Goods::getDeleted, false));
-        page.convert(GoodsVO::new);
-        return page;
+        IPage<GoodsVO> convert = page.convert(GoodsVO::new);
+        List<ParameterVO> usedBookTypes = iParameterService.usedBookTypes();
+        convert.getRecords().forEach(goodsVO -> goodsVO.setTypeDesc(usedBookTypes.stream().filter(type -> type.getCode().equals(goodsVO.getTypeCode())).findFirst().map(ParameterVO::getDesc).orElse("总类")));
+        return convert;
     }
 
     @Override
@@ -211,6 +214,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                             .set(Goods::getDesc, goods.getDesc())
                             .set(Goods::getPics, goods.getPics())
                             .set(Goods::getPrice, goods.getPrice())
+                            .set(Goods::getType, goods.getType())
+                            .set(Goods::getTypeCode, goods.getTypeCode())
                             .set(Goods::getCityId, goods.getCityId())
                             .set(Goods::getUpdateTime, goods.getUpdateTime())
             );

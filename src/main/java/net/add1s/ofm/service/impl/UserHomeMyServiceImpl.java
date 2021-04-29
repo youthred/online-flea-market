@@ -3,17 +3,16 @@ package net.add1s.ofm.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.AllArgsConstructor;
 import net.add1s.ofm.common.page.MbpPage;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.entity.business.GoodsOrder;
 import net.add1s.ofm.pojo.entity.sys.MyUserDetails;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
+import net.add1s.ofm.pojo.vo.business.ParameterVO;
 import net.add1s.ofm.pojo.vo.business.SoldOrBoughtVO;
-import net.add1s.ofm.service.IGoodsOrderService;
-import net.add1s.ofm.service.IGoodsService;
-import net.add1s.ofm.service.ISysUserService;
-import net.add1s.ofm.service.IUserHomeMyService;
+import net.add1s.ofm.service.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,19 +22,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@AllArgsConstructor
 public class UserHomeMyServiceImpl implements IUserHomeMyService {
 
     private final ISysUserService iSysUserService;
     private final IGoodsService iGoodsService;
     private final IGoodsOrderService iGoodsOrderService;
-
-    public UserHomeMyServiceImpl(ISysUserService iSysUserService,
-                                 IGoodsService iGoodsService,
-                                 IGoodsOrderService iGoodsOrderService) {
-        this.iSysUserService = iSysUserService;
-        this.iGoodsService = iGoodsService;
-        this.iGoodsOrderService = iGoodsOrderService;
-    }
+    private final IParameterService iParameterService;
 
     // region 我发布的 posted
     @Override
@@ -50,17 +43,24 @@ public class UserHomeMyServiceImpl implements IUserHomeMyService {
         page.convert(GoodsVO::new);
         return page;
     }
+
+    @Override
+    public List<ParameterVO> postedUsedBookTypes() {
+        return iParameterService.usedBookTypes().stream().filter(parameterVO -> !"000".equals(parameterVO.getCode())).collect(Collectors.toList());
+    }
     // endregion
 
     // region 我卖出的 sold
     @Override
-    public IPage<Goods> soldPage(MbpPage<Goods> mbpPage) {
-        Page<Goods> page = new Page<>();
+    public IPage<SoldOrBoughtVO> soldPage(MbpPage<Goods> mbpPage) {
+        IPage<SoldOrBoughtVO> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
         List<GoodsOrder> doneOrderSoled = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getSellerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
         if (CollectionUtils.isNotEmpty(doneOrderSoled)) {
-            page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
-            page.convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId()), iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
+            page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderSoled.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())))
+                    .convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId()), iSysUserService.getById(doneOrderSoled.stream().filter(order -> goods.getTbId().equals(order.getGoodsTbId())).findFirst().get().getBuyerSysUserTbId())));
+            List<ParameterVO> usedBookTypes = iParameterService.usedBookTypes();
+            page.getRecords().forEach(soldOrBoughtVO -> soldOrBoughtVO.getGoods().setTypeDesc(usedBookTypes.stream().filter(type -> type.getCode().equals(soldOrBoughtVO.getGoods().getTypeCode())).findFirst().map(ParameterVO::getDesc).orElse("总类")));
         }
         return page;
     }
@@ -68,13 +68,15 @@ public class UserHomeMyServiceImpl implements IUserHomeMyService {
 
     // region 我买到的 bought
     @Override
-    public IPage<Goods> boughtPage(MbpPage<Goods> mbpPage) {
-        Page<Goods> page = new Page<>();
+    public IPage<SoldOrBoughtVO> boughtPage(MbpPage<Goods> mbpPage) {
+        IPage<SoldOrBoughtVO> page = new Page<>();
         MyUserDetails currentUser = iSysUserService.currentUser();
         List<GoodsOrder> doneOrderBought = iGoodsOrderService.list(Wrappers.lambdaQuery(GoodsOrder.class).eq(GoodsOrder::getBuyerSysUserTbId, currentUser.getTbId()).eq(GoodsOrder::getDone, true));
         if (CollectionUtils.isNotEmpty(doneOrderBought)) {
-            page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderBought.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())));
-            page.convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId())));
+            page = iGoodsService.page(mbpPage.getPage(), Wrappers.lambdaQuery(Goods.class).in(Goods::getTbId, doneOrderBought.stream().map(GoodsOrder::getGoodsTbId).collect(Collectors.toList())))
+                    .convert(goods -> new SoldOrBoughtVO(goods, iSysUserService.getById(goods.getSellerSysUserTbId())));
+            List<ParameterVO> usedBookTypes = iParameterService.usedBookTypes();
+            page.getRecords().forEach(soldOrBoughtVO -> soldOrBoughtVO.getGoods().setTypeDesc(usedBookTypes.stream().filter(type -> type.getCode().equals(soldOrBoughtVO.getGoods().getTypeCode())).findFirst().map(ParameterVO::getDesc).orElse("总类")));
         }
         return page;
     }

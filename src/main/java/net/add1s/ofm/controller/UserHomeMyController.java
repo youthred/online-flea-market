@@ -32,6 +32,17 @@ public class UserHomeMyController {
     public Res postedPage(@RequestBody @Validated MbpPage<Goods> mbpPage) {
         return Res.ok(iUserHomeMyService.postedPage(mbpPage));
     }
+
+    /**
+     * 新增修改时二手书分类
+     * 已隐藏“总类”，CODE=000
+     *
+     * @return Res
+     */
+    @GetMapping("/posted/usedBookTypes")
+    public Res postedUsedBookTypes() {
+        return Res.ok(iUserHomeMyService.postedUsedBookTypes());
+    }
     // endregion
 
     // region 我卖出的 sold

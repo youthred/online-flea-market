@@ -13,11 +13,18 @@
         <div id="goodsIndexVueApp" class="mt-5">
             <div class="input-group w-50 m-auto">
                 <input name="q" v-model.trim="searchInput" class="form-control border-success"
-                       type="text" aria-describedby="search-btn-addon"
+                       type="text"
                        aria-label="Search">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-success" @click="search" id="search-btn-addon">Search
-                    </button>
+                    <select class="custom-select rounded-0 border-right-0 border-success">
+                        <option selected>二手书</option>
+                    </select>
+                    <select v-model="usedTypeSelected" class="custom-select rounded-0 border-right-0 border-success">
+                        <div v-if="Array.isNotEmpty(usedBookTypes)">
+                            <option v-for="type in usedBookTypes" :value="type.code">{{type.desc}}</option>
+                        </div>
+                    </select>
+                    <button class="btn btn-outline-success" @click="search">Search</button>
                 </div>
             </div>
             <div class="mt-5">
@@ -28,6 +35,7 @@
                             <a :href="`/goods/${goods.tbId}.html`">
                                 <img v-if="Array.isNotEmpty(goods.picArr)" :src="goods.mainPicUrl" class="card-img-top">
                             </a>
+                            <div class="card-header">{{goods.typeDesc}}</div>
                             <div class="card-body">
                                 <p>
                                     <strong class="card-title text-danger">&yen;{{goods.price}}</strong>

@@ -30,6 +30,8 @@ public class GoodsVO implements Serializable {
         this.pics = goods.getPics();
         this.views = goods.getViews();
         this.cityId = goods.getCityId();
+        this.type = goods.getType();
+        this.typeCode = goods.getTypeCode();
         this.sellerSysUserTbId = goods.getSellerSysUserTbId();
         this.offShelf = goods.getOffShelf();
         this.deleted = goods.getDeleted();
@@ -50,6 +52,8 @@ public class GoodsVO implements Serializable {
     private String pics;
     private Long views;
     private Long cityId;
+    private String type;
+    private String typeCode;
     private Long sellerSysUserTbId;
     private Boolean offShelf;
     private Boolean deleted;
@@ -58,6 +62,7 @@ public class GoodsVO implements Serializable {
     private String mainPicUrl;
     private String cityName;
     private String cityExtName;
+    private String typeDesc;
 
     private SysUserVO seller;
 

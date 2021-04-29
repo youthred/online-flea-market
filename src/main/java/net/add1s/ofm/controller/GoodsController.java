@@ -31,6 +31,16 @@ public class GoodsController {
     }
 
     /**
+     * 二手书分类
+     *
+     * @return Res
+     */
+    @GetMapping("/usedBookTypes")
+    public Res usedBookTypes() {
+        return Res.ok(iGoodsService.usedBookTypes());
+    }
+
+    /**
      * 分页
      *
      * @param mbpPage 分页及查询参数

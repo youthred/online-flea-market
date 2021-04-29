@@ -33,7 +33,10 @@
                     </div>
                     <div class="col-9 col-sm-10 col-md-11">
                         <p><strong>{{goodsDetail.seller.nickname}}</strong></p>
-                        <p><small class="text-muted">发布于 {{goodsDetail.cityName}} {{goodsDetail.updateTime}}</small></p>
+                        <p>
+                            <small class="text-muted">发布于 {{goodsDetail.cityName}} {{goodsDetail.updateTime}}</small>
+                            <small class="text-muted float-right">{{goodsDetail.typeDesc}}</small>
+                        </p>
                     </div>
                 </div>
                 <h1><span class="text-danger">&yen;{{goodsDetail.price}}</span></h1>

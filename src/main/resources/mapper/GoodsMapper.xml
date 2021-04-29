@@ -10,6 +10,8 @@
             goods.`pics`,
             goods.`views`,
             goods.`city_id`,
+            goods.`type`,
+            goods.`type_code`,
             goods.`seller_sys_user_tb_id`,
             goods.`off_shelf`,
             goods.`deleted`,
@@ -17,12 +19,14 @@
             goods.`update_time`,
             city.`name` cityName,
             city.`ext_name` cityExtName,
+            type.`desc` typeDesc,
             suser.tb_id sellerTbId,
             suser.username,
             suser.nickname
         FROM t_goods goods
         LEFT JOIN t_sys_user suser ON suser.tb_id = goods.seller_sys_user_tb_id
         LEFT JOIN t_china_city city ON city.id = goods.city_id
+        LEFT JOIN t_parameter type ON type.code = goods.type_code
     </sql>
 
     <resultMap id="findGoodsDetailMap" type="net.add1s.ofm.pojo.vo.business.GoodsVO" autoMapping="true">

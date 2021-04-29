@@ -71,6 +71,26 @@
                                                        min="0" step="0.01" class="form-control" id="newGoodsPrice">
                                             </div>
                                             <div class="form-group">
+                                                <label for="newGoodsType">类型</label>
+                                                <select v-model="request.posted.saveOrUpdateGoods.type"
+                                                        id="newGoodsType"
+                                                        class="custom-select">
+                                                    <option value="USED_BOOK_TYPE">二手书</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newGoodsTypeCode">二手书分类</label>
+                                                <select id="newGoodsTypeCode"
+                                                        v-model="request.posted.saveOrUpdateGoods.typeCode"
+                                                        class="custom-select">
+                                                    <div v-if="Array.isNotEmpty(response.posted.usedBookTypes)">
+                                                        <option v-for="type in response.posted.usedBookTypes"
+                                                                :value="type.code">{{type.desc}}
+                                                        </option>
+                                                    </div>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>发布地: <b>{{request.posted.saveOrUpdateGoods.cityName}}</b></label>
                                                 <!-- city tree root -->
                                                 <div id="cityTreeRoot">
@@ -118,6 +138,7 @@
                                     <th scope="col">描述</th>
                                     <th scope="col">定价(&yen;)</th>
                                     <th scope="col">浏览量</th>
+                                    <th scope="col">最后修改时间</th>
                                     <th scope="col">操作</th>
                                 </tr>
                                 </thead>
@@ -130,12 +151,13 @@
                                     </td>
                                     <td>{{goods.price}}</td>
                                     <td>{{goods.views}}</td>
+                                    <td>{{goods.updateTime}}</td>
                                     <td>
                                         <div v-if="request.posted.offShelf === '0'" class="btn-group">
                                             <a class="btn btn-sm btn-primary text-white"
                                                :href="`/goods/${goods.tbId}.html`">查看</a>
                                             <a class="btn btn-sm btn-warning text-white"
-                                               @click="showUpdateGoodsModal(goods)">修改</a>
+                                               @click="showSaveOrUpdateGoodsModal(goods)">修改</a>
                                             <a class="btn btn-sm btn-dark text-white"
                                                @click="offShelf(goods.tbId)">下架</a>
                                             <a class="btn btn-sm btn-danger text-white"
@@ -143,7 +165,7 @@
                                         </div>
                                         <div v-if="request.posted.offShelf === '1'" class="btn-group">
                                             <a class="btn btn-sm btn-warning text-white"
-                                               @click="showUpdateGoodsModal(goods)">修改</a>
+                                               @click="showSaveOrUpdateGoodsModal(goods)">修改</a>
                                             <a class="btn btn-sm btn-dark text-white"
                                                @click="onShelf(goods.tbId)">重新发布</a>
                                             <a class="btn btn-sm btn-danger text-white"
@@ -315,7 +337,8 @@
             <!-- 商品快照 Modal -->
             <div id="soldOrBoughtGoodsSnapshotModal"
                  class="modal fade"
-                 data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="soldGoodsSnapshotModalLabel"
+                 data-backdrop="static" data-keyboard="false" tabindex="-1"
+                 aria-labelledby="soldGoodsSnapshotModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
@@ -340,7 +363,9 @@
                                 <dd class="col-sm-10">{{common.soldOrBought.goodsSnapshot.createTime}}</dd>
 
                                 <dt class="col-sm-2">最后更新时间</dt>
-                                <dd v-if="String.isNotBlank(common.soldOrBought.goodsSnapshot.updateTime)" class="col-sm-10">{{common.soldOrBought.goodsSnapshot.updateTime}}</dd>
+                                <dd v-if="String.isNotBlank(common.soldOrBought.goodsSnapshot.updateTime)"
+                                    class="col-sm-10">{{common.soldOrBought.goodsSnapshot.updateTime}}
+                                </dd>
                                 <dd v-else class="col-sm-10">发布后未更新</dd>
 
                                 <dt class="col-sm-2">成交价格(&yen;)</dt>
@@ -349,11 +374,18 @@
                                 <dt class="col-sm-2">商品描述</dt>
                                 <dd class="col-sm-10">{{common.soldOrBought.goodsSnapshot.desc}}</dd>
 
+                                <dt class="col-sm-2">商品类型</dt>
+                                <dd class="col-sm-10">{{common.soldOrBought.goodsSnapshot.type}}</dd>
+
+                                <dt class="col-sm-2">类型分类</dt>
+                                <dd class="col-sm-10">{{common.soldOrBought.goodsSnapshot.typeDesc}}</dd>
+
                                 <dt class="col-sm-2">商品图片</dt>
                                 <dd class="col-sm-10">
                                     <div class="card-columns">
                                         <div v-if="Array.isNotEmpty(common.soldOrBought.goodsSnapshot.picArr)">
-                                            <div class="card mb-3" v-for="pic in common.soldOrBought.goodsSnapshot.picArr">
+                                            <div class="card mb-3"
+                                                 v-for="pic in common.soldOrBought.goodsSnapshot.picArr">
                                                 <img class="rounded card-img" :src="pic">
                                             </div>
                                         </div>

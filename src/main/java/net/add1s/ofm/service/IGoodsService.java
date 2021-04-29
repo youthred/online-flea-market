@@ -8,10 +8,18 @@ import net.add1s.ofm.pojo.dto.GoodsReportDTO;
 import net.add1s.ofm.pojo.entity.business.Goods;
 import net.add1s.ofm.pojo.vo.business.GoodsChatVO;
 import net.add1s.ofm.pojo.vo.business.GoodsVO;
+import net.add1s.ofm.pojo.vo.business.ParameterVO;
 
 import java.util.List;
 
 public interface IGoodsService extends IService<Goods> {
+
+    /**
+     * 二手书分类
+     *
+     * @return ParameterVOS
+     */
+    List<ParameterVO> usedBookTypes();
 
     /**
      * 已上架商品详情
@@ -35,7 +43,7 @@ public interface IGoodsService extends IService<Goods> {
      * @param mbpPage MbpPage
      * @return goods page
      */
-    IPage<Goods> goodsPage(MbpPage<Goods> mbpPage);
+    IPage<GoodsVO> goodsPage(MbpPage<Goods> mbpPage);
 
     /**
      * 浏览量+1

@@ -31,6 +31,10 @@ public class GoodsDTO implements Serializable {
     private double price;
     @NotNull
     private Long cityId;
+    @NotBlank
+    private String type;
+    @NotNull
+    private String typeCode;
     private Long sellerSysUserTbId;
     private boolean offShelf;
     private Boolean deleted;
@@ -44,6 +48,8 @@ public class GoodsDTO implements Serializable {
                 .setPics(this.pics)
                 .setPrice(this.price)
                 .setCityId(this.cityId)
+                .setType(this.type)
+                .setTypeCode(this.typeCode)
                 .setSellerSysUserTbId(this.sellerSysUserTbId)
                 .setOffShelf(this.offShelf)
                 .setDeleted(this.deleted);

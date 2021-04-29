@@ -60,6 +60,18 @@ public class Goods implements Serializable {
     private Long cityId;
 
     /**
+     * 商品类型
+     */
+    @TableField("`type`")
+    private String type;
+
+    /**
+     * 分类CODE
+     */
+    @TableField("`type_code`")
+    private String typeCode;
+
+    /**
      * 卖家TBID
      */
     @TableField("`seller_sys_user_tb_id`")
