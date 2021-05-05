@@ -70,9 +70,11 @@ public interface IGoodsService extends IService<Goods> {
      * 私聊
      *
      * @param goodsTbId 商品TBID
+     * @param buyerSysUserTbId 买家TBID
+     * @param sellerSysUserTbId 卖家TBID
      * @return GoodsChatVO
      */
-    GoodsChatVO chat(Long goodsTbId);
+    GoodsChatVO chat(Long goodsTbId, Long buyerSysUserTbId, Long sellerSysUserTbId);
 
     /**
      * 下架商品

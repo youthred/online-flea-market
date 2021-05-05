@@ -93,11 +93,13 @@ public class GoodsController {
      * 私聊页面
      *
      * @param goodsTbId 商品TBID
+     * @param buyerSysUserTbId 买家TBID
+     * @param sellerSysUserTbId 卖家TBID
      * @return ModelAndView
      */
-    @GetMapping("/doChat/{goodsTbId}.html")
-    public ModelAndView doChatPage(@PathVariable("goodsTbId") Long goodsTbId) {
-        return new ModelAndView("goods/doChat", "chat", iGoodsService.chat(goodsTbId));
+    @GetMapping("/doChat/{goodsTbId}-{buyerSysUserTbId}-{sellerSysUserTbId}.html")
+    public ModelAndView doChatPage(@PathVariable("goodsTbId") Long goodsTbId, @PathVariable("buyerSysUserTbId") Long buyerSysUserTbId, @PathVariable("sellerSysUserTbId") Long sellerSysUserTbId) {
+        return new ModelAndView("goods/doChat", "chat", iGoodsService.chat(goodsTbId, buyerSysUserTbId, sellerSysUserTbId));
     }
 
     /**

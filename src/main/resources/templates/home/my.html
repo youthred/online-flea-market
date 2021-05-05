@@ -298,7 +298,7 @@
                         <div v-if="Array.isNotEmpty(response.privateChat.chats)">
                             <div class="list-group list-group-flush">
                                 <a v-for="chat in response.privateChat.chats"
-                                   :href="`/goods/doChat/${chat.goods.tbId}.html`"
+                                   :href="`/goods/doChat/${chat.goods.tbId}-${chat.lastMessage.buyerSysUserTbId}-${chat.lastMessage.sellerSysUserTbId}.html`"
                                    class="list-group-item list-group-item-action">
                                     <div class="media">
                                         <img :src="chat.goods.mainPicUrl"
@@ -306,7 +306,7 @@
                                              class="pr-3">
                                         <div class="media-body">
                                             <div class="d-flex w-100 justify-content-between">
-                                                <p class="mb-1">{{chat.goods.seller.nickname}}</p>
+                                                <p class="mb-1">{{chat.otherParty.nickname}}</p>
                                                 <small>{{chat.intervals}}</small>
                                             </div>
                                             <small v-if="chat.lastMessage.messageTypeCode === 1 || chat.lastMessage.messageTypeCode === -1"

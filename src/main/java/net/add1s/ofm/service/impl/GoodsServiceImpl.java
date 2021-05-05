@@ -105,26 +105,29 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                         .setChatMessages(
                                 iChatMessageService.list(
                                         Wrappers.lambdaQuery(ChatMessage.class)
-                                                .and(chatMessageLambdaQueryWrapper -> chatMessageLambdaQueryWrapper
-                                                        .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
-                                                        .or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()))
+                                                .eq(ChatMessage::getBuyerSysUserTbId, goodsChatVO.getLastMessage().getBuyerSysUserTbId())
+                                                .eq(ChatMessage::getSellerSysUserTbId, goodsChatVO.getLastMessage().getSellerSysUserTbId())
                                                 .eq(ChatMessage::getGoodsTbId, goodsChatVO.getGoods().getTbId())
                                 ).stream().map(ChatMessageVO::new).collect(Collectors.toList()))
                         .setCurrentTransactionRole(currentUser.getTbId())
                         .setUnread()
                         .setChatMessages(null)  // 清空历史聊天信息，减小传输压力
+                        .setOtherParty(
+                                TransactionRoleEnum.SELLER.equals(goodsChatVO.getCurrentTransactionRole()) ?
+                                        new SysUserVO(iSysUserService.getById(goodsChatVO.getLastMessage().getBuyerSysUserTbId()))
+                                        : new SysUserVO(iSysUserService.getById(goodsChatVO.getLastMessage().getSellerSysUserTbId()))
+                        )
         );
         return chatList;
     }
 
     @Override
-    public GoodsChatVO chat(Long goodsTbId) {
+    public GoodsChatVO chat(Long goodsTbId, Long buyerSysUserTbId, Long sellerSysUserTbId) {
         MyUserDetails currentUser = iSysUserService.currentUser();
         LambdaQueryWrapper<ChatMessage> historyChatLambdaWrapper = Wrappers.lambdaQuery(ChatMessage.class)
-                .eq(ChatMessage::getGoodsTbId, goodsTbId)
-                .and(chatMessageLambdaQueryWrapper -> chatMessageLambdaQueryWrapper
-                        .eq(ChatMessage::getBuyerSysUserTbId, currentUser.getTbId())
-                        .or().eq(ChatMessage::getSellerSysUserTbId, currentUser.getTbId()));
+                .eq(ChatMessage::getBuyerSysUserTbId, buyerSysUserTbId)
+                .eq(ChatMessage::getSellerSysUserTbId, sellerSysUserTbId)
+                .eq(ChatMessage::getGoodsTbId, goodsTbId);
         // 查询当前用户当前商品的历史私聊记录
         int historyChatCount = iChatMessageService.count(historyChatLambdaWrapper);
         if (historyChatCount == 0) {
