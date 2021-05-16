@@ -55,8 +55,7 @@
                         class="fa fa-exclamation-triangle"></i> 举报
                 </button>
                 <span class="float-right">
-                    <a id="iWantLink" class="btn btn-success rounded-pill"
-                       :href="`/goods/doChat/${goodsDetail.tbId}-${currentLoginUser.tbId}-${goodsDetail.seller.tbId}.html`">我想要</a>
+                    <button id="iWantLink" @click="iWant" class="btn btn-success rounded-pill">我想要</button>
                 </span>
             </div>
         </div>
@@ -81,6 +80,8 @@
             if (this.currentLoginUser === null || this.goodsDetail.seller.tbId === this.currentLoginUser.tbId) {
                 $('#iWantLink').addClass('disabled')
             }
+            console.log(this.goodsDetail)
+            console.log(this.currentLoginUser)
         },
         methods: {
             report() {
@@ -126,6 +127,11 @@
                         Swal.fire('举报失败', res.message, 'error')
                     }
                 })
+            },
+            iWant() {
+                if (Object.isNotNull(this.currentLoginUser)) {
+                    window.location.href=`/goods/doChat/${this.goodsDetail.tbId}-${this.currentLoginUser.tbId}-${this.goodsDetail.seller.tbId}.html`
+                }
             }
         }
     }).mount('#goodsDetailVueApp')
