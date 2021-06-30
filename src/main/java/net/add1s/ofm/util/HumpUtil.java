@@ -22,7 +22,7 @@ public class HumpUtil {
     public static String lineToHump(String str) {
         str = str.toLowerCase();
         Matcher matcher = LINE_PATTERN.matcher(str);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
             matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
         }
@@ -38,7 +38,7 @@ public class HumpUtil {
      */
     public static String humpToLine(String str) {
         Matcher matcher = HUMP_PATTERN.matcher(str);
-        StringBuffer sb = new StringBuffer().append("`");
+        StringBuilder sb = new StringBuilder().append("`");
         while (matcher.find()) {
             matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
         }
